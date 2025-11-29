@@ -11,7 +11,7 @@ public class GamePanel extends JPanel implements Runnable {
     final int originalTileSize = 16; // 16x16 tile
     final int scale = 3;
 
-    public final int tileSize = originalTileSize * scale; // 48x48 tile true tile size that will be displayed on screen
+    public final int tileSize = originalTileSize * scale; // 48x48 tile true tile size that will be displayed on screen. public so any other packages can access it
     final int maxScreenCol = 16; // 16 tiles horizontally
     final int maxScreenRow = 12; // 12 tiles vertically
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
-    Player player = new Player(this.keyH);
+    Player player = new Player(this,keyH); // passes the gamepanel and keyhandler class
 
     // set player's default position
     int playerX = 100;
@@ -31,11 +31,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel () {
 
-        this.addKeyListener(keyH); // this GamePanel will recognize the key input
-        this.setFocusable(true); // with this, the GamePanel can be "focused" to receive key input.
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true); // if true, all drawings from this component will be done in an offscreen painting buffer (smoother visual updates & eliminates flickering) in short, improves rendering performance
+        this.addKeyListener(keyH); // this GamePanel will recognize the key input
+        this.setFocusable(true); // with this, the GamePanel can be "focused" to receive key input.
     }
 
     public void startGameThread() {
@@ -43,7 +43,6 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this); // this = the GamePanel class. So we're passing the GamePanel class to the thread constructor. This is how you instantiate a Thread.
         gameThread.start(); // automatically call run method
     }
-
 
     // as long the game loop continues it will continue to call update and then repaint
     @Override
@@ -76,7 +75,6 @@ public class GamePanel extends JPanel implements Runnable {
                 drawCount = 0;
                 timer = 0;
             }
-
         }
     }
 

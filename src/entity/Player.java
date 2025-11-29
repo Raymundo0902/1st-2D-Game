@@ -10,10 +10,12 @@ public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
 
-    public Player(KeyHandler keyH) {
+    public Player(GamePanel gp, KeyHandler keyH) {
 
         this.gp = gp;
         this.keyH = keyH;
+
+        setDefaultValues();
     }
 
     public void setDefaultValues() {
@@ -43,6 +45,6 @@ public class Player extends Entity{
 
         g2.setColor(Color.red); // Sets a color to use for drawing objects
 
-        g2.fillRect(playerX, playerY, tileSize, tileSize); // Draw a rectangle and fills it with the specified color.
+        g2.fillRect(x, y, gp.tileSize, gp.tileSize); // Draw a rectangle and fills it with the specified color.
     }
 }
