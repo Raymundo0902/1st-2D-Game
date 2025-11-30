@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
-    Player player = new Player(this,keyH); // passes the gamepanel and keyhandler class
+    Player player = new Player(this,keyH); // passes the gamepanel and keyhandler class inside the Player class. so Player class can get the things it needs from both classes.
 
     // set player's default position
     int playerX = 100;

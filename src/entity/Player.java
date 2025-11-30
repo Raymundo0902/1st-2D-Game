@@ -7,13 +7,13 @@ import java.awt.*;
 
 public class Player extends Entity{
 
-    GamePanel gp;
-    KeyHandler keyH;
+    GamePanel gp; // reference field
+    KeyHandler keyH; // reference field
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
-        this.gp = gp;
-        this.keyH = keyH;
+        this.gp = gp; // composition
+        this.keyH = keyH; // composition
 
         setDefaultValues();
     }
