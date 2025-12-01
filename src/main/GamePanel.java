@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,22 +13,18 @@ public class GamePanel extends JPanel implements Runnable {
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale; // 48x48 tile true tile size that will be displayed on screen. public so any other packages can access it
-    final int maxScreenCol = 16; // 16 tiles horizontally
-    final int maxScreenRow = 12; // 12 tiles vertically
-    final int screenWidth = tileSize * maxScreenCol; // 768 pixels
-    final int screenHeight = tileSize * maxScreenRow; // 576 pixels
+    public final int maxScreenCol = 16; // 16 tiles horizontally
+    public final int maxScreenRow = 12; // 12 tiles vertically
+    public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
+    public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
     // FPS
     int FPS = 60;
 
+    TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
     Player player = new Player(this,keyH); // passes the gamepanel and keyhandler class inside the Player class. so Player class can get the things it needs from both classes.
-
-    // set player's default position
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
 
     public GamePanel () {
 
@@ -81,7 +78,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() { // player will move 4 pixels everytime a user hits one of these keys
 
         player.update(); // its like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
-
     }
 
     public void paintComponent(Graphics g) { // the "Graphics" is a class that has many functions to draw objects on the screen
@@ -89,6 +85,8 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g); //whenever you use the paintComponent method on JPanel you need to type this line. super means the parent class of this class in this case parent is JPanel since GamePanel is a subclass of it.
 
         Graphics2D g2 = (Graphics2D)g; // Graphics2D class extends the Graphics class to provide more sophisticated control over geometry, coordinate transformations, color management, and text layout.
+
+        tileM.draw(g2); // put this above player because if not, background tiles will hide the player character
 
         player.draw(g2); // when paintComponent called, so it player.draw() which will draw the character. make it more cleaner code
 

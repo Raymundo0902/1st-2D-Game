@@ -8,7 +8,7 @@ public class Main {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // lets the window properly close when user clicks the "x" button
         window.setResizable(true); // false = cannot resize the window. stays one size
-        window.setTitle("Retro Massacre");
+        window.setTitle("Moon Adventure!");
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
