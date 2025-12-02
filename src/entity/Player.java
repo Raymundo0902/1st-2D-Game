@@ -33,14 +33,14 @@ public class Player extends Entity{
 
         try {
 
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/up2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/down2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/player/ayden_up1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/player/ayden_up2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/player/ayden_down1.png")); // revert back to normal player not ayden as its just test for now.
+            down2 = ImageIO.read(getClass().getResourceAsStream("/player/ayden_down2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/player/ayden_left1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/player/ayden_left2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/player/ayden_right1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/ayden_right2.png"));
 
         }catch(IOException e) {
             e.printStackTrace();
