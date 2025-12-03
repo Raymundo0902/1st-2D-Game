@@ -19,10 +19,10 @@ public class TileManager {
         this.gp = gp;
 
         tile = new Tile[10]; // we gonna create 10 kinds of tiles, water tile, grass tile, etc. If needed more, increase more indicies (size)
-        mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow]; // will put all the numbers in the map01.txt in this mapTileNum array
+        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow]; // will put all the numbers in the map01.txt in this mapTileNum array basically saying 16colx12row
 
         getTileImage();
-        loadMap("/maps/map01.txt");
+        loadMap("/maps/world01.txt");
     }
 
     public void getTileImage() {
@@ -38,6 +38,15 @@ public class TileManager {
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
 
+            tile[3] = new Tile();
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
+
+            tile[4] = new Tile();
+            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
+
+            tile[5] = new Tile();
+            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/sand.png"));
+
         }catch(IOException e) {
             e.printStackTrace();
         }
@@ -46,26 +55,26 @@ public class TileManager {
     public void loadMap(String filePath) {
 
         try{
-            InputStream is = getClass().getResourceAsStream(filePath); //import the txt file
-            BufferedReader br = new BufferedReader(new InputStreamReader(is)); // reads the content of the txt file
+            InputStream is = getClass().getResourceAsStream(filePath); // loads the txt file
+            BufferedReader br = new BufferedReader(new InputStreamReader(is)); // prepared to read and will read one line of text when .readLine() is called
 
             int col = 0;
             int row = 0;
 
-            while(col < gp.maxScreenCol && row < gp.maxScreenRow) { // maxScreenCol and or maxScreenRow is the limit of this loop cause theres no text data beyond that boundary
+            while(col < gp.maxWorldCol && row < gp.maxWorldRow) { // becomes false only because of row. Row keeps getting updated and never set back to 0.
 
-                String line = br.readLine(); // .readLine() reads a single line of text one by one and puts it in the String line, put them into the String numbers[] array. EX: numbers[0] = 0 numbers[1] = 0 numbers [2] = 1
+                String line = br.readLine(); // .readLine() reads one entire line of text and puts it in the String line EX: "1 0 0 0 1 0 1"
 
-                while(col < gp.maxScreenCol) {
+                while(col < gp.maxWorldCol) { // "while you haven't reached the end of this row"
 
-                    String numbers[] = line.split(" "); // .split(" ") split the string at a space.
+                    String numbers[] = line.split(" "); // .split(" ") = EX: string line = "1 0 0 1" so then here it becomes array of strings like from numbers[0] = "1" ... numbers[3] = "1"... IT KEEPS GETTING UPDATED IN INNER LOOP BUT ITS LIKE NOTHING HAPPENED SINCE WE'RE STILL AT THE FIRST LINE OF TEXT.
 
-                    int num = Integer.parseInt(numbers[col]); // use col as an index for numbers[] array. we are changing this string to integer here so we can use them as a number.
+                    int num = Integer.parseInt(numbers[col]); // use col as an index for numbers[] array. we are changing this string to integer here so we can use them as a number. this happens once each iteration of the inner loop
 
-                    mapTileNum[col][row] = num;
-                    col++;
+                    mapTileNum[col][row] = num; // stores num one by one by each iteration of the inner loop
+                    col++; // move to next tile in this row
                 }
-                if(col == gp.maxScreenCol) {
+                if(col == gp.maxWorldCol) { // once col == 16, set it back to 0 aka to the beginning of tile map, then move on to next row aka drop down 1 and repeat.
                     col = 0;
                     row++;
                 }
@@ -76,26 +85,35 @@ public class TileManager {
 
         }
     }
+
     public void draw(Graphics2D g2) {
 
-        int col = 0;
-        int row = 0;
-        int x = 0;
-        int y = 0;
+        int worldCol = 0;
+        int worldRow = 0;
 
-        while(col < gp.maxScreenCol && row < gp.maxScreenRow) { // maxScreenCol = 16 and maxScreenRow = 12
 
-            int tileNum = mapTileNum[col][row];
+        while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) { // maxScreenCol = 16 and maxScreenRow = 12
 
-            g2.drawImage(tile[tileNum].image, x, y, gp.tileSize, gp.tileSize, null);
-            col++;
-            x += gp.tileSize;
+            int tileNum = mapTileNum[worldCol][worldRow];
 
-            if(col == gp.maxScreenCol) {
-                col = 0;
-                x = 0;
-                row++;
-                y += gp.tileSize;
+            int worldX = worldCol * gp.tileSize;
+            int worldY = worldRow * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+            if(worldX + gp.tileSize > gp.player.worldX - gp.player. screenX &&
+                    worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+                    worldY + gp.tileSize> gp.player.worldY - gp.player.screenY &&
+                    worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
+
+                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+            }
+            worldCol++;
+
+            if(worldCol == gp.maxWorldCol) {
+                worldCol = 0;
+                worldRow++;
             }
         }
 
