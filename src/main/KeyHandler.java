@@ -28,6 +28,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(code == KeyEvent.VK_D) {
             rightPressed = true;
         }
+
     }
 
     @Override

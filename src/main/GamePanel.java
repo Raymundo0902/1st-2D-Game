@@ -30,6 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
+    public CollisonChecker cChecker = new CollisonChecker(this);
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler class inside the Player class. so Player class can get the things it needs from both classes.
 
     public GamePanel () {

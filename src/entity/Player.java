@@ -21,7 +21,13 @@ public class Player extends Entity{
         this.gp = gp; // composition
         this.keyH = keyH; // composition
         screenX = gp.screenWidth/2 - (gp.tileSize/2); // these two return the halfway point of the screen. subtract a half tile length from both screenX and screenY
-        screenY = gp.screenHeight/2 - (gp.tileSize/2);;
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle(); // values below are what parts of the character will be solid
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.width = 32;
+        solidArea.height = 32;
 
         setDefaultValues();
         getPlayerImage();
@@ -46,6 +52,7 @@ public class Player extends Entity{
             left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
+            //TEST FOR JUMP
 
         }catch(IOException e) {
             e.printStackTrace();
@@ -53,23 +60,42 @@ public class Player extends Entity{
     }
 
     public void update() { // this method gets called 60x per second
-        if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
+        if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) { // DEL JUMP PRESSED IF DONT WORK
 
             if(keyH.upPressed == true) {
                 direction = "up";
-                worldY -= speed;
             }
             else if(keyH.downPressed == true) {
                 direction = "down";
-                worldY += speed;
             }
             else if(keyH.leftPressed == true) {
                 direction = "left";
-                worldX -= speed;
             }
             else if(keyH.rightPressed == true) {
                 direction = "right";
-                worldX += speed;
+            }
+
+            // CHECK TILE COLLISON
+            collisonOn = false;
+            gp.cChecker.checkTile(this);
+
+            // IF COLLISON IS FALSE, PLAYER CAN MOVE
+            if(collisonOn == false) {
+
+                switch(direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
             }
 
             spriteCounter++;
@@ -126,6 +152,7 @@ public class Player extends Entity{
                 if(spriteNum == 2) {
                     image = right2;
                 }
+
                 break;
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize,null);
