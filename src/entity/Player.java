@@ -76,11 +76,11 @@ public class Player extends Entity{
             }
 
             // CHECK TILE COLLISON
-            collisonOn = false;
-            gp.cChecker.checkTile(this);
+            collisionOn = false;
+            gp.cChecker.checkTile(this); // since player class is child to its parent class "Entity" checkTile receives this player class as an entity
 
             // IF COLLISON IS FALSE, PLAYER CAN MOVE
-            if(collisonOn == false) {
+            if(collisionOn == false) {
 
                 switch(direction) {
                     case "up":

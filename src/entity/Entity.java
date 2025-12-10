@@ -13,5 +13,5 @@ public class Entity {
     public int spriteCounter = 0;
     public int spriteNum = 1;
     public Rectangle solidArea; // create a invisible or abstract rectangle and store data like x,y width and height
-    public boolean collisonOn = false;
+    public boolean collisionOn = false;
 }

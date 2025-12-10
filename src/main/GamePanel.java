@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import object.SuperObject;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -24,14 +25,19 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
 
+
     // FPS
     int FPS = 60;
 
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
-    public CollisonChecker cChecker = new CollisonChecker(this);
+    public CollisionChecker cChecker = new CollisionChecker(this);
+    public AssetSetter aSetter = new AssetSetter(this);
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler class inside the Player class. so Player class can get the things it needs from both classes.
+    public SuperObject obj[] = new SuperObject[10]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
+
+
 
     public GamePanel () {
 
@@ -40,13 +46,22 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true); // if true, all drawings from this component will be done in an offscreen painting buffer (smoother visual updates & eliminates flickering) in short, improves rendering performance
         this.addKeyListener(keyH); // this GamePanel will recognize the key input
         this.setFocusable(true); // with this, the GamePanel can be "focused" to receive key input.
+
     }
+
+    public void setupGame() { // created this method so we can add other setup stuff in the future
+
+        aSetter.setObject();
+    }
+
 
     public void startGameThread() {
 
         gameThread = new Thread(this); // this = the GamePanel class. So we're passing the GamePanel class to the thread constructor. This is how you instantiate a Thread.
         gameThread.start(); // automatically call run method
     }
+
+
 
     // as long the game loop continues it will continue to call update and then repaint
     @Override
@@ -82,10 +97,14 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+
+
     public void update() { // player will move 4 pixels everytime a user hits one of these keys
 
         player.update(); // its like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
     }
+
+
 
     public void paintComponent(Graphics g) { // the "Graphics" is a class that has many functions to draw objects on the screen
 
@@ -93,9 +112,19 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D)g; // Graphics2D class extends the Graphics class to provide more sophisticated control over geometry, coordinate transformations, color management, and text layout.
 
+        // TILE
         tileM.draw(g2); // put this above player because if not, background tiles will hide the player character
 
+        // OBJECT. WE USE FOR LOOP BECAUSE IT CAN BECOME A LONG LINE OF CODES FOR JUST OBJECTS IF WE HAVE MANY TO DISPLAY
+        for(int i = 0; i < obj.length; i++) { // length is 10 so scan from 0-9 and check if there's any object inside the array
+            if(obj[i] != null) { // checks if slot is null or not
+                obj[i].draw(g2, this);
+            }
+        }
+
+        // PLAYER
         player.draw(g2); // when paintComponent called, so it player.draw() which will draw the character. make it more cleaner code
+
 
         g2.dispose(); // Dispose of this graphics context and release any system resources that it is using. Disposes Graphics2D, programing still works without this line but it is good practice to save memory.
     }
