@@ -13,5 +13,6 @@ public class Entity {
     public int spriteCounter = 0;
     public int spriteNum = 1;
     public Rectangle solidArea; // create a invisible or abstract rectangle and store data like x,y width and height
+    public int solidAreaDefaultX, solidAreaDefaultY; // the blueprint and the subclasses will have their own values
     public boolean collisionOn = false;
 }

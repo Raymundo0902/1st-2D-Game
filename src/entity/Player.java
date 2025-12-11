@@ -12,9 +12,12 @@ public class Player extends Entity{
 
     GamePanel gp; // reference field
     KeyHandler keyH; // reference field
-
     public final int screenX; // screenX and Y indicate where we draw player on the screen and never change since its final. player always will be in the center of the camera.
     public final int screenY;
+    int hasKey = 0;
+
+
+
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -26,6 +29,8 @@ public class Player extends Entity{
         solidArea = new Rectangle(); // values below are what parts of the character will be solid
         solidArea.x = 8;
         solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x; // reason we create solidAreaDefaultX,Y is so we can recall the default values of solidArea.x and y because we will change solidArea.x and y later.
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 32;
 
@@ -79,6 +84,11 @@ public class Player extends Entity{
             collisionOn = false;
             gp.cChecker.checkTile(this); // since player class is child to its parent class "Entity" checkTile receives this player class as an entity
 
+            // CHECK OBJECT COLLISION
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
+
+
             // IF COLLISON IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false) {
 
@@ -111,6 +121,37 @@ public class Player extends Entity{
 
         }
 
+    }
+
+    public void pickUpObject(int i) {
+
+        if(i != 999) { // if this index is 999 then that means we didn't touch any object. Otherwise, then we did touch an object. the reason for 999 is to make sure its not used by the object array's index
+
+            String objectName = gp.obj[i].name; // refers to the index's string name from each obj subclass
+
+            switch(objectName) {
+                case "Key":
+                    hasKey++;
+                    gp.obj[i] = null;
+                    System.out.println("Key:"+hasKey);
+                    break;
+                case "Door":
+                    if(hasKey > 0) {
+                        gp.obj[i] = null;
+                        hasKey--;
+                    }
+                    System.out.println("Key:"+hasKey);
+                    break;
+                case "Chest":
+                    if(hasKey > 0) {
+                        gp.obj[i] = null;
+                        hasKey--;
+                    }
+                    System.out.println("Key:"+hasKey);
+                    break;
+
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {
