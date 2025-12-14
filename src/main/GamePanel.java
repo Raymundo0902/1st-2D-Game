@@ -28,9 +28,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
-    Sound sound = new Sound();
+    Sound music = new Sound();
+    Sound se = new Sound(); // sound effect
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
+    public UI ui = new UI(this);
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
 
     // ENTITY AND OBJECT
@@ -127,23 +129,25 @@ public class GamePanel extends JPanel implements Runnable {
         // PLAYER
         player.draw(g2); // when paintComponent called, so it player.draw() which will draw the character. make it more cleaner code
 
+        // UI
+        ui.draw(g2);
 
         g2.dispose(); // Dispose of this graphics context and release any system resources that it is using. Disposes Graphics2D, programing still works without this line but it is good practice to save memory.
     }
     public void playMusic(int i) { // for music we use loop because it is obviously a continuous sound
 
-        sound.setFile(i);
-        sound.play();
-        sound.loop();
+        music.setFile(i);
+        music.play();
+        music.loop();
     }
     public void stopMusic() {
 
-        sound.stop();
+        music.stop();
     }
     public void playSE(int i) { // for sound effects we dont call loop cause its just a one time occurance
 
-        sound.setFile(i);
-        sound.play();
+        se.setFile(i);
+        se.play();
     }
 }
 

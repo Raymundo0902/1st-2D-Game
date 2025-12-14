@@ -14,8 +14,8 @@ public class Player extends Entity{
     KeyHandler keyH; // reference field
     public final int screenX; // screenX and Y indicate where we draw player on the screen and never change since its final. player always will be in the center of the camera.
     public final int screenY;
-    int hasKey = 0;
-
+    public int hasKey = 0;
+    int standCounter = 0;
 
 
 
@@ -65,7 +65,7 @@ public class Player extends Entity{
     }
 
     public void update() { // this method gets called 60x per second
-        if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) { // DEL JUMP PRESSED IF DONT WORK
+        if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) { // without this, player will move without stopping
 
             if(keyH.upPressed == true) {
                 direction = "up";
@@ -120,6 +120,14 @@ public class Player extends Entity{
             }
 
         }
+        else {
+            standCounter++;
+
+            if(standCounter == 20) { // standCounter and this if statement helps stop awkward reset when its making the sprite switchover animation--
+                spriteNum = 1;      //  looks natural resetting back to normal position. gives it 19 frames to stay on the animation before resetting back to normal sprite state
+                standCounter = 0;
+            }
+        }
 
     }
 
@@ -129,37 +137,35 @@ public class Player extends Entity{
 
             String objectName = gp.obj[i].name; // refers to the index's string name from each obj subclass
 
-            switch(objectName) {
+            switch(objectName) { // objectName is the one being evaluated at which must be one of the following below. e.g. Key, Door, Chest, Boots, etc
                 case "Key":
                     gp.playSE(1);
                     hasKey++;
                     gp.obj[i] = null;
-                    System.out.println("Key:"+hasKey);
+                    gp.ui.showMessage("You got a key!");
                     break;
                 case "Door":
                     if(hasKey > 0) {
                         gp.playSE(4);
                         gp.obj[i] = null;
                         hasKey--;
+                        gp.ui.showMessage("You opened door!");
                     }
-                    System.out.println("Key:"+hasKey);
-                    break;
-                case "Chest":
-                    if(hasKey > 0) {
-                        gp.playSE(4);
-                        gp.obj[i] = null;
-                        hasKey--;
+                    else {
+                        gp.ui.showMessage("You need a key!");
                     }
-                    System.out.println("Key:"+hasKey);
                     break;
                 case "Boots": // makes player faster
                     gp.playSE(3);
-
                     gp.obj[i] = null;
                     speed += 1;
-                    System.out.println("Picked up power boots!");
+                    gp.ui.showMessage("Speed!");
                     break;
-
+                case "Chest":
+                    gp.ui.gameFinished = true;
+                    gp.stopMusic();
+                    gp.playSE(2);
+                    break;
             }
         }
     }
@@ -203,9 +209,11 @@ public class Player extends Entity{
                 if(spriteNum == 2) {
                     image = right2;
                 }
-
                 break;
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize,null);
+        g2.setColor(Color.red);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height); // collision box used to understand collision visually
+
     }
 }
