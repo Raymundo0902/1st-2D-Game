@@ -121,7 +121,7 @@ public class Player extends Entity{
 
         }
         else {
-            standCounter++;
+            standCounter++; // this starts to increment by one once theres no wasd or arrow key detection.
 
             if(standCounter == 20) { // standCounter and this if statement helps stop awkward reset when its making the sprite switchover animation--
                 spriteNum = 1;      //  looks natural resetting back to normal position. gives it 19 frames to stay on the animation before resetting back to normal sprite state
