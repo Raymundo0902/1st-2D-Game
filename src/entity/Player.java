@@ -40,8 +40,8 @@ public class Player extends Entity{
 
     public void setDefaultValues() {
 
-        worldX = gp.tileSize * 23; // not where we draw on screen this is players starting position on world map.
-        worldY = gp.tileSize * 21;
+        worldX = gp.tileSize * 44; // not where we draw on screen this is players starting position on world map.
+        worldY = gp.tileSize * 60;
         speed = 4;
         direction = "down";
     }
@@ -145,6 +145,17 @@ public class Player extends Entity{
                     gp.ui.showMessage("You got a key!");
                     break;
                 case "Door":
+                    if(hasKey > 0) {
+                        gp.playSE(4);
+                        gp.obj[i] = null;
+                        hasKey--;
+                        gp.ui.showMessage("You opened door!");
+                    }
+                    else {
+                        gp.ui.showMessage("You need a key!");
+                    }
+                    break;
+                case "Door2":
                     if(hasKey > 0) {
                         gp.playSE(4);
                         gp.obj[i] = null;

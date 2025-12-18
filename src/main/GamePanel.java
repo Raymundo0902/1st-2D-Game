@@ -20,8 +20,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
     // WORLD SETTINGS
-    public final int maxWorldCol = 50;
-    public final int maxWorldRow = 50;
+    public final int maxWorldCol = 57;
+    public final int maxWorldRow = 69;
 
     // FPS
     int FPS = 60;
@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         aSetter.setObject();
 
-        playMusic(5); // since we want to play the blue boy adventure music we set the index to 0 because it sends that over to the parameter at Sound class
+        playMusic(0); // since we want to play the blue boy adventure music we set the index to 0 because it sends that over to the parameter at Sound class
     }
 
 

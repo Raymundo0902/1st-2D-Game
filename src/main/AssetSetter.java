@@ -1,9 +1,6 @@
 package main;
 
-import object.OBJ_Boots;
-import object.OBJ_Chest;
-import object.OBJ_Door;
-import object.OBJ_Key;
+import object.*;
 
 public class AssetSetter {
 
@@ -29,13 +26,14 @@ public class AssetSetter {
         gp.obj[2].worldX = 10 * gp.tileSize;
         gp.obj[2].worldY = 11 * gp.tileSize;
 
-        gp.obj[3] = new OBJ_Door();
-        gp.obj[3].worldX = 10 * gp.tileSize;
-        gp.obj[3].worldY = 11 * gp.tileSize;
+        gp.obj[6] = new OBJ_Door(); // get into room from start building
+        gp.obj[6].worldX = 44 * gp.tileSize;
+        gp.obj[6].worldY = 58 * gp.tileSize;
+        gp.obj[6].collision = false;
 
-        gp.obj[3] = new OBJ_Chest();
-        gp.obj[3].worldX = 23 * gp.tileSize;
-        gp.obj[3].worldY = 40 * gp.tileSize; // check if this is needed
+        gp.obj[5] = new OBJ_Door2(); // faces horizontally
+        gp.obj[5].worldX = 33 * gp.tileSize;
+        gp.obj[5].worldY = 57 * gp.tileSize;
 
         gp.obj[3] = new OBJ_Chest();
         gp.obj[3].worldX = 10 * gp.tileSize;
