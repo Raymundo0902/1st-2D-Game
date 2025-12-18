@@ -155,8 +155,11 @@ public class Player extends Entity{
                         gp.ui.showMessage("You need a key!");
                     }
                     break;
-                case "Door2":
-                    if(hasKey > 0) {
+                case "Door2": // horizontal door
+                    if(gp.obj[i].worldX == gp.obj[5].worldX && gp.obj[i].worldY == gp.obj[5].worldY) {
+                        gp.obj[i].collision = false; // set to false since starting door must be open since no keys available
+                    }
+                    else if(hasKey > 0) {
                         gp.playSE(4);
                         gp.obj[i] = null;
                         hasKey--;

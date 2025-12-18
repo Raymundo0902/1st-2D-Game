@@ -15,7 +15,7 @@ public class OBJ_Door2 extends SuperObject{
             e.printStackTrace(); // if try block fails printStackTrace tells us what went on when reading file
         }
 
-        collision = false; // false for now
+        collision = true;
 
     }
 }
