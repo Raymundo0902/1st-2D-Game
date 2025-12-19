@@ -20,7 +20,7 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
 
-        tile = new Tile[30]; // we gonna create 10 kinds of tiles, water tile, grass tile, etc. If needed more, increase more indicies (size)
+        tile = new Tile[50]; // we gonna create 10 kinds of tiles, water tile, grass tile, etc. If needed more, increase more indicies (size)
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow]; // will put all the numbers in the map01.txt in this mapTileNum array basically saying 16colx12row
 
         getTileImage();
@@ -31,15 +31,15 @@ public class TileManager {
 
             // PLACEHOLDERS, JUST SO WE CAN AVOID USING 1 DIGIT NUMS ON MAP SO ITS NOT UNBALANCED
             setup(0, "darkgrass", false); // change to index 10
-            setup(0, "darkgrass", false); // change to index 10
-            setup(0, "darkgrass", false); // change to index 10
-            setup(0, "darkgrass", false); // change to index 10
-            setup(0, "darkgrass", false); // change to index 10
-            setup(0, "darkgrass", false); // change to index 10
-            setup(0, "darkgrass", false); // change to index 10
-            setup(0, "darkgrass", false); // change to index 10
-            setup(0, "darkgrass", false); // change to index 10
-            setup(0, "darkgrass", false); // change to index 10
+            setup(1, "darkgrass", false); // change to index 10
+            setup(2, "darkgrass", false); // change to index 10
+            setup(3, "darkgrass", false); // change to index 10
+            setup(4, "darkgrass", false); // change to index 10
+            setup(5, "darkgrass", false); // change to index 10
+            setup(6, "darkgrass", false); // change to index 10
+            setup(7, "darkgrass", false); // change to index 10
+            setup(8, "darkgrass", false); // change to index 10
+            setup(9, "darkgrass", false); // change to index 10
 
         // MINUS 10 OUT OF ALL TO RETURN THE ORIGINAL INDEX OF SINGLE DIGIT
             setup(10, "darkgrass", false); // change to index 10
