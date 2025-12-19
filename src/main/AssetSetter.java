@@ -26,11 +26,6 @@ public class AssetSetter {
         gp.obj[2].worldX = 10 * gp.tileSize;
         gp.obj[2].worldY = 11 * gp.tileSize;
 
-        gp.obj[6] = new OBJ_Door(); // get into room from start building
-        gp.obj[6].worldX = 44 * gp.tileSize;
-        gp.obj[6].worldY = 58 * gp.tileSize;
-        gp.obj[6].collision = false;
-
         gp.obj[5] = new OBJ_Door2(); // faces horizontally
         gp.obj[5].worldX = 33 * gp.tileSize;
         gp.obj[5].worldY = 57 * gp.tileSize;

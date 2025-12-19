@@ -18,7 +18,7 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
 
-        tile = new Tile[10]; // we gonna create 10 kinds of tiles, water tile, grass tile, etc. If needed more, increase more indicies (size)
+        tile = new Tile[20]; // we gonna create 10 kinds of tiles, water tile, grass tile, etc. If needed more, increase more indicies (size)
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow]; // will put all the numbers in the map01.txt in this mapTileNum array basically saying 16colx12row
 
         getTileImage();
@@ -33,7 +33,7 @@ public class TileManager {
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/darkgrass.png"));
 
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/topMainWall.png"));
             tile[1].collision = true;
 
             tile[2] = new Tile();
@@ -56,7 +56,50 @@ public class TileManager {
             tile[7] = new Tile();
             tile[7].image = ImageIO.read(getClass().getResourceAsStream("/tiles/48x48DarkConcreteTile.png"));
 
+            tile[8] = new Tile();
+            tile[8].image = ImageIO.read(getClass().getResourceAsStream("/tiles/leftMainWall.png"));
+            tile[8].collision = true;
 
+            tile[9] = new Tile();
+            tile[9].image = ImageIO.read(getClass().getResourceAsStream("/tiles/rightMainWall.png"));
+            tile[9].collision = true;
+
+            tile[10] = new Tile();
+            tile[10].image = ImageIO.read(getClass().getResourceAsStream("/tiles/bottomMainWall.png"));
+            tile[10].collision = true;
+
+            tile[11] = new Tile();
+            tile[11].image = ImageIO.read(getClass().getResourceAsStream("/tiles/verticalTwoWalls.png"));
+            tile[11].collision = true;
+
+            tile[12] = new Tile();
+            tile[12].image = ImageIO.read(getClass().getResourceAsStream("/tiles/horizontalTwoWalls.png"));
+            tile[12].collision = true;
+
+            // CORNERS
+            tile[13] = new Tile();
+            tile[13].image = ImageIO.read(getClass().getResourceAsStream("/tiles/bLeftCornerWall.png"));
+            tile[13].collision = true;
+
+            tile[14] = new Tile();
+            tile[14].image = ImageIO.read(getClass().getResourceAsStream("/tiles/bRightCornerWall.png"));
+            tile[14].collision = true;
+
+            tile[15] = new Tile();
+            tile[15].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tLeftCornerWall.png"));
+            tile[15].collision = true;
+
+            tile[16] = new Tile();
+            tile[16].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tRightCornerWall.png"));
+            tile[16].collision = true;
+
+            tile[17] = new Tile();
+            tile[17].image = ImageIO.read(getClass().getResourceAsStream("/tiles/bLeftCornerWall2.png"));
+            tile[17].collision = true;
+
+            tile[18] = new Tile();
+            tile[18].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tRightCornerWall2.png"));
+            tile[18].collision = true;
 
         }catch(IOException e) {
             e.printStackTrace();
