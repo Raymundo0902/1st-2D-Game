@@ -29,32 +29,43 @@ public class TileManager {
 
     public void getTileImage() {
 
-            setup(0, "darkgrass", false);
-            setup(1, "topMainWall", true);
-            setup(2, "water", true);
-            setup(3, "earth", false);
-            setup(4, "darkTree", true);
-            setup(5, "sand", false);
-            setup(6, "48x48ConcreteTile", false);
-            setup(7, "48x48DarkConcreteTile", false);
-            setup(8, "leftMainWall", true);
-            setup(9, "rightMainWall", true);
-            setup(10, "bottomMainWall", true);
-            setup(11, "verticalTwoWalls", true);
-            setup(12, "horizontalTwoWalls", true);
-            setup(13, "bLeftCornerWall", true);
-            setup(14, "bRightCornerWall", true);
-            setup(15, "tLeftCornerWall", true);
-            setup(16, "tRightCornerWall", true);
-            setup(17, "bLeftCornerWall2", true);
-            setup(18, "tRightCornerWall2", true);
-            setup(19, "LHorizontalTwoWalls2", true);
-            setup(20, "RHorizontalTwoWalls2", true);
-            setup(21, "rDoubleCornerWall", true);
-            setup(22, "grayWall", true);
-            setup(23, "helpMeWall", true);
-            setup(24, "wall", true);
+            // PLACEHOLDERS, JUST SO WE CAN AVOID USING 1 DIGIT NUMS ON MAP SO ITS NOT UNBALANCED
+            setup(0, "darkgrass", false); // change to index 10
+            setup(0, "darkgrass", false); // change to index 10
+            setup(0, "darkgrass", false); // change to index 10
+            setup(0, "darkgrass", false); // change to index 10
+            setup(0, "darkgrass", false); // change to index 10
+            setup(0, "darkgrass", false); // change to index 10
+            setup(0, "darkgrass", false); // change to index 10
+            setup(0, "darkgrass", false); // change to index 10
+            setup(0, "darkgrass", false); // change to index 10
+            setup(0, "darkgrass", false); // change to index 10
 
+            setup(10, "darkgrass", false); // change to index 10
+            setup(11, "topMainWall", true); // change to index 11
+            setup(12, "water", true); // change to index 12
+            setup(13, "earth", false); // change to index 13
+            setup(14, "darkTree", true); // change to index 14
+            setup(15, "sand", false); // change to index 15
+            setup(16, "48x48ConcreteTile", false); // change to index 16
+            setup(17, "48x48DarkConcreteTile", false); // change to index 17
+            setup(18, "leftMainWall", true); // change to index 18
+            setup(19, "rightMainWall", true); // change to index 19
+            setup(20, "bottomMainWall", true); // change to index 20
+            setup(21, "verticalTwoWalls", true); // change to index 21
+            setup(22, "horizontalTwoWalls", true); // change to index 22
+            setup(23, "bLeftCornerWall", true); // change to index 23
+            setup(24, "bRightCornerWall", true); // change to index 24
+            setup(25, "tLeftCornerWall", true); // change to index 25
+            setup(26, "tRightCornerWall", true); // change to index 26
+            setup(27, "bLeftCornerWall2", true); // change to index 27
+            setup(28, "tRightCornerWall2", true); // change to index 28
+            setup(29, "LHorizontalTwoWalls2", true); // change to index 29
+            setup(30, "RHorizontalTwoWalls2", true); // change to index 30
+            setup(31, "rDoubleCornerWall", true); // change to index 31
+            setup(32, "grayWall", true); // change to index 32
+            setup(33, "helpMeWall", true); // change to index 33
+            setup(34, "wall", true); // change to index 34
     }
 
     public void setup(int index, String imageName, boolean collision) {
