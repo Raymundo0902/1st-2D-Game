@@ -25,7 +25,7 @@ public class UI {
         arial_40 = new Font("Arial", Font.PLAIN, 40);
         arial_80B = new Font("Arial", Font.BOLD, 80);
 
-        OBJ_Key key = new OBJ_Key();
+        OBJ_Key key = new OBJ_Key(gp);
         keyImage = key.image;
     }
 
@@ -84,7 +84,6 @@ public class UI {
             // X and Y WORLD COORDS
             g2.drawString("x: "+gp.player.worldX, gp.tileSize*6, 60);
             g2.drawString("y: "+gp.player.worldY, gp.tileSize*6, 90);
-
 
 
             // TIME

@@ -56,7 +56,6 @@ public class Player extends Entity{
         left2 = setup("left2");
         right1 = setup("right1");
         right2 = setup("right2");
-
     }
 
     public BufferedImage setup(String imageName) {
@@ -65,13 +64,11 @@ public class Player extends Entity{
         BufferedImage image = null;
 
         try{
-            image = ImageIO.read(getClass().getResourceAsStream("/player/"+ imageName+".png"));
-            image = uTool.scaledImage(image, gp.tileSize, gp.tileSize);
-
+            image = ImageIO.read(getClass().getResourceAsStream("/player/"+ imageName +".png"));
+            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
 
         }catch(IOException e) {
             e.printStackTrace();
-
         }
         return image;
     }

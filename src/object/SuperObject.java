@@ -1,6 +1,7 @@
 package object;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,7 @@ public class SuperObject {      // Parent class of all object subclasses.
     public Rectangle solidArea = new Rectangle(0,0,48,48); // the whole object tile is solid can set a specific like make smaller rectangle
     public int solidAreaDefaultX = 0; // these two vars are set different from entity and player. they do not share same values since this doesnt inherit entity
     public int solidAreaDefaultY = 0;
+    UtilityTool uTool = new UtilityTool();
 
     public void draw(Graphics2D g2, GamePanel gp) {
         int screenX = worldX - gp.player.worldX + gp.player.screenX;

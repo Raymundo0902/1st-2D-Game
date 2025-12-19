@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         aSetter.setObject();
 
-        playMusic(5); // since we want to play the blue boy adventure music we set the index to 0 because it sends that over to the parameter at Sound class
+        playMusic(0); // since we want to play the blue boy adventure music we set the index to 0 because it sends that over to the parameter at Sound class
     }
 
 
