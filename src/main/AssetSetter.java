@@ -28,7 +28,7 @@ public class AssetSetter {
 
         gp.obj[5] = new OBJ_Door2(); // faces horizontally
         gp.obj[5].worldX = 33 * gp.tileSize;
-        gp.obj[5].worldY = 57 * gp.tileSize;
+        gp.obj[5].worldY = 60 * gp.tileSize;
 
         gp.obj[3] = new OBJ_Chest();
         gp.obj[3].worldX = 10 * gp.tileSize;
