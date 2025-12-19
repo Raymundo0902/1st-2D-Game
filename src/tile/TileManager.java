@@ -41,6 +41,7 @@ public class TileManager {
             setup(0, "darkgrass", false); // change to index 10
             setup(0, "darkgrass", false); // change to index 10
 
+        // MINUS 10 OUT OF ALL TO RETURN THE ORIGINAL INDEX OF SINGLE DIGIT
             setup(10, "darkgrass", false); // change to index 10
             setup(11, "topMainWall", true); // change to index 11
             setup(12, "water", true); // change to index 12
