@@ -53,6 +53,8 @@ public class TileManager {
             setup(21, "rDoubleCornerWall", true);
             setup(22, "grayWall", true);
             setup(23, "helpMeWall", true);
+            setup(24, "wall", true);
+
     }
 
     public void setup(int index, String imageName, boolean collision) {
