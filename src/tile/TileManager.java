@@ -41,14 +41,14 @@ public class TileManager {
             setup(8, "darkgrass", false); // change to index 10
             setup(9, "darkgrass", false); // change to index 10
 
-        // MINUS 10 OUT OF ALL TO RETURN THE ORIGINAL INDEX OF SINGLE DIGIT
+            // MINUS 10 OUT OF ALL TO RETURN THE ORIGINAL INDEX OF SINGLE DIGIT
             setup(10, "darkgrass", false); // change to index 10
             setup(11, "topMainWall", true); // change to index 11
             setup(12, "water", true); // change to index 12
             setup(13, "earth", false); // change to index 13
             setup(14, "darkTree", true); // change to index 14
             setup(15, "sand", false); // change to index 15
-            setup(16, "48x48ConcreteTile", false); // change to index 16
+            setup(16, "48x48ConcreteTile", false); // change to index 16 // col 47-48 one of those are having issues for this tile index. gives AWT-EventQueue-0 Exception
             setup(17, "48x48DarkConcreteTile", false); // change to index 17
             setup(18, "leftMainWall", true); // change to index 18
             setup(19, "rightMainWall", true); // change to index 19
