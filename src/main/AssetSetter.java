@@ -18,13 +18,17 @@ public class AssetSetter {
         gp.obj[0].worldY = 7 * gp.tileSize;
 
         gp.obj[1] = new OBJ_Key(gp);
-        gp.obj[1].worldX = 23 * gp.tileSize;
-        gp.obj[1].worldY = 40 * gp.tileSize;
+        gp.obj[1].worldX = 37 * gp.tileSize;
+        gp.obj[1].worldY = 9 * gp.tileSize;
 
         // INSTANTIATED THIS DOOR AND SET ITS DEFAULT LOCATION.
         gp.obj[2] = new OBJ_Door(gp);
         gp.obj[2].worldX = 10 * gp.tileSize;
         gp.obj[2].worldY = 11 * gp.tileSize;
+
+        gp.obj[6] = new OBJ_Door(gp);
+        gp.obj[6].worldX = 17 * gp.tileSize;
+        gp.obj[6].worldY = 35 * gp.tileSize;
 
         gp.obj[5] = new OBJ_Door2(gp); // faces horizontally
         gp.obj[5].worldX = 33 * gp.tileSize;

@@ -30,16 +30,16 @@ public class TileManager {
     public void getTileImage() {
 
             // PLACEHOLDERS, JUST SO WE CAN AVOID USING 1 DIGIT NUMS ON MAP SO ITS NOT UNBALANCED
-            setup(0, "darkgrass", false); // change to index 10
-            setup(1, "darkgrass", false); // change to index 10
-            setup(2, "darkgrass", false); // change to index 10
-            setup(3, "darkgrass", false); // change to index 10
-            setup(4, "darkgrass", false); // change to index 10
-            setup(5, "darkgrass", false); // change to index 10
-            setup(6, "darkgrass", false); // change to index 10
-            setup(7, "darkgrass", false); // change to index 10
-            setup(8, "darkgrass", false); // change to index 10
-            setup(9, "darkgrass", false); // change to index 10
+            setup(0, "darkgrass1", false); // change to index 10
+            setup(1, "darkgrass1", false); // change to index 10
+            setup(2, "darkgrass1", false); // change to index 10
+            setup(3, "darkgrass1", false); // change to index 10
+            setup(4, "darkgrass1", false); // change to index 10
+            setup(5, "darkgrass1", false); // change to index 10
+            setup(6, "darkgrass1", false); // change to index 10
+            setup(7, "darkgrass1", false); // change to index 10
+            setup(8, "darkgrass1", false); // change to index 10
+            setup(9, "darkgrass1", false); // change to index 10
 
             // MINUS 10 OUT OF ALL TO RETURN THE ORIGINAL INDEX OF SINGLE DIGIT
             setup(10, "darkgrass1", false); // change to index 10
@@ -73,7 +73,11 @@ public class TileManager {
             setup(38, "topGravelRoad", false); // change to index 34
             setup(39, "bottomGravelRoad", false); // change to index 34
             setup(40, "tRightGravelRoad", false); // change to index 34
-            setup(41, "tleftCornerGravelRoad", false);
+            setup(41, "bLeftCornerGravelRoad", false);
+            setup(42, "bRightCornerGravelRoad", false);
+            setup(43, "tLeftCornerGravelRoad", false);
+            setup(44, "tRightCornerGravelRoad", false);
+
 
 
 
