@@ -42,12 +42,12 @@ public class TileManager {
             setup(9, "darkgrass", false); // change to index 10
 
             // MINUS 10 OUT OF ALL TO RETURN THE ORIGINAL INDEX OF SINGLE DIGIT
-            setup(10, "darkgrass", false); // change to index 10
+            setup(10, "darkgrass1", false); // change to index 10
             setup(11, "topMainWall", true); // change to index 11
             setup(12, "water", true); // change to index 12
             setup(13, "earth", false); // change to index 13
             setup(14, "darkTree", true); // change to index 14
-            setup(15, "sand", false); // change to index 15
+            setup(15, "gravelRoad1", false); // change to index 15
             setup(16, "48x48ConcreteTile", false); // change to index 16 // col 47-48 one of those are having issues for this tile index. gives AWT-EventQueue-0 Exception
             setup(17, "48x48DarkConcreteTile", false); // change to index 17
             setup(18, "leftMainWall", true); // change to index 18
@@ -67,6 +67,18 @@ public class TileManager {
             setup(32, "grayWall", true); // change to index 32
             setup(33, "helpMeWall", true); // change to index 33
             setup(34, "wall", true); // change to index 34
+            setup(35, "darkgrass2", false); // change to index 34
+            setup(36, "leftGravelRoad", false); // change to index 34
+            setup(37, "rightGravelRoad", false); // change to index 34
+            setup(38, "topGravelRoad", false); // change to index 34
+            setup(39, "bottomGravelRoad", false); // change to index 34
+            setup(40, "tRightGravelRoad", false); // change to index 34
+            setup(41, "tleftCornerGravelRoad", false);
+
+
+
+
+
     }
 
     public void setup(int index, String imageName, boolean collision) {

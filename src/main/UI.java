@@ -82,8 +82,8 @@ public class UI {
             g2.drawString("x = "+ gp.player.hasKey, 74, 65);
 
             // X and Y WORLD COORDS
-            g2.drawString("x: "+gp.player.worldX, gp.tileSize*6, 60);
-            g2.drawString("y: "+gp.player.worldY, gp.tileSize*6, 90);
+            //g2.drawString("x: "+gp.player.worldX, gp.tileSize*6, 60);
+            //g2.drawString("y: "+gp.player.worldY, gp.tileSize*6, 90);
 
 
             // TIME
