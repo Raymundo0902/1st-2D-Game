@@ -20,7 +20,7 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
 
-        tile = new Tile[50]; // we gonna create 10 kinds of tiles, water tile, grass tile, etc. If needed more, increase more indicies (size)
+        tile = new Tile[70]; // we gonna create 10 kinds of tiles, water tile, grass tile, etc. If needed more, increase more indicies (size)
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow]; // will put all the numbers in the map01.txt in this mapTileNum array basically saying 16colx12row
 
         getTileImage();
@@ -77,12 +77,22 @@ public class TileManager {
             setup(42, "bRightCornerGravelRoad", false);
             setup(43, "tLeftCornerGravelRoad", false);
             setup(44, "tRightCornerGravelRoad", false);
-
-
-
-
-
-
+            setup(45, "litFireplace", true);
+            setup(46, "deadNPC", false);
+            setup(47, "topWater", true);
+            setup(48, "bottomWater", true);
+            setup(49, "bLeftWaterCorner", true);
+            setup(50, "bRightWaterCorner", true);
+            setup(51, "leftWater", true);
+            setup(52, "rightWater", true);
+            setup(53, "tLeftWaterCorner", true);
+            setup(54, "tRightWaterCorner", true);
+            setup(55, "bRightGravelRoad", false);
+            setup(56, "LBridge", false);
+            setup(57, "RBridge", false);
+            setup(58, "bridge", false);
+            setup(59, "bLeftGravelRoad", false);
+            setup(60, "tLeftGravelRoad", false);
     }
 
     public void setup(int index, String imageName, boolean collision) {
