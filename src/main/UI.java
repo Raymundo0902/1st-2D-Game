@@ -42,12 +42,11 @@ public class UI {
         g2.setFont(arial_40);
         g2.setColor(Color.white);
 
-        if(gp.gameState == gp.playState) { // find a way to play music again
+        if(gp.gameState == gp.playState) {
 
         }
         else if(gp.gameState == gp.pauseState) {
             drawPauseScreen();
-            gp.stopMusic();
         }
     }
 
