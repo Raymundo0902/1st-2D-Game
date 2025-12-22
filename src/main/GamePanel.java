@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     int FPS = 60;
 
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     Sound music = new Sound();
     Sound se = new Sound(); // sound effect
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -39,7 +39,10 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler class inside the Player class. so Player class can get the things it needs from both classes.
     public SuperObject obj[] = new SuperObject[10]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
 
-
+    // GAME STATE
+    public int gameState; // game state is like a title screen state, play, pause, etc
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     public GamePanel () {
 
@@ -54,8 +57,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() { // created this method so we can add other setup stuff in the future
 
         aSetter.setObject();
-
         playMusic(5); // since we want to play the blue boy adventure music we set the index to 0 because it sends that over to the parameter at Sound class
+        gameState = playState;
     }
 
 
@@ -104,8 +107,14 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     public void update() { // player will move 4 pixels everytime a user hits one of these keys
+        if(gameState == playState) {
+            player.update(); // its like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
 
-        player.update(); // its like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
+        }
+
+        if(gameState == pauseState) {
+            // nothing, no updating player info while paused
+        }
     }
 
 

@@ -19,7 +19,6 @@ public class Player extends Entity{
     int standCounter = 0;
 
 
-
     public Player(GamePanel gp, KeyHandler keyH) {
 
         this.gp = gp; // composition

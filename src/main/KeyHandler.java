@@ -9,6 +9,12 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
     // DEBUG
     boolean checkDrawTime = false;
 
+    GamePanel gp;
+
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) { // don't use this method but for the bottom two we will.
     }
@@ -29,6 +35,14 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = true;
+        }
+        if(code == KeyEvent.VK_P) {
+            if(gp.gameState == gp.playState) {
+                gp.gameState = gp.pauseState;
+            }
+            else if(gp.gameState == gp.pauseState) {
+                gp.gameState = gp.playState;
+            }
         }
 
         // DEBUG
