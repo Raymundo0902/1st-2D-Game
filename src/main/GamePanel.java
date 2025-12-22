@@ -108,15 +108,12 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() { // player will move 4 pixels everytime a user hits one of these keys
         if(gameState == playState) {
-            player.update(); // its like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
-
+            player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
         }
-
         if(gameState == pauseState) {
             // nothing, no updating player info while paused
         }
     }
-
 
 
     public void paintComponent(Graphics g) { // the "Graphics" is a class that has many functions to draw objects on the screen
