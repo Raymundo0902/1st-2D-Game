@@ -10,7 +10,7 @@ public class Main {
         window.setResizable(true); // false = cannot resize the window. stays one size
         window.setTitle("2d Massacre!");
 
-        GamePanel gamePanel = new GamePanel();
+        GamePanel gamePanel = new GamePanel(); // GamePanel object is created on the heap
         window.add(gamePanel);
 
         window.pack(); // causes the window to be sized to fit the preferred size and layouts of its subcomponents (GamePanel)

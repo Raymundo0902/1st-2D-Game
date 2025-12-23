@@ -11,18 +11,18 @@ import java.io.IOException;
 
 public class Player extends Entity{
 
-    GamePanel gp; // reference field
-    KeyHandler keyH; // reference field
+    GamePanel gp; // object reference variable (is not the object of the class, just knows where to find object to access info
+    KeyHandler keyH; // object reference variable
     public final int screenX; // screenX and Y indicate where we draw player on the screen and never change since its final. player always will be in the center of the camera.
     public final int screenY;
     public int hasKey = 0;
     int standCounter = 0;
 
 
-    public Player(GamePanel gp, KeyHandler keyH) {
+    public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
-        this.gp = gp; // composition
-        this.keyH = keyH; // composition
+        this.gp = gp; // now points to the same GamePanel object because gp from argument knows the memory address of the object of the current GamePanel class from the heap.
+        this.keyH = keyH; // now points to the same KeyHandler object
         screenX = gp.screenWidth/2 - (gp.tileSize/2); // these two return the halfway point of the screen. subtract a half tile length from both screenX and screenY
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 

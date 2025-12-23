@@ -26,6 +26,8 @@ public class GamePanel extends JPanel implements Runnable {
     // FPS
     int FPS = 60;
 
+
+    // "this" as the argument is passing the reference to the exact GamePanel object thats currently running. (NOT THE OBJECT, NOT A COPY, NOT A NEW OBJECT)
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(this);
     Sound music = new Sound();
@@ -36,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
 
     // ENTITY AND OBJECT
-    public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler class inside the Player class. so Player class can get the things it needs from both classes.
+    public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler reference to objects inside the Player class. so Player class can get the things it needs from both classes.
     public SuperObject obj[] = new SuperObject[10]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
 
     // GAME STATE
@@ -58,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         aSetter.setObject();
         playMusic(5); // since we want to play the blue boy adventure music we set the index to 0 because it sends that over to the parameter at Sound class
+        stopMusic();
         gameState = playState;
     }
 
@@ -106,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
 
-    public void update() { // player will move 4 pixels everytime a user hits one of these keys
+    public void update() {
         if(gameState == playState) {
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
         }
@@ -122,14 +125,17 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D)g; // Graphics2D class extends the Graphics class to provide more sophisticated control over geometry, coordinate transformations, color management, and text layout.
 
+
         // DEBUG
         long drawStart = 0;
         if(keyH.checkDrawTime == true) {
             drawStart = System.nanoTime();
         }
 
+
         // TILE
         tileM.draw(g2); // put this above player because if not, background tiles will hide the player character
+
 
         // OBJECT. WE USE FOR LOOP BECAUSE IT CAN BECOME A LONG LINE OF CODES FOR JUST OBJECTS IF WE HAVE MANY TO DISPLAY
         for(int i = 0; i < obj.length; i++) { // length is 10 so scan from 0-9 and check if there's any object inside the array
@@ -141,9 +147,9 @@ public class GamePanel extends JPanel implements Runnable {
         // PLAYER
         player.draw(g2); // when paintComponent called, so it player.draw() which will draw the character. make it more cleaner code
 
-        // UI
-        ui.draw(g2);
 
+        // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
+        ui.draw(g2);
 
         // DEBUG
         if(keyH.checkDrawTime == true) {
@@ -157,6 +163,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         g2.dispose(); // Dispose of this graphics context and release any system resources that it is using. Disposes Graphics2D, programing still works without this line but it is good practice to save memory.
     }
+
+
     public void playMusic(int i) { // for music we use loop because it is obviously a continuous sound
 
         music.setFile(i);

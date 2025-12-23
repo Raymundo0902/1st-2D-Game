@@ -39,13 +39,14 @@ public class UI {
     public void draw(Graphics2D g2) {
 
         this.g2 = g2;
+
         g2.setFont(arial_40);
         g2.setColor(Color.white);
 
         if(gp.gameState == gp.playState) {
 
         }
-        else if(gp.gameState == gp.pauseState) {
+        if(gp.gameState == gp.pauseState) {
             drawPauseScreen();
         }
     }
