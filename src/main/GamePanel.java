@@ -71,7 +71,6 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
 
-
     // as long the game loop continues it will continue to call update and then repaint
     @Override
     public void run() { // when we start the gameThread the run method is automatically called. in this run method we will create the game loop which is the core of the game.
@@ -116,7 +115,6 @@ public class GamePanel extends JPanel implements Runnable {
             // nothing, no updating player info while paused
         }
     }
-
 
     public void paintComponent(Graphics g) { // the "Graphics" is a class that has many functions to draw objects on the screen
 
