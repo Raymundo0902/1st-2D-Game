@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import entity.Player;
 import object.SuperObject;
 import tile.TileManager;
@@ -21,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // WORLD SETTINGS
     public final int maxWorldCol = 60;
-    public final int maxWorldRow = 85;
+    public final int maxWorldRow = 86;
 
     // FPS
     int FPS = 60;
@@ -40,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
     // ENTITY AND OBJECT
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler reference to objects inside the Player class. so Player class can get the things it needs from both classes.
     public SuperObject obj[] = new SuperObject[10]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
+    public Entity npc[] = new Entity[10];
 
     // GAME STATE
     public int gameState; // game state is like a title screen state, play, pause, etc
@@ -59,7 +61,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() { // created this method so we can add other setup stuff in the future
 
         aSetter.setObject();
+        aSetter.setNPC();
         playMusic(5); // since we want to play the blue boy adventure music we set the index to 0 because it sends that over to the parameter at Sound class
+        stopMusic();
         gameState = playState;
     }
 
@@ -92,7 +96,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             if(delta >= 1) {
                 update();
-                repaint();
+                repaint(); // schedule a paint event which eventually calls the paintComponenet() method
                 delta--;
                 drawCount++;
             }
@@ -110,6 +114,12 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         if(gameState == playState) {
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
+            // NPC
+            for(int i = 0; i < npc.length; i++ ){
+                if(npc[i] != null) {
+                    npc[i].update();
+                }
+            }
         }
         if(gameState == pauseState) {
             // nothing, no updating player info while paused
@@ -119,7 +129,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) { // the "Graphics" is a class that has many functions to draw objects on the screen
 
         super.paintComponent(g); //whenever you use the paintComponent method on JPanel you need to type this line. super means the parent class of this class in this case parent is JPanel since GamePanel is a subclass of it.
-
         Graphics2D g2 = (Graphics2D)g; // Graphics2D class extends the Graphics class to provide more sophisticated control over geometry, coordinate transformations, color management, and text layout.
 
 
@@ -138,6 +147,12 @@ public class GamePanel extends JPanel implements Runnable {
         for(int i = 0; i < obj.length; i++) { // length is 10 so scan from 0-9 and check if there's any object inside the array
             if(obj[i] != null) { // checks if slot is null or not
                 obj[i].draw(g2, this);
+            }
+        }
+        // NPC
+        for(int i = 0; i < npc.length; i++) {
+            if(npc[i] != null) {
+                npc[i].draw(g2);
             }
         }
 

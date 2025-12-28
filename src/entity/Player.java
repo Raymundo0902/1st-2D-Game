@@ -22,6 +22,7 @@ public class Player extends Entity{
 
         super(gp); // calling the constructor of the superclass of this class -- and passing this gp.
         this.keyH = keyH; // now points to the same KeyHandler object
+
         screenX = gp.screenWidth/2 - (gp.tileSize/2); // these two return the halfway point of the screen. subtract a half tile length from both screenX and screenY
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
@@ -41,35 +42,21 @@ public class Player extends Entity{
 
         worldX = gp.tileSize * 44; // not where we draw on screen this is players starting position on world map.
         worldY = gp.tileSize * 60;
-        speed = 4;
+        speed = 8;
         direction = "down";
     }
     public void getPlayerImage() {
 
-        up1 = setup("up1");
-        up2 = setup("up2");
-        down1 = setup("down1");
-        down2 = setup("down2");
-        left1 = setup("left1");
-        left2 = setup("left2");
-        right1 = setup("right1");
-        right2 = setup("right2");
+        up1 = setup("/player/up1");
+        up2 = setup("/player/up2");
+        down1 = setup("/player/down1");
+        down2 = setup("/player/down2");
+        left1 = setup("/player/left1");
+        left2 = setup("/player/left2");
+        right1 = setup("/player/right1");
+        right2 = setup("/player/right2");
     }
 
-    public BufferedImage setup(String imageName) {
-
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
-
-        try{
-            image = ImageIO.read(getClass().getResourceAsStream("/player/"+ imageName +".png"));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
-
-        }catch(IOException e) {
-            e.printStackTrace();
-        }
-        return image;
-    }
 
     public void update() { // this method gets called 60x per second
         if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) { // without this, player will move without stopping
@@ -95,6 +82,10 @@ public class Player extends Entity{
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
 
+            // CHECK NPC COLLISION
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
+
 
             // IF COLLISON IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false) {
@@ -116,7 +107,7 @@ public class Player extends Entity{
             }
 
             spriteCounter++;
-            if(spriteCounter > 7) { // this means player image changes every 7 frames
+            if(spriteCounter > 12) { // this means player image changes every 7 frames
                 if(spriteNum == 1) {
                     spriteNum = 2;
                 }
@@ -190,6 +181,14 @@ public class Player extends Entity{
             }
         }
     }
+
+    public void interactNPC(int i) {
+        if(i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
+            System.out.println("You are hitting an npc!");
+        }
+    }
+
+
 
     public void draw(Graphics2D g2) {
 
