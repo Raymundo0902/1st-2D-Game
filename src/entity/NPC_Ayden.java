@@ -12,6 +12,7 @@ public class NPC_Ayden extends Entity {
         direction = "down";
         speed = 2;
         getNPCImage();
+        setDialogue();
     }
     public void getNPCImage() {
 
@@ -23,6 +24,14 @@ public class NPC_Ayden extends Entity {
         left2 = setup("/npc/ayden_left2");
         right1 = setup("/npc/ayden_right1");
         right2 = setup("/npc/ayden_right2");
+    }
+
+    public void setDialogue() {
+
+        dialogues[0] = "Hello, Sir.";
+        dialogues[1] = "This camp is nice, bout' to go fishing\nwith the boys!";
+        dialogues[2] = "On my way here I heard some rumors\nabout some killer on the loose at the city\nclose to here.. creepy stuff huh..";
+        dialogues[3] = "Welp, Have a good one officer!";
     }
 
     public void setAction() {
@@ -47,6 +56,13 @@ public class NPC_Ayden extends Entity {
             }
             actionLockCounter = 0;
         }
+
+    }
+
+    public void speak() {
+
+        // DO THIS CHARACTER SPECIFIC STUFF
+        super.speak();
 
     }
 

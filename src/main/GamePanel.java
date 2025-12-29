@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // "this" as the argument is passing the reference to the exact GamePanel object thats currently running. (NOT THE OBJECT, NOT A COPY, NOT A NEW OBJECT)
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler(this);
+    public KeyHandler keyH = new KeyHandler(this);
     Sound music = new Sound();
     Sound se = new Sound(); // sound effect
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -47,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
     public int gameState; // game state is like a title screen state, play, pause, etc
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int dialogueState = 3;
 
     public GamePanel () {
 

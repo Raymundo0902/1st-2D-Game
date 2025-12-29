@@ -42,7 +42,7 @@ public class Player extends Entity{
 
         worldX = gp.tileSize * 44; // not where we draw on screen this is players starting position on world map.
         worldY = gp.tileSize * 60;
-        speed = 8;
+        speed = 4;
         direction = "down";
     }
     public void getPlayerImage() {
@@ -184,8 +184,13 @@ public class Player extends Entity{
 
     public void interactNPC(int i) {
         if(i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
-            System.out.println("You are hitting an npc!");
+
+            if(gp.keyH.enterPressed == true) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
+            }
         }
+        gp.keyH.enterPressed = false;
     }
 
 
