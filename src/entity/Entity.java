@@ -34,7 +34,7 @@ public class Entity {
     }
     public void speak() {
 
-        if(dialogues[dialogueIndex] == null) {
+        if(dialogues[dialogueIndex] == null) { // if there's no more text, go back to first dialogue to prevent "NullPointerException"
             dialogueIndex = 0;
         }
         gp.ui.currentDialogue = dialogues[dialogueIndex];
