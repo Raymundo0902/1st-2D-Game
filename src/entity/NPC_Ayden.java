@@ -28,10 +28,10 @@ public class NPC_Ayden extends Entity {
 
     public void setDialogue() {
 
-        dialogues[0] = "Hello, Sir.";
+        dialogues[0] = "Hello, sir.";
         dialogues[1] = "This camp is nice, bout' to go fishing\nwith the boys!";
-        dialogues[2] = "On my way here I heard some rumors\nabout some killer on the loose at the city\nclose to here.. creepy stuff huh..";
-        dialogues[3] = "Welp, Have a good one officer!";
+        dialogues[2] = "On my way here, I heard some rumors\nabout some killer on the loose at the city\nclose to here-- creepy stuff huh..";
+        dialogues[3] = "Welp, have a good one officer!";
     }
 
     public void setAction() {

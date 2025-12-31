@@ -48,6 +48,11 @@ public class UI {
         g2.setFont(maruMonica);
         g2.setColor(Color.white);
 
+        // TITLE STATE
+        if(gp.gameState == gp.titleState) {
+            drawTitleScreen();
+        }
+
         // PLAY STATE
         if(gp.gameState == gp.playState) {
 
@@ -62,6 +67,39 @@ public class UI {
         }
 
     }
+
+    public void drawTitleScreen() {
+        // TITLE FONT
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 95F));
+        String text = "Pinewood Camp";
+        int x = getXforCenteredText(text);
+        int y = gp.tileSize*3;
+
+        // SHADOW
+        g2.setColor(Color.darkGray);
+        g2.drawString(text, x+4, y+4);
+        // MAIN COLOR
+        g2.setColor(Color.white);
+        g2.drawString(text, x, y);
+
+        String text2 = "Massacre";
+        int x2 = getXforCenteredText(text2);
+        int y2 = gp.tileSize*5;
+
+        // SHADOW
+        g2.setColor(Color.red);
+        g2.drawString(text2, x2+3, y2+3);
+        // MAIN COLOR
+        g2.setColor(Color.white);
+        g2.drawString(text2, x2, y2);
+
+        // CHARACTER IMAGE
+        x = gp.screenWidth/2;
+        y += gp.tileSize*2;
+        g2.drawImage(gp.player.down1, x, y, gp.tileSize, gp.tileSize, null);
+
+    }
+
 
     public void drawPauseScreen() {
 

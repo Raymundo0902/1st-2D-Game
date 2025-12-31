@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // GAME STATE
     public int gameState; // game state is like a title screen state, play, pause, etc
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
@@ -56,7 +57,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true); // if true, all drawings from this component will be done in an offscreen painting buffer (smoother visual updates & eliminates flickering) in short, improves rendering performance
         this.addKeyListener(keyH); // this GamePanel will recognize the key input
         this.setFocusable(true); // with this, the GamePanel can be "focused" to receive key input.
-
     }
 
     public void setupGame() { // created this method so we can add other setup stuff in the future
@@ -64,8 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setObject();
         aSetter.setNPC();
         playMusic(5); // since we want to play the blue boy adventure music we set the index to 0 because it sends that over to the parameter at Sound class
-        stopMusic();
-        gameState = playState;
+        gameState = titleState;
     }
 
 
@@ -138,31 +137,39 @@ public class GamePanel extends JPanel implements Runnable {
         if(keyH.checkDrawTime == true) {
             drawStart = System.nanoTime();
         }
-
-
-        // TILE
-        tileM.draw(g2); // put this above player because if not, background tiles will hide the player character
-
-
-        // OBJECT. WE USE FOR LOOP BECAUSE IT CAN BECOME A LONG LINE OF CODES FOR JUST OBJECTS IF WE HAVE MANY TO DISPLAY
-        for(int i = 0; i < obj.length; i++) { // length is 10 so scan from 0-9 and check if there's any object inside the array
-            if(obj[i] != null) { // checks if slot is null or not
-                obj[i].draw(g2, this);
-            }
+        // TITLE SCREEN
+        if(gameState == titleState) {
+            ui.draw(g2);
         }
-        // NPC
-        for(int i = 0; i < npc.length; i++) {
-            if(npc[i] != null) {
-                npc[i].draw(g2);
+        // OTHERS
+        else{
+
+            // TILE
+            tileM.draw(g2); // put this above player because if not, background tiles will hide the player character
+
+
+            // OBJECT. WE USE FOR LOOP BECAUSE IT CAN BECOME A LONG LINE OF CODES FOR JUST OBJECTS IF WE HAVE MANY TO DISPLAY
+            for(int i = 0; i < obj.length; i++) { // length is 10 so scan from 0-9 and check if there's any object inside the array
+                if(obj[i] != null) { // checks if slot is null or not
+                    obj[i].draw(g2, this);
+                }
             }
+            // NPC
+            for(int i = 0; i < npc.length; i++) {
+                if(npc[i] != null) {
+                    npc[i].draw(g2);
+                }
+            }
+
+            // PLAYER
+            player.draw(g2); // when paintComponent called, so it player.draw() which will draw the character. make it more cleaner code
+
+
+            // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
+            ui.draw(g2);
+
         }
 
-        // PLAYER
-        player.draw(g2); // when paintComponent called, so it player.draw() which will draw the character. make it more cleaner code
-
-
-        // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
-        ui.draw(g2);
 
         // DEBUG
         if(keyH.checkDrawTime == true) {
