@@ -18,6 +18,7 @@ public class Sound {
         soundURL[3] = getClass().getResource("/sound/powerup.wav");
         soundURL[4] = getClass().getResource("/sound/unlock.wav");
         soundURL[5] = getClass().getResource("/sound/horrorAmbience.wav");
+        soundURL[6] = getClass().getResource("/sound/ForestAmbience.wav");
 
 
     }

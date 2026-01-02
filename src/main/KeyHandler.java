@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener { // must add the key: typed, pressed and released methods when implementing KeyListener
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, enterPressed;
     // DEBUG
     boolean checkDrawTime = false;
 
@@ -24,6 +24,96 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
         int code = e.getKeyCode(); // returns integer KeyCode associated with the key in this event. (returns num of the key that was pressed) google the cheat sheet if you need help-- for ex: A is VK_A
 
+        // TITLE STATE
+        if(gp.gameState == gp.titleState) { // check current titleState substate inside this if statement
+
+            if(gp.ui.titleScreenState == 0) { // main menu
+
+                if(code == KeyEvent.VK_W) {
+                    gp.ui.commandNum--;
+                    if(gp.ui.commandNum < 0) { // keeps arrow from disappearing from select menu
+                        gp.ui.commandNum = 2;
+                    }
+                }
+
+                if(code == KeyEvent.VK_S) {
+                    gp.ui.commandNum++;
+                    if(gp.ui.commandNum > 2) {
+                        gp.ui.commandNum = 0;
+                    }
+                }
+
+                if(code == KeyEvent.VK_ENTER) {
+                    // NEW GAME
+                    if(gp.ui.commandNum == 0) {
+                        gp.playSE(4); // SOUND EFFECT WHEN PRESSING ENTER
+                        gp.ui.titleScreenState = 1;
+                    }
+                    // LOAD GAME
+                    if(gp.ui.commandNum == 1) {
+                        gp.playSE(4); // SOUND EFFECT WHEN PRESSING ENTER
+
+                    }
+                    // QUIT
+                    if(gp.ui.commandNum == 2) {
+                        System.exit(0);
+                    }
+                }
+
+            }
+
+            else if(gp.ui.titleScreenState == 1) { // character pick menu
+                if(code == KeyEvent.VK_W) {
+                    gp.ui.commandNum--;
+                    if(gp.ui.commandNum < 0) { // keeps arrow from disappearing from select menu
+                        gp.ui.commandNum = 3;
+                    }
+                }
+
+                if(code == KeyEvent.VK_S) {
+                    gp.ui.commandNum++;
+                    if(gp.ui.commandNum > 3) {
+                        gp.ui.commandNum = 0;
+                    }
+                }
+
+                if(code == KeyEvent.VK_ENTER) {
+                    // SELECT SALLY
+                    gp.playSE(4); // SOUND EFFECT WHEN PRESSING ENTER
+                    if (gp.ui.commandNum == 0) {
+                        System.out.println("Do specific stuff for Sally");
+                        gp.gameState = gp.playState;
+                        gp.stopMusic();
+                        gp.playMusic(6); // play camping/forest ambience like night time
+
+                    }
+                    // SELECT CHAD
+                    if (gp.ui.commandNum == 1) {
+
+                        System.out.println("Do specific stuff for Chad");
+                        gp.gameState = gp.playState;
+                        gp.stopMusic();
+                        gp.playMusic(6);
+                    }
+                    // SELECT SHIPLEY
+                    if (gp.ui.commandNum == 2) {
+                        System.out.println("Do specific stuff for Shipley");
+                        gp.gameState = gp.playState;
+                        gp.stopMusic();
+                        gp.playMusic(6);
+
+                    }
+                    // GO BACK TO MAIN SCREEN
+                    if (gp.ui.commandNum == 3) {
+                        gp.ui.titleScreenState = 0;
+                        gp.ui.commandNum = 0; // makes sure the cursor goes back to default pointing at "New Game"
+
+                    }
+                }
+            }
+
+        }
+
         // PLAY STATE
         if(gp.gameState == gp.playState) {
 
@@ -38,6 +128,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
             }
             if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
                 rightPressed = true;
+            }
+            if(code == KeyEvent.VK_SHIFT) { // SPRINTING
+                shiftPressed = true;
             }
             if(code == KeyEvent.VK_P) {
                 gp.gameState = gp.pauseState;
@@ -90,6 +183,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = false;
+        }
+        if(code == KeyEvent.VK_SHIFT) {
+            shiftPressed = false;
         }
 
     }

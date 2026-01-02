@@ -16,6 +16,7 @@ public class Player extends Entity{
     public final int screenY;
     public int hasKey = 0;
     int standCounter = 0;
+    int sprintCounter = 0; // 2 seconds of sprinting till no more stamina
 
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
@@ -72,6 +73,30 @@ public class Player extends Entity{
             }
             else if(keyH.rightPressed == true) {
                 direction = "right";
+            }
+
+            // SPRINTING MECHANICS
+            if(keyH.shiftPressed == true) {
+                sprintCounter++;
+                System.out.println(sprintCounter);
+                if(sprintCounter < 180) { // if sprintCounter is less than 3 seconds then sprint
+                    System.out.println("SPRINTING");
+                    speed = 6;
+                }
+                else if (sprintCounter > 180 && sprintCounter < 360){ // BE TIRED FOR 3 SECONDS
+                    System.out.println("IM TIRED");
+                    speed = 4; // STAYS AT NORMAL SPEED DURING TIRED DURATION
+                }
+                else if (sprintCounter > 360) { // ONCE PLAYER RESTED FOR 3 SECONDS, START RUNNING
+                    sprintCounter = 0;
+                }
+            }
+            else { // IF SHIFT KEY NOT BEING PRESSED PLAYER SHOULD STILL BE RESTING
+                if(sprintCounter > 0) { // MAKES SURE SPRINTCOUNTER < 0 BECAUSE THAT WOULD BREAK THE SPRINT AND TIRED PERIODS
+                    sprintCounter--;
+                }
+                speed = 4;
+
             }
 
             // CHECK TILE COLLISON
@@ -166,12 +191,6 @@ public class Player extends Entity{
                     else {
                         gp.ui.showMessage("You need a key!");
                     }
-                    break;
-                case "Boots": // makes player faster
-                    gp.playSE(3);
-                    gp.obj[i] = null;
-                    speed += 1;
-                    gp.ui.showMessage("Speed!");
                     break;
                 case "Chest":
                     gp.ui.gameFinished = true;

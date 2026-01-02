@@ -35,9 +35,6 @@ public class AssetSetter {
         gp.obj[5].worldX = 36 * gp.tileSize;
         gp.obj[5].worldY = 63 * gp.tileSize;
 
-        gp.obj[4] = new OBJ_Boots(gp);
-        gp.obj[4].worldX = 40 * gp.tileSize;
-        gp.obj[4].worldY = 44 * gp.tileSize;
     }
     public void setNPC() {
         gp.npc[0] = new NPC_Ayden(gp);
