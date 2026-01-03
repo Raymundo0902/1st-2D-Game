@@ -22,6 +22,8 @@ public class UI {
     public String currentDialogue = "";
     public int commandNum = 0; // arrow pointer of selection in main menu
     public int titleScreenState = 0; // 0: the first screen, 1: the second screen
+    public int imgSpriteCounter = 0;
+    public int imgSpriteNum = 1;
 
     public UI (GamePanel gp) {
         this.gp = gp;
@@ -72,17 +74,17 @@ public class UI {
     }
 
     public void drawTitleScreen(){
-        // TITLE NAME & FONT
-        if(titleScreenState == 0) { // main menu
-            BufferedImage image = null;
+        if(titleScreenState == 0) { // MAIN MENU
+            BufferedImage menuImage = null;
             try{
-                image = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/Title Screen.png"));
+                menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/Title Screen.png"));
 
             }catch (IOException e){
                 e.printStackTrace();
             }
 
-            g2.drawImage(image,0, 0, gp.screenWidth, gp.screenHeight, null);
+            // MAIN MENU, TITLE AND FONT
+            g2.drawImage(menuImage,0, 0, gp.screenWidth, gp.screenHeight, null);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 95F));
             String text = "Pinewood Camp";
             int x = getXforCenteredText(text);
@@ -142,41 +144,54 @@ public class UI {
 
         else if(titleScreenState == 1) { // choose character menu
             g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(42F));
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD,60F));
 
-            String text = "Select your class!";
-            int x = getXforCenteredText(text);
-            int y = gp.tileSize*3;
+            String text = "Select your Character";
+            int x = gp.tileSize/2;
+            int y = gp.tileSize*2;
             g2.drawString(text, x ,y);
 
             // PLAYER SELECTION
             text = "Sally";
-            x = getXforCenteredText(text);
-            y += gp.tileSize*3;
-            g2.drawString(text, x, y);
-            if(commandNum == 0) {
-                g2.drawString(">", x-gp.tileSize, y);
+            x = gp.tileSize;
+            y += gp.tileSize*2;
+            g2.drawString(text, x+gp.tileSize, y);
+            if(commandNum == 0) { // IF ARROW POINTING AT SALLY, DO THE BELOW:
+//                g2.drawImage(gp.player.down1, x*10, y, gp.tileSize*6,gp.tileSize*6, null); // DEFAULT POSITION
+                g2.drawString(">", x, y);
+                imgSpriteCounter++; // SWITCH SPRITE VARIATIONS EVERY 12 FRAMES
+                if(imgSpriteCounter > 12) {
+                    if(imgSpriteNum == 1) {
+                        imgSpriteNum = 2;
+                    }
+                    else if(imgSpriteNum == 2) {
+                        imgSpriteNum = 1;
+                    }
+                    imgSpriteCounter = 0;
+                }
+                drawSpriteVariation(imgSpriteNum);
+
             }
 
             text = "Chad";
-            x = getXforCenteredText(text);
-            y += gp.tileSize;
-            g2.drawString(text, x, y);
+            x = gp.tileSize;
+            y += gp.tileSize+10;
+            g2.drawString(text, x+gp.tileSize, y);
             if(commandNum == 1) {
-                g2.drawString(">", x-gp.tileSize, y);
+                g2.drawString(">", x, y);
             }
 
             text = "Shipley";
-            x = getXforCenteredText(text);
-            y += gp.tileSize;
-            g2.drawString(text, x, y);
+            x = gp.tileSize;
+            y += gp.tileSize+10;
+            g2.drawString(text, x+gp.tileSize, y);
             if(commandNum == 2) {
-                g2.drawString(">", x-gp.tileSize, y);
+                g2.drawString(">", x, y);
             }
 
             text = "Back";
-            x = getXforCenteredText(text);
-            y += gp.tileSize*2;
+            x = gp.tileSize;
+            y += gp.tileSize*5;
             g2.drawString(text, x, y);
             if(commandNum == 3) {
                 g2.drawString(">", x-gp.tileSize, y);
@@ -184,6 +199,19 @@ public class UI {
 
         }
 
+    }
+
+    public void drawSpriteVariation(int spriteNum) {
+        int x = gp.tileSize;
+        int y = gp.tileSize*4;
+
+        switch(spriteNum) {
+            case 1:
+                g2.drawImage(gp.player.down1, x*9, y, gp.tileSize*6,gp.tileSize*6, null);
+                break;
+            case 2:
+                g2.drawImage(gp.player.down2, x*9, y, gp.tileSize*6, gp.tileSize*6, null);
+        }
     }
 
 
