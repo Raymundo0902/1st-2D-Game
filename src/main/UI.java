@@ -1,6 +1,8 @@
 package main;
 
+import object.OBJ_Heart;
 import object.OBJ_Key;
+import object.SuperObject;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,6 +16,7 @@ public class UI {
     GamePanel gp;
     Graphics2D g2;
     Font maruMonica;
+    BufferedImage heart_full, heart_half, heart_blank;
     //BufferedImage keyImage;
     public boolean messageOn = false;
     public String message = "";
@@ -38,6 +41,11 @@ public class UI {
         }
        // OBJ_Key key = new OBJ_Key(gp);
        // keyImage = key.image;
+        // CREATE HUD OBJECT
+        SuperObject heart = new OBJ_Heart(gp);
+        heart_full = heart.image;
+        heart_half = heart.image2;
+        heart_blank = heart.image3;
     }
 
     public void showMessage(String text) {
@@ -60,17 +68,48 @@ public class UI {
 
         // PLAY STATE
         if(gp.gameState == gp.playState) {
-
+            drawPlayerLife();
         }
         // PAUSE STATE
         if(gp.gameState == gp.pauseState) {
+            drawPlayerLife();
             drawPauseScreen();
         }
         // DIALOGUE STATE
         if(gp.gameState == gp.dialogueState) {
+            drawPlayerLife();
             drawDialogueScreen();
         }
 
+    }
+
+    public void drawPlayerLife() {
+        int x = gp.tileSize/2;
+        int y = gp.tileSize/2;
+        int i = 0;
+        gp.player.curLife = 2;
+
+        // DRAW MAX HEARTS
+        while(i < gp.player.maxLife/2) {
+            g2.drawImage(heart_blank, x, y, null);
+            i++;
+            x+= gp.tileSize;
+        }
+        // RESET VALUES
+        x = gp.tileSize/2;
+        y = gp.tileSize/2;
+        i = 0;
+
+        // DRAW CURRENT LIFE -- THESE IMAGES DRAW ON TOP OF THE BLANK HEARTS SO WHEN CONDITIONS DONT RUN THE BLANK HEARTS SHOW UP
+        while(i < gp.player.curLife) {
+            g2.drawImage(heart_half, x, y, null);
+            i++;
+            if(i < gp.player.curLife) {
+                g2.drawImage(heart_full, x, y, null);
+            }
+            i++;
+            x+= gp.tileSize;
+        }
     }
 
     public void drawTitleScreen(){

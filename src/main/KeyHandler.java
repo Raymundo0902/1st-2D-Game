@@ -46,12 +46,12 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 if(code == KeyEvent.VK_ENTER) {
                     // NEW GAME
                     if(gp.ui.commandNum == 0) {
-                        gp.playSE(4); // SOUND EFFECT WHEN PRESSING ENTER
+                        gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
                         gp.ui.titleScreenState = 1;
                     }
                     // LOAD GAME
                     if(gp.ui.commandNum == 1) {
-                        gp.playSE(4); // SOUND EFFECT WHEN PRESSING ENTER
+                        gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
 
                     }
                     // QUIT
@@ -79,29 +79,21 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
                 if(code == KeyEvent.VK_ENTER) {
                     // SELECT SALLY
-                    gp.playSE(4); // SOUND EFFECT WHEN PRESSING ENTER
+                    gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
                     if (gp.ui.commandNum == 0) {
                         System.out.println("Do specific stuff for Sally");
                         gp.gameState = gp.playState;
-                        gp.stopMusic();
-                        gp.playMusic(6); // play camping/forest ambience like night time
-
                     }
                     // SELECT CHAD
                     if (gp.ui.commandNum == 1) {
 
                         System.out.println("Do specific stuff for Chad");
                         gp.gameState = gp.playState;
-                        gp.stopMusic();
-                        gp.playMusic(6);
                     }
                     // SELECT SHIPLEY
                     if (gp.ui.commandNum == 2) {
                         System.out.println("Do specific stuff for Shipley");
                         gp.gameState = gp.playState;
-                        gp.stopMusic();
-                        gp.playMusic(6);
-
                     }
                     // GO BACK TO MAIN SCREEN
                     if (gp.ui.commandNum == 3) {
