@@ -74,17 +74,20 @@ public class UI {
     }
 
     public void drawTitleScreen(){
-        if(titleScreenState == 0) { // MAIN MENU
-            BufferedImage menuImage = null;
-            try{
-                menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/Title Screen.png"));
-
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-
-            // MAIN MENU, TITLE AND FONT
+        // DRAW MAIN MENU BACKGROUND IMAGE
+        BufferedImage menuImage = null;
+        try{
+            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen.png"));
             g2.drawImage(menuImage,0, 0, gp.screenWidth, gp.screenHeight, null);
+
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        if(titleScreenState == 0) { // MAIN MENU
+
+            // TITLE AND FONT
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 95F));
             String text = "Pinewood Camp";
             int x = getXforCenteredText(text);
@@ -157,7 +160,6 @@ public class UI {
             y += gp.tileSize*2;
             g2.drawString(text, x+gp.tileSize, y);
             if(commandNum == 0) { // IF ARROW POINTING AT SALLY, DO THE BELOW:
-//                g2.drawImage(gp.player.down1, x*10, y, gp.tileSize*6,gp.tileSize*6, null); // DEFAULT POSITION
                 g2.drawString(">", x, y);
                 imgSpriteCounter++; // SWITCH SPRITE VARIATIONS EVERY 12 FRAMES
                 if(imgSpriteCounter > 12) {
@@ -179,6 +181,17 @@ public class UI {
             g2.drawString(text, x+gp.tileSize, y);
             if(commandNum == 1) {
                 g2.drawString(">", x, y);
+                imgSpriteCounter++;
+                if(imgSpriteCounter > 12) {
+                    if(imgSpriteNum == 1) {
+                        imgSpriteNum = 2;
+                    }
+                    else if(imgSpriteNum == 2) {
+                        imgSpriteNum = 1;
+                    }
+                    imgSpriteCounter = 0;
+                }
+                drawSpriteVariation(imgSpriteNum);
             }
 
             text = "Shipley";
@@ -187,6 +200,17 @@ public class UI {
             g2.drawString(text, x+gp.tileSize, y);
             if(commandNum == 2) {
                 g2.drawString(">", x, y);
+                imgSpriteCounter++;
+                if(imgSpriteCounter > 12) {
+                    if(imgSpriteNum == 1) {
+                        imgSpriteNum = 2;
+                    }
+                    else if(imgSpriteNum == 2) {
+                        imgSpriteNum = 1;
+                    }
+                    imgSpriteCounter = 0;
+                }
+                drawSpriteVariation(imgSpriteNum);
             }
 
             text = "Back";
