@@ -87,7 +87,6 @@ public class UI {
         int x = gp.tileSize/2;
         int y = gp.tileSize/2;
         int i = 0;
-        gp.player.curLife = 2;
 
         // DRAW MAX HEARTS
         while(i < gp.player.maxLife/2) {

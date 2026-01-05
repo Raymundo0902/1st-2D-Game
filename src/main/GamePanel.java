@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public UI ui = new UI(this);
+    public EventHandler eventH = new EventHandler(this);
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
 
     // ENTITY AND OBJECT
