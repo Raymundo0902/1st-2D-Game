@@ -17,7 +17,6 @@ public class UI {
     Graphics2D g2;
     Font maruMonica;
     BufferedImage heart_full, heart_half, heart_blank;
-    //BufferedImage keyImage;
     public boolean messageOn = false;
     public String message = "";
     int messageTime = 0;
@@ -39,8 +38,6 @@ public class UI {
         } catch (IOException e) {
             e.printStackTrace();
         }
-       // OBJ_Key key = new OBJ_Key(gp);
-       // keyImage = key.image;
         // CREATE HUD OBJECT
         SuperObject heart = new OBJ_Heart(gp);
         heart_full = heart.image;
@@ -138,7 +135,7 @@ public class UI {
             g2.setColor(Color.white);
             g2.drawString(text, x, y);
 
-            String text2 = "Massacre";
+            String text2 = "Stalker";
             int x2 = getXforCenteredText(text2);
             int y2 = gp.tileSize*4;
 
@@ -148,11 +145,6 @@ public class UI {
             // MAIN COLOR
             g2.setColor(Color.red);
             g2.drawString(text2, x2, y2);
-
-//            // CHARACTER IMAGE
-//            x = gp.screenWidth/2 - (gp.tileSize*2)/2; // makes sure sprite always is drawn in the middle, despite its size change
-//            y += gp.tileSize*2;
-//            g2.drawImage(gp.player.down1, x, y+20, gp.tileSize*2, gp.tileSize*2, null);
 
             // MENU
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
