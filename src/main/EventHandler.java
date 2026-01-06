@@ -22,9 +22,7 @@ public class EventHandler {
 
     public void checkEvent() {
         if(hit(22,56, "any") == true) {
-            System.out.println("burning!");
-            gp.player.curLife -= 1;
-            // event happens
+            // event happens: fire burns you-- remove hp, etc. USE METHOD IF YOU'RE GOING TO IMPLEMENT MULTIPLE EVENTS HERE
         }
 
     }

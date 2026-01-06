@@ -47,7 +47,7 @@ public class Player extends Entity{
         direction = "down";
 
         // PLAYER STATUS
-        maxLife = 6; // 2 lifes = one full heart
+        maxLife = 12; // 2 lifes = one full heart
         curLife = maxLife; // players current life
     }
     public void getPlayerImage() {
@@ -118,6 +118,7 @@ public class Player extends Entity{
             // CHECK EVENT COLLISION
             gp.eventH.checkEvent();
 
+            gp.keyH.enterPressed = false;
 
             // IF COLLISON IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false) {
@@ -216,7 +217,6 @@ public class Player extends Entity{
                 gp.npc[i].speak();
             }
         }
-        gp.keyH.enterPressed = false;
     }
 
 
