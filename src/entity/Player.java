@@ -262,10 +262,11 @@ public class Player extends Entity{
                 }
                 break;
         }
+
         g2.drawImage(image, screenX, screenY,null);
         // COLLISION HITBOX VISUAL (NOT NEEDED)
-//        g2.setColor(Color.red);
-//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        g2.setColor(Color.red);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
     }
 }

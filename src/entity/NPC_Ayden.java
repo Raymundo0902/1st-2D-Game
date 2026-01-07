@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 
+import java.awt.*;
 import java.util.Random;
 
 public class NPC_Ayden extends Entity {
@@ -13,6 +14,14 @@ public class NPC_Ayden extends Entity {
         speed = 2;
         getNPCImage();
         setDialogue();
+
+        solidArea = new Rectangle(); // values below are what parts of the character will be solid
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x; // reason we create solidAreaDefaultX,Y is so we can recall the default values of solidArea.x and y because we will change solidArea.x and y later.
+        solidAreaDefaultY = solidArea.y;
+        solidArea.width = 32;
+        solidArea.height = 32;
     }
     public void getNPCImage() {
 

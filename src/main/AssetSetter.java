@@ -34,13 +34,15 @@ public class AssetSetter {
         gp.obj[5] = new OBJ_Door2(gp); // faces horizontally
         gp.obj[5].worldX = 36 * gp.tileSize;
         gp.obj[5].worldY = 63 * gp.tileSize;
-
     }
+
     public void setNPC() {
         gp.npc[0] = new NPC_Ayden(gp);
         gp.npc[0].worldX = gp.tileSize*30;
         gp.npc[0].worldY = gp.tileSize*70;
+
+        gp.npc[1] = new NPC_Ayden(gp);
+        gp.npc[1].worldX = gp.tileSize*28;
+        gp.npc[1].worldY = gp.tileSize*68;
     }
-
-
 }

@@ -15,7 +15,7 @@ public class Entity {
     public int worldX, worldY;
     public int speed;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2; // BufferedImage describes an Image with an accessible buffer of image data. (we use this to store our image files)
-    public String direction;
+    public String direction = "down";
     public int spriteCounter = 0;
     public int spriteNum = 1;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48); // create a invisible or abstract rectangle and store data like x,y width and height. is the default solidArea but can be changed within the children classes
@@ -24,6 +24,9 @@ public class Entity {
     public int actionLockCounter = 0; // USUALLY FOR NPC, MAKE THEM LOCK INTO A IMAGE FOR A SPECIFIC AMOUNT OF FRAMES
     String dialogues[] = new String[20];
     int dialogueIndex = 0;
+    public BufferedImage image, image2, image3;
+    public String name;
+    public boolean collision = false;
 
     // CHARACTER STATUS
     public int maxLife;
@@ -32,6 +35,7 @@ public class Entity {
     public Entity(GamePanel gp) {
         this.gp = gp;
     }
+
 
     public void setAction() {
 
@@ -153,6 +157,9 @@ public class Entity {
             }
 
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            // COLLISION VISUALS
+            g2.setColor(Color.red);
+            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
 
     }

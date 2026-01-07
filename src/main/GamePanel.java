@@ -2,11 +2,13 @@ package main;
 
 import entity.Entity;
 import entity.Player;
-import object.SuperObject;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -41,8 +43,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     // ENTITY AND OBJECT
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler reference to objects inside the Player class. so Player class can get the things it needs from both classes.
-    public SuperObject obj[] = new SuperObject[10]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
+    public Entity obj[] = new Entity[10]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
     public Entity npc[] = new Entity[10];
+    // ARRAYLISTS STORES OBJECTS ONLY, STRING OBJECTS, IN OUR CASE, ENTITY OBJECTS
+    ArrayList<Entity> entityArrList = new ArrayList<>(); // store all entities: players, npc's, obj in this list.
 
     // GAME STATE
     public int gameState; // game state is like a title screen state, play, pause, etc
@@ -66,8 +70,6 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setNPC();
         gameState = titleState;
         playMusic(6); // play main menu music -- VHS 80s-90s MUSIC
-
-
     }
 
 
@@ -150,29 +152,43 @@ public class GamePanel extends JPanel implements Runnable {
             // TILE
             tileM.draw(g2); // put this above player because if not, background tiles will hide the player character
 
+            // ADD ENTITIES TO THE LIST
+            entityArrList.add(player);
 
-            // OBJECT. WE USE FOR LOOP BECAUSE IT CAN BECOME A LONG LINE OF CODES FOR JUST OBJECTS IF WE HAVE MANY TO DISPLAY
-            for(int i = 0; i < obj.length; i++) { // length is 10 so scan from 0-9 and check if there's any object inside the array
-                if(obj[i] != null) { // checks if slot is null or not
-                    obj[i].draw(g2, this);
-                }
-            }
-            // NPC
             for(int i = 0; i < npc.length; i++) {
                 if(npc[i] != null) {
-                    npc[i].draw(g2);
+                    entityArrList.add(npc[i]);
                 }
             }
 
-            // PLAYER
-            player.draw(g2); // when paintComponent called, so it player.draw() which will draw the character. make it more cleaner code
+            for(int i = 0; i < obj.length; i++) {
+                if(obj[i] != null) {
+                    entityArrList.add(obj[i]);
+                }
+            }
 
+            // SORT
+            Collections.sort(entityArrList, new Comparator<Entity>() {
+
+                    @Override
+                    public int compare(Entity e1, Entity e2) {
+
+                        int result = Integer.compare(e1.worldY, e2.worldY);
+                        return result;
+                    }
+            });
+
+            // DRAW ENTITIES
+            for(int i = 0; i < entityArrList.size(); i++) {
+                entityArrList.get(i).draw(g2);
+            }
+
+            // EMPTY ENTITY LIST - OTHERWISE THE entityArrList GETS LARGER IN EVERY LOOP.
+            entityArrList.clear();
 
             // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
             ui.draw(g2);
-
         }
-
 
         // DEBUG
         if(keyH.checkDrawTime == true) {
