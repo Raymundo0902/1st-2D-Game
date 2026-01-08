@@ -152,7 +152,7 @@ public class GamePanel extends JPanel implements Runnable {
             // TILE
             tileM.draw(g2); // put this above player because if not, background tiles will hide the player character
 
-            // ADD ENTITIES TO THE LIST
+            // ADD ALL ENTITIES TO THE ARRAYLIST
             entityArrList.add(player);
 
             for(int i = 0; i < npc.length; i++) {
@@ -168,11 +168,11 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             // SORT
-            Collections.sort(entityArrList, new Comparator<Entity>() {
-
+            Collections.sort(entityArrList, new Comparator<Entity>() { // COMPUTER DOESN'T LOOK AT LIST ALL AT ONCE. 2 ENTITIES AT A TIME THEN ASKS COMPARATOR WHICH SHOULD BE DRAWN FIRST
+                    // compare is a method of the Comparator interface.
                     @Override
-                    public int compare(Entity e1, Entity e2) {
-
+                    public int compare(Entity e1, Entity e2) { // acts as referee. returns: -1 if e1 is less than e2(put e1 earlier in list/draw first),
+                                                               // 1 if e1 is greater than e2(put e1 later in list/draw last), 0 if e1 is equal to e2-- in this case, relative order doesn't change.
                         int result = Integer.compare(e1.worldY, e2.worldY);
                         return result;
                     }
@@ -180,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             // DRAW ENTITIES
             for(int i = 0; i < entityArrList.size(); i++) {
-                entityArrList.get(i).draw(g2);
+                entityArrList.get(i).draw(g2); // EX: if i = 0 and in the entityArrList.get(0) points to player, it essentially simplifies to player.draw(g2). if npc/object, then its basically saying npc[0].draw(g2).
             }
 
             // EMPTY ENTITY LIST - OTHERWISE THE entityArrList GETS LARGER IN EVERY LOOP.
