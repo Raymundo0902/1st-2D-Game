@@ -24,6 +24,7 @@ public class UI {
     public int titleScreenState = 0; // 0: the first screen, 1: the second screen
     public int imgSpriteCounter = 0;
     public int imgSpriteNum = 1;
+    public int playerType; // 1 for sally, 2 for chad
 
     public UI (GamePanel gp) {
         this.gp = gp;
@@ -189,6 +190,7 @@ public class UI {
             g2.drawString(text, x+gp.tileSize, y);
             if(commandNum == 0) { // IF ARROW POINTING AT SALLY, DO THE BELOW:
                 g2.drawString(">", x, y);
+                playerType = 1;
                 imgSpriteCounter++; // SWITCH SPRITE VARIATIONS EVERY 12 FRAMES
                 if(imgSpriteCounter > 12) {
                     if(imgSpriteNum == 1) {
@@ -209,6 +211,7 @@ public class UI {
             g2.drawString(text, x+gp.tileSize, y);
             if(commandNum == 1) {
                 g2.drawString(">", x, y);
+                playerType = 2;
                 imgSpriteCounter++;
                 if(imgSpriteCounter > 12) {
                     if(imgSpriteNum == 1) {
@@ -257,13 +260,27 @@ public class UI {
         int x = gp.tileSize;
         int y = gp.tileSize*4;
 
-        switch(spriteNum) {
-            case 1:
-                g2.drawImage(gp.player.down1, x*9, y, gp.tileSize*6,gp.tileSize*6, null);
-                break;
-            case 2:
-                g2.drawImage(gp.player.down2, x*9, y, gp.tileSize*6, gp.tileSize*6, null);
+        if(playerType == 1) {
+            BufferedImage sallydown1 = gp.player.setup("/girl_player/sally_down1");
+            BufferedImage sallydown2 = gp.player.setup("/girl_player/sally_down2");
+            switch(spriteNum) {
+                case 1:
+                    g2.drawImage(sallydown1, x*9, y, gp.tileSize*7,gp.tileSize*7, null);
+                    break;
+                case 2:
+                    g2.drawImage(sallydown2, x*9, y, gp.tileSize*7, gp.tileSize*7, null);
+            }
         }
+        else if(playerType == 2) {
+            switch(spriteNum) {
+                case 1:
+                    g2.drawImage(gp.player.down1, x*9, y, gp.tileSize*6,gp.tileSize*6, null);
+                    break;
+                case 2:
+                    g2.drawImage(gp.player.down2, x*9, y, gp.tileSize*6, gp.tileSize*6, null);
+            }
+        }
+
     }
 
 
