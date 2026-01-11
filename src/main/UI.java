@@ -261,14 +261,29 @@ public class UI {
         int y = gp.tileSize*4;
 
         if(playerType == 1) {
-            BufferedImage sallydown1 = gp.player.setup("/girl_player/sally_down1");
-            BufferedImage sallydown2 = gp.player.setup("/girl_player/sally_down2");
+
+            BufferedImage sallydown1 = null;
+            try{
+                sallydown1 = ImageIO.read(getClass().getResourceAsStream(  "/girl_player/sally_down1.png"));
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+            BufferedImage sallydown2 = null;
+            try{
+                sallydown2 = ImageIO.read(getClass().getResourceAsStream(  "/girl_player/sally_down2.png"));
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
             switch(spriteNum) {
                 case 1:
-                    g2.drawImage(sallydown1, x*9, y, gp.tileSize*7,gp.tileSize*7, null);
+                    g2.drawImage(sallydown1, x*9, y-30, gp.tileSize*7,gp.tileSize*7, null);
                     break;
                 case 2:
-                    g2.drawImage(sallydown2, x*9, y, gp.tileSize*7, gp.tileSize*7, null);
+                    g2.drawImage(sallydown2, x*9, y-30, gp.tileSize*7, gp.tileSize*7, null);
             }
         }
         else if(playerType == 2) {
