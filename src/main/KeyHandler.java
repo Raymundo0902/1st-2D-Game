@@ -66,13 +66,13 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 if(code == KeyEvent.VK_W) {
                     gp.ui.commandNum--;
                     if(gp.ui.commandNum < 0) { // keeps arrow from disappearing from select menu
-                        gp.ui.commandNum = 3;
+                        gp.ui.commandNum = 2;
                     }
                 }
 
                 if(code == KeyEvent.VK_S) {
                     gp.ui.commandNum++;
-                    if(gp.ui.commandNum > 3) {
+                    if(gp.ui.commandNum > 2) {
                         gp.ui.commandNum = 0;
                     }
                 }
@@ -90,13 +90,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                         System.out.println("Do specific stuff for Chad");
                         gp.gameState = gp.playState;
                     }
-                    // SELECT SHIPLEY
-                    if (gp.ui.commandNum == 2) {
-                        System.out.println("Do specific stuff for Shipley");
-                        gp.gameState = gp.playState;
-                    }
+
                     // GO BACK TO MAIN SCREEN
-                    if (gp.ui.commandNum == 3) {
+                    if (gp.ui.commandNum == 2) {
                         gp.ui.titleScreenState = 0;
                         gp.ui.commandNum = 0; // makes sure the cursor goes back to default pointing at "New Game"
 

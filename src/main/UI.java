@@ -225,30 +225,11 @@ public class UI {
                 drawSpriteVariation(imgSpriteNum);
             }
 
-            text = "Shipley";
-            x = gp.tileSize;
-            y += gp.tileSize+10;
-            g2.drawString(text, x+gp.tileSize, y);
-            if(commandNum == 2) {
-                g2.drawString(">", x, y);
-                imgSpriteCounter++;
-                if(imgSpriteCounter > 12) {
-                    if(imgSpriteNum == 1) {
-                        imgSpriteNum = 2;
-                    }
-                    else if(imgSpriteNum == 2) {
-                        imgSpriteNum = 1;
-                    }
-                    imgSpriteCounter = 0;
-                }
-                drawSpriteVariation(imgSpriteNum);
-            }
-
             text = "Back";
             x = gp.tileSize;
             y += gp.tileSize*5;
             g2.drawString(text, x, y);
-            if(commandNum == 3) {
+            if(commandNum == 2) {
                 g2.drawString(">", x-gp.tileSize, y);
             }
 
