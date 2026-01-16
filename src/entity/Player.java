@@ -17,8 +17,7 @@ public class Player extends Entity{
     public int hasKey = 0;
     int standCounter = 0;
     int sprintCounter = 0; // 2 seconds of sprinting till no more stamina
-    public boolean invincible;
-    public int invincibleCounter = 0; // after taking damage, player becomes invisible for a bit
+
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -156,21 +155,21 @@ public class Player extends Entity{
             }
 
         }
-        // this needs to be outside key statement so counter increase even when player isn't moving
-        if(invincible == true) {
-            invincibleCounter++;
-            if(invincibleCounter > 60) {
-                invincible = false;
-                invincibleCounter = 0;
-            }
-        }
-
         else {
             standCounter++; // this starts to increment by one once theres no wasd or arrow key detection.
 
             if(standCounter == 20) { // standCounter and this if statement helps stop awkward reset when its making the sprite switchover animation--
                 spriteNum = 1;      //  looks natural resetting back to normal position. gives it 19 frames to stay on the animation before resetting back to normal sprite state
                 standCounter = 0;
+            }
+        }
+
+        // this needs to be outside key statement so counter increase even when player isn't moving
+        if(invincible == true) {
+            invincibleCounter++;
+            if(invincibleCounter > 60) {
+                invincible = false;
+                invincibleCounter = 0;
             }
         }
 

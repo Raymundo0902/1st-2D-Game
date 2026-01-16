@@ -22,6 +22,8 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY; // the blueprint and the subclasses will have their own values
     public boolean collisionOn = false;
     public int actionLockCounter = 0; // USUALLY FOR NPC, MAKE THEM LOCK INTO A IMAGE FOR A SPECIFIC AMOUNT OF FRAMES
+    public boolean invincible;
+    public int invincibleCounter = 0; // after taking damage, player becomes invisible for a bit
     String dialogues[] = new String[20];
     int dialogueIndex = 0;
     public BufferedImage image, image2, image3;
