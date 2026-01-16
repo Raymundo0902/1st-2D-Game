@@ -72,6 +72,8 @@ public class Entity {
         collisionOn = false;
         gp.cChecker.checkTile(this); // if finds wall collision = true
         gp.cChecker.checkObject(this, false); // if finds specific solid object, collision = true
+        gp.cChecker.checkEntity(this, gp.npc);
+        gp.cChecker.checkEntity(this, gp.monster);
         gp.cChecker.checkPlayer(this); // if hits player, set collision = true
 
         // IF COLLISON IS FALSE, PLAYER CAN MOVE

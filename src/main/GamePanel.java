@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler reference to objects inside the Player class. so Player class can get the things it needs from both classes.
     public Entity obj[] = new Entity[10]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
     public Entity npc[] = new Entity[10];
+    public Entity monster[] = new Entity[20]; // num of monsters we can display at the same time not the total monsters we can create
     // ARRAYLISTS STORES OBJECTS ONLY, STRING OBJECTS, IN OUR CASE, ENTITY OBJECTS
     ArrayList<Entity> entityArrList = new ArrayList<>(); // store all entities: players, npc's, obj in this list.
 
@@ -68,8 +69,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         aSetter.setObject();
         aSetter.setNPC();
-        gameState = titleState;
+        aSetter.setMonster();
         playMusic(6); // play main menu music -- VHS 80s-90s MUSIC
+        gameState = titleState;
     }
 
 
@@ -125,6 +127,12 @@ public class GamePanel extends JPanel implements Runnable {
                     npc[i].update();
                 }
             }
+            // MONSTER
+            for(int i = 0; i < monster.length; i++) {
+                if(monster[i] != null) {
+                    monster[i].update();
+                }
+            }
         }
         if(gameState == pauseState) {
             // nothing, no updating player info while paused
@@ -158,6 +166,12 @@ public class GamePanel extends JPanel implements Runnable {
             for(int i = 0; i < npc.length; i++) {
                 if(npc[i] != null) {
                     entityArrList.add(npc[i]);
+                }
+            }
+
+            for(int i = 0; i < monster.length; i++) {
+                if(monster[i] != null) {
+                    entityArrList.add(monster[i]);
                 }
             }
 

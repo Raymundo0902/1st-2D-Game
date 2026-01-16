@@ -1,6 +1,7 @@
 package main;
 
 import entity.NPC_Ayden;
+import monster.MON_EVILBILL;
 import object.*;
 
 public class AssetSetter {
@@ -40,9 +41,11 @@ public class AssetSetter {
         gp.npc[0] = new NPC_Ayden(gp);
         gp.npc[0].worldX = gp.tileSize*30;
         gp.npc[0].worldY = gp.tileSize*70;
+    }
 
-        gp.npc[1] = new NPC_Ayden(gp);
-        gp.npc[1].worldX = gp.tileSize*28;
-        gp.npc[1].worldY = gp.tileSize*68;
+    public void setMonster() {
+        gp.monster[0] = new MON_EVILBILL(gp);
+        gp.monster[0].worldX = gp.tileSize*30;
+        gp.monster[0].worldY = gp.tileSize*40;
     }
 }
