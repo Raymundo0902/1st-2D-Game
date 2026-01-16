@@ -45,7 +45,7 @@ public class AssetSetter {
 
     public void setMonster() {
         gp.monster[0] = new MON_EVILBILL(gp);
-        gp.monster[0].worldX = gp.tileSize*30;
-        gp.monster[0].worldY = gp.tileSize*40;
+        gp.monster[0].worldX = gp.tileSize*26;
+        gp.monster[0].worldY = gp.tileSize*43;
     }
 }

@@ -17,7 +17,8 @@ public class Player extends Entity{
     public int hasKey = 0;
     int standCounter = 0;
     int sprintCounter = 0; // 2 seconds of sprinting till no more stamina
-
+    public boolean invincible;
+    public int invincibleCounter = 0; // after taking damage, player becomes invisible for a bit
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -117,7 +118,7 @@ public class Player extends Entity{
 
             // CHECK MONSTER COLLISION
             int monIndex = gp.cChecker.checkEntity(this, gp.monster);
-
+            contactMonster(monIndex);
 
             // CHECK EVENT COLLISION
             gp.eventH.checkEvent();
@@ -155,6 +156,15 @@ public class Player extends Entity{
             }
 
         }
+        // this needs to be outside key statement so counter increase even when player isn't moving
+        if(invincible == true) {
+            invincibleCounter++;
+            if(invincibleCounter > 60) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
         else {
             standCounter++; // this starts to increment by one once theres no wasd or arrow key detection.
 
@@ -223,7 +233,16 @@ public class Player extends Entity{
         }
     }
 
+    public void contactMonster(int i) {
 
+        if (i != 999) {
+
+            if(invincible == false) {
+                curLife -= 1;
+                invincible = true;
+            }
+        }
+    }
 
     public void draw(Graphics2D g2) {
 
@@ -267,10 +286,22 @@ public class Player extends Entity{
                 break;
         }
 
+        if(invincible == true) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f)); // makes player look kinda invincible
+        }
+
         g2.drawImage(image, screenX, screenY,null);
-        // COLLISION HITBOX VISUAL (NOT NEEDED)
+
+        // RESET ALPHA
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
+
+        // COLLISION HITBOX VISUAL (DEBUG)
         g2.setColor(Color.red);
         g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
-
+        // INVINCIBLE COUNTER (DEBUG)
+        g2.setFont(new Font("Arial", Font.PLAIN, 25));
+        g2.setColor(Color.white);
+        g2.drawString("Invincible: +"+invincibleCounter, 48, 90);
     }
 }
