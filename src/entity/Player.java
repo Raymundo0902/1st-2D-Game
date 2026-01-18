@@ -64,7 +64,8 @@ public class Player extends Entity{
 
 
     public void update() { // this method gets called 60x per second
-        if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) { // without this, player will move without stopping
+        if (keyH.upPressed == true || keyH.downPressed == true ||
+            keyH.leftPressed == true || keyH.rightPressed == true) { // without this, player will move without stopping
 
             if(keyH.upPressed == true) {
                 direction = "up";
