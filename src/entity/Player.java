@@ -65,7 +65,7 @@ public class Player extends Entity{
 
     public void update() { // this method gets called 60x per second
         if (keyH.upPressed == true || keyH.downPressed == true ||
-            keyH.leftPressed == true || keyH.rightPressed == true) { // without this, player will move without stopping
+            keyH.leftPressed == true || keyH.rightPressed == true || keyH.enterPressed == true){ // without this, player will move without stopping
 
             if(keyH.upPressed == true) {
                 direction = "up";
@@ -123,26 +123,18 @@ public class Player extends Entity{
             // CHECK EVENT COLLISION
             gp.eventH.checkEvent();
 
-            gp.keyH.enterPressed = false;
-
             // IF COLLISON IS FALSE, PLAYER CAN MOVE
-            if(collisionOn == false) {
+            if(collisionOn == false && keyH.enterPressed == false) {
 
                 switch(direction) {
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
                 }
             }
+
+            gp.keyH.enterPressed = false;
 
             spriteCounter++;
             if(spriteCounter > 12) { // this means player image changes every 7 frames
