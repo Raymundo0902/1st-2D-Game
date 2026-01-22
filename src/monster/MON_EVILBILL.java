@@ -7,8 +7,12 @@ import java.util.Random;
 
 public class MON_EVILBILL extends Entity {
 
+    GamePanel gp;
+
     public MON_EVILBILL(GamePanel gp) {
         super(gp);
+
+        this.gp = gp; // did it only on this class since its in a different package than the entity one
 
         name = "Evil Bill";
         speed = 4;
@@ -24,18 +28,19 @@ public class MON_EVILBILL extends Entity {
         solidAreaDefaultY = solidArea.y;
 
         getImage();
+
     }
 
     public void getImage() { // load and scale monster images
 
-        up1 = setup("/monster/monster_up1");
-        up2 = setup("/monster/monster_up2");
-        down1 = setup("/monster/monster_down1");
-        down2 = setup("/monster/monster_down2");
-        left1 = setup("/monster/monster_left1");
-        left2 = setup("/monster/monster_left2");
-        right1 = setup("/monster/monster_right1");
-        right2 = setup("/monster/monster_right2");
+        up1 = setup("/monster/monster_up1", gp.tileSize, gp.tileSize);
+        up2 = setup("/monster/monster_up2", gp.tileSize, gp.tileSize);
+        down1 = setup("/monster/monster_down1", gp.tileSize, gp.tileSize);
+        down2 = setup("/monster/monster_down2", gp.tileSize, gp.tileSize);
+        left1 = setup("/monster/monster_left1", gp.tileSize, gp.tileSize);
+        left2 = setup("/monster/monster_left2", gp.tileSize, gp.tileSize);
+        right1 = setup("/monster/monster_right1", gp.tileSize, gp.tileSize);
+        right2 = setup("/monster/monster_right2", gp.tileSize, gp.tileSize);
     }
     public void setAction() {
 

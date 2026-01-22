@@ -25,14 +25,14 @@ public class NPC_Ayden extends Entity {
     }
     public void getNPCImage() {
 
-        up1 = setup("/npc/ayden_up1");
-        up2 = setup("/npc/ayden_up2");
-        down1 = setup("/npc/ayden_down1");
-        down2 = setup("/npc/ayden_down2");
-        left1 = setup("/npc/ayden_left1");
-        left2 = setup("/npc/ayden_left2");
-        right1 = setup("/npc/ayden_right1");
-        right2 = setup("/npc/ayden_right2");
+        up1 = setup("/npc/ayden_up1", gp.tileSize, gp.tileSize);
+        up2 = setup("/npc/ayden_up2", gp.tileSize, gp.tileSize);
+        down1 = setup("/npc/ayden_down1", gp.tileSize, gp.tileSize);
+        down2 = setup("/npc/ayden_down2", gp.tileSize, gp.tileSize);
+        left1 = setup("/npc/ayden_left1", gp.tileSize, gp.tileSize);
+        left2 = setup("/npc/ayden_left2", gp.tileSize, gp.tileSize);
+        right1 = setup("/npc/ayden_right1", gp.tileSize, gp.tileSize);
+        right2 = setup("/npc/ayden_right2", gp.tileSize, gp.tileSize);
     }
 
     public void setDialogue() {

@@ -12,28 +12,37 @@ import java.io.IOException;
 public class Entity {
 
     GamePanel gp;
-    public int worldX, worldY;
-    public int speed;
-    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2; // BufferedImage describes an Image with an accessible buffer of image data. (we use this to store our image files)
-    public String direction = "down";
-    public int spriteCounter = 0;
-    public int spriteNum = 1;
-    public Rectangle solidArea = new Rectangle(0, 0, 48, 48); // create a invisible or abstract rectangle and store data like x,y width and height. is the default solidArea but can be changed within the children classes
-    public int solidAreaDefaultX, solidAreaDefaultY; // the blueprint and the subclasses will have their own values
-    public boolean collisionOn = false;
-    public int actionLockCounter = 0; // USUALLY FOR NPC, MAKE THEM LOCK INTO A IMAGE FOR A SPECIFIC AMOUNT OF FRAMES
-    public boolean invincible;
-    public int invincibleCounter = 0; // after taking damage, player becomes invisible for a bit
-    String dialogues[] = new String[20];
-    int dialogueIndex = 0;
-    public BufferedImage image, image2, image3;
-    public String name;
-    public boolean collision = false;
-    public int type; // 0 = player, 1 = npc, 2 = monster
 
-    // CHARACTER STATUS
+    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2; // BufferedImage describes an Image with an accessible buffer of image data. (we use this to store our image files)
+    public BufferedImage rakeUp1, rakeDown1, rakeRight1, rakeLeft1;
+    public boolean collision = false;
+    public Rectangle solidArea = new Rectangle(0, 0, 48, 48); // create a invisible or abstract rectangle and store data like x,y width and height. is the default solidArea but can be changed within the children classes
+    public Rectangle rakeArea = new Rectangle(0, 0, 0, 0); // rake grass
+    public int solidAreaDefaultX, solidAreaDefaultY; // the blueprint and the subclasses will have their own values
+    String dialogues[] = new String[20];
+    public BufferedImage image, image2, image3;
+
+    // STATE - collision, location, defaults
+    public boolean collisionOn = false;
+    public boolean invincible = false;
+    public int worldX, worldY;
+    public int spriteNum = 1;
+    int dialogueIndex = 0;
+    public String direction = "down";
+    boolean raking = false;
+
+    // COUNTER - sprite animations
+    public int spriteCounter = 0;
+    public int actionLockCounter = 0; // USUALLY FOR NPC, MAKE THEM LOCK INTO A IMAGE FOR A SPECIFIC AMOUNT OF FRAMES
+    public int invincibleCounter = 0; // after taking damage, player becomes invisible for a bit
+
+
+    // CHARACTER ATTRIBUTES
+    public int type; // 0 = player, 1 = npc, 2 = monster
+    public String name;
     public int maxLife;
     public int curLife;
+    public int speed;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -177,14 +186,14 @@ public class Entity {
 
     }
 
-    public BufferedImage setup(String imagePath) {
+    public BufferedImage setup(String imagePath, int width, int height) {
 
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
 
         try{
             image = ImageIO.read(getClass().getResourceAsStream( imagePath +".png"));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+            image = uTool.scaleImage(image, width, height);
 
         }catch(IOException e) {
             e.printStackTrace();

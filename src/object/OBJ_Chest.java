@@ -9,7 +9,7 @@ public class OBJ_Chest extends Entity {
         super(gp);
 
         name = "Chest";
-        down1 = setup("/objects/key");
+        down1 = setup("/objects/key", gp.tileSize, gp.tileSize);
         collision = true;
     }
 }

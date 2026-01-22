@@ -35,8 +35,12 @@ public class Player extends Entity{
         solidArea.width = 32;
         solidArea.height = 32;
 
+        rakeArea.width = 36;
+        rakeArea.height = 36;
+
         setDefaultValues();
         getPlayerImage();
+        getPlayerRakeImage();
     }
 
     public void setDefaultValues() {
@@ -52,20 +56,33 @@ public class Player extends Entity{
     }
     public void getPlayerImage() {
 
-        up1 = setup("/player/up1");
-        up2 = setup("/player/up2");
-        down1 = setup("/player/down1");
-        down2 = setup("/player/down2");
-        left1 = setup("/player/left1");
-        left2 = setup("/player/left2");
-        right1 = setup("/player/right1");
-        right2 = setup("/player/right2");
+        up1 = setup("/girl_player/sally_up1", gp.tileSize, gp.tileSize);
+        up2 = setup("/girl_player/sally_up2", gp.tileSize, gp.tileSize);
+        down1 = setup("/girl_player/sally_down1", gp.tileSize, gp.tileSize);
+        down2 = setup("/girl_player/sally_down2", gp.tileSize, gp.tileSize);
+        left1 = setup("/girl_player/sally_left1", gp.tileSize, gp.tileSize);
+        left2 = setup("/girl_player/sally_left2", gp.tileSize, gp.tileSize);
+        right1 = setup("/girl_player/sally_right1", gp.tileSize, gp.tileSize);
+        right2 = setup("/girl_player/sally_right2", gp.tileSize, gp.tileSize);
+    }
+
+    public void getPlayerRakeImage() {
+
+        rakeUp1 = setup("/girl_player/sally_rake_up1", gp.tileSize, gp.tileSize*2);
+        rakeDown1 = setup("/girl_player/sally_rake_down1", gp.tileSize, gp.tileSize*2);
+        rakeLeft1 = setup("/girl_player/sally_rake_left1", gp.tileSize*2, gp.tileSize);
+        rakeRight1 = setup("/girl_player/sally_rake_right1", gp.tileSize*2, gp.tileSize);
     }
 
 
     public void update() { // this method gets called 60x per second
-        if (keyH.upPressed == true || keyH.downPressed == true ||
-            keyH.leftPressed == true || keyH.rightPressed == true || keyH.enterPressed == true){ // without this, player will move without stopping
+
+        if(raking == true) { // bypass the else if key inputs if player is currently raking
+            raking();
+        }
+
+        else if (keyH.upPressed == true || keyH.downPressed == true ||
+                keyH.leftPressed == true || keyH.rightPressed == true || keyH.enterPressed == true){ // without this, player will move without stopping
 
             if(keyH.upPressed == true) {
                 direction = "up";
@@ -138,12 +155,8 @@ public class Player extends Entity{
 
             spriteCounter++;
             if(spriteCounter > 12) { // this means player image changes every 7 frames
-                if(spriteNum == 1) {
-                    spriteNum = 2;
-                }
-                else if(spriteNum == 2) {
-                    spriteNum = 1;
-                }
+                if(spriteNum == 1) {spriteNum = 2;}
+                else if(spriteNum == 2) {spriteNum = 1;}
                 spriteCounter = 0;
             }
 
@@ -167,6 +180,53 @@ public class Player extends Entity{
         }
 
     }
+
+    public void raking() {
+
+        spriteCounter++;
+
+        if(spriteCounter <= 5) { // peak of raking image (if want more detailed images)
+            spriteNum = 1;
+        }
+        if(spriteCounter > 5 && spriteCounter <= 25) { // full raking
+            spriteNum = 1; // set to 2 if you have more sprite raking animations
+
+            // Save the current worldX, worldY, solidArea
+            int currentWorldX = worldX;
+            int currentWorldY = worldY;
+            int solidAreaWidth = solidArea.width;
+            int solidAreaHeight = solidArea.height;
+
+            // Adjust player's worldX/Y for the rakeArea
+            switch(direction) {
+                case "up": worldY -= rakeArea.height; break; // offset players worldX/Y by the rakeArea
+                case "down": worldY += rakeArea.height; break;
+                case "left": worldX -= rakeArea.width; break;
+                case "right": worldX += rakeArea.width; break;
+            }
+            // Modify players solidArea to the rakeArea and then check the grass object collision
+            solidArea.width = rakeArea.width;
+            solidArea.height = rakeArea.height;
+            // CHECK GRASS COLLISION WITH THE UPDATED WORLDX, WORLDY AND SOLIDAREA. DEBUG WITH THE CUT GRASS METHOD SO IT CAN WORK
+            int objectIndex = gp.cChecker.checkObject(this, true); // left off here
+            System.out.println(objectIndex);
+//            cutGrass(objectIndex);
+
+            worldX = currentWorldX;
+            worldY = currentWorldY;
+            solidArea.width = solidAreaWidth;
+            solidArea.height = solidAreaHeight;
+
+        }
+        if(spriteCounter > 25) { // reset back to no raking
+            spriteNum = 1;
+            spriteCounter = 0;
+            raking = false;
+        }
+
+    }
+
+
 
     public void pickUpObject(int i) {
 
@@ -216,12 +276,15 @@ public class Player extends Entity{
     }
 
     public void interactNPC(int i) {
-        if(i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
 
-            if(gp.keyH.enterPressed == true) {
+        if(gp.keyH.enterPressed == true) {
+
+            if (i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
+
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
             }
+            else { raking = true; }
         }
     }
 
@@ -236,44 +299,68 @@ public class Player extends Entity{
         }
     }
 
+    // DEBUG THIS SO IT WORKS GIVES ILLEGAL EXCEPTION
+//    public void cutGrass(int i) {
+//
+//        if (i != 999) {
+//
+//            System.out.println("Hit!");
+//        }
+//        else {
+//            System.out.println("Miss");
+//        }
+//    }
+
     public void draw(Graphics2D g2) {
 
 //        g2.setColor(Color.red); // Sets a color to use for drawing objects
 //        g2.fillRect(x, y, gp.tileSize, gp.tileSize); // Draw a rectangle and fills it with the specified color.
 
         BufferedImage image = null;
+        int tempScreenX = screenX;
+        int tempScreenY = screenY;
 
         switch(direction) { // based on this direction we will pick an image from below
             case "up":
-                if(spriteNum == 1) {
-                    image = up1;
+                if(raking == false) {
+                    if(spriteNum == 1) {image = up1;}
+                    if(spriteNum == 2) {image = up2;}
                 }
-                if(spriteNum == 2) {
-                    image = up2;
+                if(raking == true) {
+                    tempScreenY = screenY - gp.tileSize;
+                    if(spriteNum == 1) {image = rakeUp1;}
+//                    if(spriteNum == 2) {image = rakeUp2;} if u want more detailed raking animation create another sprite animation. for now this is a placeholder
                 }
                 break;
             case "down":
-                if(spriteNum == 1) {
-                    image = down1;
+                if(raking == false) {
+                    if(spriteNum == 1) {image = down1;}
+                    if(spriteNum == 2) {image = down2;}
                 }
-                if(spriteNum == 2) {
-                    image = down2;
+                if(raking == true) {
+                    if(spriteNum == 1) {image = rakeDown1;}
+//                    if(spriteNum == 2) {image = rakeDown2;}
                 }
                     break;
             case "left":
-                if(spriteNum == 1) {
-                    image = left1;
+                if(raking == false) {
+                    if(spriteNum == 1) {image = left1;}
+                    if(spriteNum == 2) {image = left2;}
                 }
-                if(spriteNum == 2) {
-                    image = left2;
+                if(raking == true) {
+                    tempScreenX = screenX - gp.tileSize;
+                    if(spriteNum == 1) {image = rakeLeft1;}
+//                    if(spriteNum == 2) {image = rakeLeft2;}
                 }
                 break;
             case "right":
-                if(spriteNum == 1) {
-                    image = right1;
+                if(raking == false) {
+                    if(spriteNum == 1) {image = right1;}
+                    if(spriteNum == 2) {image = right2;}
                 }
-                if(spriteNum == 2) {
-                    image = right2;
+                if(raking == true) {
+                    if(spriteNum == 1) {image = rakeRight1;}
+//                    if(spriteNum == 2) {image = rakeRight2;}
                 }
                 break;
         }
@@ -282,7 +369,7 @@ public class Player extends Entity{
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f)); // makes player look kinda invincible
         }
 
-        g2.drawImage(image, screenX, screenY,null);
+        g2.drawImage(image, tempScreenX, tempScreenY,null);
 
         // RESET ALPHA
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
