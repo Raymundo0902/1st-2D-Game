@@ -35,6 +35,7 @@ public class Player extends Entity{
         solidArea.width = 32;
         solidArea.height = 32;
 
+        // rakeArea larger values = larger range of rake
         rakeArea.width = 36;
         rakeArea.height = 36;
 
@@ -51,7 +52,7 @@ public class Player extends Entity{
         direction = "down";
 
         // PLAYER STATUS
-        maxLife = 12; // 2 lifes = one full heart
+        maxLife = 10; // 2 lifes = one full heart
         curLife = maxLife; // players current life
     }
     public void getPlayerImage() {
@@ -209,8 +210,7 @@ public class Player extends Entity{
             solidArea.height = rakeArea.height;
             // CHECK GRASS COLLISION WITH THE UPDATED WORLDX, WORLDY AND SOLIDAREA. DEBUG WITH THE CUT GRASS METHOD SO IT CAN WORK
             int objectIndex = gp.cChecker.checkObject(this, true); // left off here
-            System.out.println(objectIndex);
-//            cutGrass(objectIndex);
+            cutGrass(objectIndex);
 
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -300,16 +300,26 @@ public class Player extends Entity{
     }
 
     // DEBUG THIS SO IT WORKS GIVES ILLEGAL EXCEPTION
-//    public void cutGrass(int i) {
-//
-//        if (i != 999) {
-//
-//            System.out.println("Hit!");
-//        }
-//        else {
-//            System.out.println("Miss");
-//        }
-//    }
+    public void cutGrass(int i) {
+
+        if (i == 7) {
+            System.out.println("Hit !");
+            System.out.println(gp.obj[i].curLife); // DEBUG
+            System.out.println(gp.obj[i].invincibleCounter); // DEBUG
+            if(gp.obj[i].invincible == false) {// put cutting grass functions here, like it'll take 3 attacks from rake to dissapear
+
+                gp.obj[i].curLife -= 1;
+                gp.obj[i].invincible = true; // DEBUG THE LIFE
+
+                if(gp.obj[i].curLife <= 0) {
+                    gp.obj[i] = null;
+                }
+
+            }
+        }
+
+        else{System.out.println("Miss");}
+    }
 
     public void draw(Graphics2D g2) {
 

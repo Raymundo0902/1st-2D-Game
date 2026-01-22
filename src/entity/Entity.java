@@ -15,6 +15,7 @@ public class Entity {
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2; // BufferedImage describes an Image with an accessible buffer of image data. (we use this to store our image files)
     public BufferedImage rakeUp1, rakeDown1, rakeRight1, rakeLeft1;
+    public BufferedImage fullGrass, medGrass, lowGrass;
     public boolean collision = false;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48); // create a invisible or abstract rectangle and store data like x,y width and height. is the default solidArea but can be changed within the children classes
     public Rectangle rakeArea = new Rectangle(0, 0, 0, 0); // rake grass
@@ -130,6 +131,14 @@ public class Entity {
             spriteCounter = 0;
         }
 
+        if(invincible == true) {
+            invincibleCounter++;
+            if(invincibleCounter > 40) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
     }
 
     public void draw(Graphics2D g2) {
@@ -145,41 +154,31 @@ public class Entity {
 
             switch(direction) { // based on this direction we will pick an image from below
                 case "up":
-                    if(spriteNum == 1) {
-                        image = up1;
-                    }
-                    if(spriteNum == 2) {
-                        image = up2;
-                    }
+                    if(spriteNum == 1) {image = up1;}
+                    if(spriteNum == 2) {image = up2;}
                     break;
                 case "down":
-                    if(spriteNum == 1) {
-                        image = down1;
-                    }
-                    if(spriteNum == 2) {
-                        image = down2;
-                    }
+                    if(spriteNum == 1) {image = down1;}
+                    if(spriteNum == 2) {image = down2;}
                     break;
                 case "left":
-                    if(spriteNum == 1) {
-                        image = left1;
-                    }
-                    if(spriteNum == 2) {
-                        image = left2;
-                    }
+                    if(spriteNum == 1) {image = left1;}
+                    if(spriteNum == 2) {image = left2;}
                     break;
                 case "right":
-                    if(spriteNum == 1) {
-                        image = right1;
-                    }
-                    if(spriteNum == 2) {
-                        image = right2;
-                    }
+                    if(spriteNum == 1) {image = right1;}
+                    if(spriteNum == 2) {image = right2;}
                     break;
             }
 
+            if(invincible == true) {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f)); // makes Entity look kinda invincible
+            }
+
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f)); // makes Entity back to normal transparency
+
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-            // COLLISION VISUALS
+            // COLLISION VISUALS (DEBUG)
             g2.setColor(Color.red);
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
