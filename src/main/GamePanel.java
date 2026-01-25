@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // ENTITY AND OBJECT
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler reference to objects inside the Player class. so Player class can get the things it needs from both classes.
-    public Entity obj[] = new Entity[10]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
+    public Entity obj[] = new Entity[15]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[20]; // num of monsters we can display at the same time not the total monsters we can create
     // ARRAYLISTS STORES OBJECTS ONLY, STRING OBJECTS, IN OUR CASE, ENTITY OBJECTS
@@ -119,6 +119,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     public void update() {
+
         if(gameState == playState) {
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
             // NPC
@@ -131,6 +132,12 @@ public class GamePanel extends JPanel implements Runnable {
             for(int i = 0; i < monster.length; i++) {
                 if(monster[i] != null) {
                     monster[i].update();
+                }
+            }
+            // OBJECTS - arranged code so the obj doesnt change animations like players and npcs.
+            for(int i = 0; i < obj.length; i++) {
+                if(obj[i] != null) {
+                    obj[i].update();
                 }
             }
         }

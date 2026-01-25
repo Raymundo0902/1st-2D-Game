@@ -11,11 +11,9 @@ import java.io.IOException;
 // THIS CLASS STORES VARIABLES THAT WILL BE USED IN PLAYER, MONSTER AND NPC CLASSES.
 public class Entity {
 
-    GamePanel gp;
+    protected GamePanel gp;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2; // BufferedImage describes an Image with an accessible buffer of image data. (we use this to store our image files)
-    public BufferedImage rakeUp1, rakeDown1, rakeRight1, rakeLeft1;
-    public BufferedImage fullGrass, medGrass, lowGrass;
     public boolean collision = false;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48); // create a invisible or abstract rectangle and store data like x,y width and height. is the default solidArea but can be changed within the children classes
     public Rectangle rakeArea = new Rectangle(0, 0, 0, 0); // rake grass
@@ -31,6 +29,7 @@ public class Entity {
     int dialogueIndex = 0;
     public String direction = "down";
     boolean raking = false;
+    public int grassState = 3; // for grass
 
     // COUNTER - sprite animations
     public int spriteCounter = 0;
@@ -110,27 +109,33 @@ public class Entity {
                         worldY += speed;
                     }
                     break;
-                case "left":
-                    worldX -= speed;
+                case "left": worldX -= speed;
                     break;
-                case "right":
-                    worldX += speed;
+                case "right": worldX += speed;
                     break;
             }
 
         }
 
+        animate();
+        invincible();
+
+
+    }
+
+    public void animate() {
         spriteCounter++;
-        if(spriteCounter > 12) { // this means Entity's image changes every 12 frames
-            if(spriteNum == 1) {
+        if (spriteCounter > 12) { // this means Entity's image changes every 12 frames
+            if (spriteNum == 1) {
                 spriteNum = 2;
-            }
-            else if(spriteNum == 2) {
+            } else if (spriteNum == 2) {
                 spriteNum = 1;
             }
             spriteCounter = 0;
         }
+    }
 
+    public void invincible() {
         if(invincible == true) {
             invincibleCounter++;
             if(invincibleCounter > 40) {
@@ -138,7 +143,6 @@ public class Entity {
                 invincibleCounter = 0;
             }
         }
-
     }
 
     public void draw(Graphics2D g2) {
@@ -147,10 +151,10 @@ public class Entity {
         int screenX = worldX - gp.player.worldX + gp.player.screenX; // find out its screenX and Y and if its in the camera frame then draw it
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-        if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-            worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-            worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-            worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+        if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && // player.worldX - player.screenX = left edge of camera.      objectRight > cameraLeft
+            worldX - gp.tileSize < gp.player.worldX + gp.player.screenX && // player.worldX + player.screenX = right edge of camera.    objectLeft < cameraRight
+            worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && // player.worldY - player.screenY = top edge of camera.      objectBottom > cameraTop
+            worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) { // player.worldY + player.screenY = bottom edge of camera.   objectTop < cameraBottom
 
             switch(direction) { // based on this direction we will pick an image from below
                 case "up":

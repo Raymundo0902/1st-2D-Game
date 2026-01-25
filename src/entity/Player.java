@@ -3,6 +3,7 @@ package entity;
 import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
+import object.OBJ_TallGrass;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class Player extends Entity{
     public int hasKey = 0;
     int standCounter = 0;
     int sprintCounter = 0; // 2 seconds of sprinting till no more stamina
+    public BufferedImage rakeUp1, rakeDown1, rakeRight1, rakeLeft1;
 
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
@@ -103,11 +105,9 @@ public class Player extends Entity{
                 sprintCounter++;
                 System.out.println(sprintCounter);
                 if(sprintCounter < 180) { // if sprintCounter is less than 3 seconds then sprint
-                    System.out.println("SPRINTING");
                     speed = 6;
                 }
                 else if (sprintCounter > 180 && sprintCounter < 360){ // BE TIRED FOR 3 SECONDS
-                    System.out.println("IM TIRED");
                     speed = 4; // STAYS AT NORMAL SPEED DURING TIRED DURATION
                 }
                 else if (sprintCounter > 360) { // ONCE PLAYER RESTED FOR 3 SECONDS, START RUNNING
@@ -226,8 +226,6 @@ public class Player extends Entity{
 
     }
 
-
-
     public void pickUpObject(int i) {
 
         if(i != 999) { // if this index is 999 then that means we didn't touch any object. Otherwise, then we did touch an object. the reason for 999 is to make sure its not used by the object array's index
@@ -302,23 +300,20 @@ public class Player extends Entity{
     // DEBUG THIS SO IT WORKS GIVES ILLEGAL EXCEPTION
     public void cutGrass(int i) {
 
-        if (i == 7) {
+        if (i != 999 && gp.obj[i] instanceof OBJ_TallGrass) {
             System.out.println("Hit !");
-            System.out.println(gp.obj[i].curLife); // DEBUG
-            System.out.println(gp.obj[i].invincibleCounter); // DEBUG
             if(gp.obj[i].invincible == false) {// put cutting grass functions here, like it'll take 3 attacks from rake to dissapear
 
                 gp.obj[i].curLife -= 1;
-                gp.obj[i].invincible = true; // DEBUG THE LIFE
+                gp.obj[i].invincible = true;
 
                 if(gp.obj[i].curLife <= 0) {
                     gp.obj[i] = null;
                 }
-
             }
         }
 
-        else{System.out.println("Miss");}
+        else System.out.println("Miss");
     }
 
     public void draw(Graphics2D g2) {
@@ -339,7 +334,6 @@ public class Player extends Entity{
                 if(raking == true) {
                     tempScreenY = screenY - gp.tileSize;
                     if(spriteNum == 1) {image = rakeUp1;}
-//                    if(spriteNum == 2) {image = rakeUp2;} if u want more detailed raking animation create another sprite animation. for now this is a placeholder
                 }
                 break;
             case "down":
@@ -349,7 +343,6 @@ public class Player extends Entity{
                 }
                 if(raking == true) {
                     if(spriteNum == 1) {image = rakeDown1;}
-//                    if(spriteNum == 2) {image = rakeDown2;}
                 }
                     break;
             case "left":
@@ -360,7 +353,6 @@ public class Player extends Entity{
                 if(raking == true) {
                     tempScreenX = screenX - gp.tileSize;
                     if(spriteNum == 1) {image = rakeLeft1;}
-//                    if(spriteNum == 2) {image = rakeLeft2;}
                 }
                 break;
             case "right":
@@ -370,7 +362,6 @@ public class Player extends Entity{
                 }
                 if(raking == true) {
                     if(spriteNum == 1) {image = rakeRight1;}
-//                    if(spriteNum == 2) {image = rakeRight2;}
                 }
                 break;
         }

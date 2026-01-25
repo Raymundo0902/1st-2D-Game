@@ -37,9 +37,32 @@ public class AssetSetter {
         gp.obj[5].worldY = 63 * gp.tileSize;
 
         gp.obj[7] = new OBJ_TallGrass(gp);
-        gp.obj[7].worldX = 30 * gp.tileSize;
-        gp.obj[7].worldY = 63 * gp.tileSize;
+        gp.obj[7].worldX = 13 * gp.tileSize;
+        gp.obj[7].worldY = 74 * gp.tileSize;
 
+        gp.obj[3] = new OBJ_TallGrass(gp);
+        gp.obj[3].worldX = 14 * gp.tileSize;
+        gp.obj[3].worldY = 74 * gp.tileSize;
+
+        gp.obj[4] = new OBJ_TallGrass(gp);
+        gp.obj[4].worldX = 15 * gp.tileSize;
+        gp.obj[4].worldY = 74 * gp.tileSize;
+
+        gp.obj[8] = new OBJ_TallGrass(gp);
+        gp.obj[8].worldX = 13 * gp.tileSize;
+        gp.obj[8].worldY = 75 * gp.tileSize;
+
+        gp.obj[9] = new OBJ_TallGrass(gp);
+        gp.obj[9].worldX = 14 * gp.tileSize;
+        gp.obj[9].worldY = 75 * gp.tileSize;
+
+        gp.obj[10] = new OBJ_TallGrass(gp);
+        gp.obj[10].worldX = 15 * gp.tileSize;
+        gp.obj[10].worldY = 75 * gp.tileSize;
+
+        gp.obj[11] = new OBJ_TallGrass(gp);
+        gp.obj[11].worldX = 12 * gp.tileSize;
+        gp.obj[11].worldY = 75 * gp.tileSize;
     }
 
     public void setNPC() {
