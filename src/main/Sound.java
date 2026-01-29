@@ -20,7 +20,11 @@ public class Sound {
         soundURL[5] = getClass().getResource("/sound/horrorAmbience.wav"); // make this for horror sound
         soundURL[6] = getClass().getResource("/sound/nightAmbience.wav");
         soundURL[7] = getClass().getResource("/sound/arcadeSelect.wav");
-
+        soundURL[8] = getClass().getResource("/sound/mainGameSong.wav");
+        soundURL[9] = getClass().getResource("/sound/rakeSwing.wav");
+        soundURL[10] = getClass().getResource("/sound/grassCut.wav");
+        soundURL[11] = getClass().getResource("/sound/receiveDamage.wav");
+        soundURL[12] = getClass().getResource("/sound/dialogueBox.wav");
 
     }
 

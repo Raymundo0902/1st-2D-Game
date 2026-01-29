@@ -52,9 +52,10 @@ public class Player extends Entity{
         worldY = gp.tileSize * 60;
         speed = 4;
         direction = "down";
+        type = 0;
 
         // PLAYER STATUS
-        maxLife = 10; // 2 lifes = one full heart
+        maxLife = 4; // 2 lifes = one full heart
         curLife = maxLife; // players current life
     }
     public void getPlayerImage() {
@@ -190,6 +191,8 @@ public class Player extends Entity{
             spriteNum = 1;
         }
         if(spriteCounter > 5 && spriteCounter <= 25) { // full raking
+
+
             spriteNum = 1; // set to 2 if you have more sprite raking animations
 
             // Save the current worldX, worldY, solidArea
@@ -198,7 +201,7 @@ public class Player extends Entity{
             int solidAreaWidth = solidArea.width;
             int solidAreaHeight = solidArea.height;
 
-            // Adjust player's worldX/Y for the rakeArea
+            // Adjust player's worldX/Y for the rakeArea or else it will need player collision to cut grass even if tip of rake is already colliding with grass.
             switch(direction) {
                 case "up": worldY -= rakeArea.height; break; // offset players worldX/Y by the rakeArea
                 case "down": worldY += rakeArea.height; break;
@@ -212,6 +215,7 @@ public class Player extends Entity{
             int objectIndex = gp.cChecker.checkObject(this, true); // left off here
             cutGrass(objectIndex);
 
+            // RESETS PLAYER BACK TO CURRENT COORDINATES OR ELSE PLAYER WILL GO FLYING AROUND
             worldX = currentWorldX;
             worldY = currentWorldY;
             solidArea.width = solidAreaWidth;
@@ -280,9 +284,13 @@ public class Player extends Entity{
             if (i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
 
                 gp.gameState = gp.dialogueState;
+                gp.playSE(12);
                 gp.npc[i].speak();
             }
-            else { raking = true; }
+            else {
+                gp.playSE(9); // swinging rake SE
+                raking = true;
+            }
         }
     }
 
@@ -304,6 +312,7 @@ public class Player extends Entity{
             System.out.println("Hit !");
             if(gp.obj[i].invincible == false) {// put cutting grass functions here, like it'll take 3 attacks from rake to dissapear
 
+                gp.playSE(10); // enter grass cutting sound here
                 gp.obj[i].curLife -= 1;
                 gp.obj[i].invincible = true;
 
@@ -322,6 +331,8 @@ public class Player extends Entity{
 //        g2.fillRect(x, y, gp.tileSize, gp.tileSize); // Draw a rectangle and fills it with the specified color.
 
         BufferedImage image = null;
+        // sprite is drawn at top left since shifting player only happens during left or up raking animations. To fix, we offset the draw position.
+        // technically the engine still makes the shift but we offset so it looks like theres no visual shifting going on.
         int tempScreenX = screenX;
         int tempScreenY = screenY;
 
@@ -366,6 +377,10 @@ public class Player extends Entity{
                 break;
         }
 
+//        // PLAYER'S HEALTH BAR
+//        g2.setColor(new Color(255,0,30));
+//        g2.fillRect(gp.tileSize, gp.tileSize/2, gp.tileSize*4, 20);
+
         if(invincible == true) {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f)); // makes player look kinda invincible
         }
@@ -377,11 +392,11 @@ public class Player extends Entity{
 
 
         // COLLISION HITBOX VISUAL (DEBUG)
-        g2.setColor(Color.red);
-        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//        g2.setColor(Color.red);
+//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         // INVINCIBLE COUNTER (DEBUG)
-        g2.setFont(new Font("Arial", Font.PLAIN, 25));
-        g2.setColor(Color.white);
-        g2.drawString("Invincible: +"+invincibleCounter, 48, 90);
+//        g2.setFont(new Font("Arial", Font.PLAIN, 25));
+//        g2.setColor(Color.white);
+//        g2.drawString("Invincible: +"+invincibleCounter, 48, 90);
     }
 }

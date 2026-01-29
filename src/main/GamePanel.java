@@ -70,17 +70,15 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setObject();
         aSetter.setNPC();
         aSetter.setMonster();
-        playMusic(6); // play main menu music -- VHS 80s-90s MUSIC
+        playMusic(8); // play main menu music -- VHS 80s-90s MUSIC
         gameState = titleState;
     }
-
 
     public void startGameThread() {
 
         gameThread = new Thread(this); // this = the GamePanel class. So we're passing the GamePanel class to the thread constructor. This is how you instantiate a Thread.
         gameThread.start(); // automatically call run method
     }
-
 
     // as long the game loop continues it will continue to call update and then repaint
     @Override

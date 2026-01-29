@@ -82,13 +82,17 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                     gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
                     if (gp.ui.commandNum == 0) {
                         System.out.println("Do specific stuff for Sally");
+                        gp.stopMusic();
                         gp.gameState = gp.playState;
+                        gp.playMusic(6);
                     }
                     // SELECT CHAD
                     if (gp.ui.commandNum == 1) {
 
                         System.out.println("Do specific stuff for Chad");
+                        gp.stopMusic();
                         gp.gameState = gp.playState;
+                        gp.playMusic(6);
                     }
 
                     // GO BACK TO MAIN SCREEN

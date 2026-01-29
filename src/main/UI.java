@@ -80,30 +80,42 @@ public class UI {
     }
 
     public void drawPlayerLife() {
-        int x = gp.tileSize/2;
-        int y = gp.tileSize/2;
-        int i = 0;
 
-        // DRAW MAX HEARTS
-        while(i < gp.player.maxLife/2) {
-            g2.drawImage(heart_blank, x, y, null);
-            i++;
-            x+= gp.tileSize;
+        int x = gp.tileSize;
+        int y = gp.tileSize;
+
+        // PLAYER'S HEALTH BAR
+
+        // OUTLINE OF HEALTH BAR
+        g2.setColor(new Color(0, 0, 0));
+        g2.fillRect(x - 2, (y / 2) - 1 , (gp.tileSize * 4) + 4, 23);
+
+        if(gp.player.curLife == 4) {
+            g2.setColor(new Color(255, 0, 30));
+            g2.fillRect(x, y / 2, gp.tileSize * 4, 20);
         }
-        // RESET VALUES
-        x = gp.tileSize/2;
-        y = gp.tileSize/2;
-        i = 0;
+        if(gp.player.curLife == 3) {
 
-        // DRAW CURRENT LIFE -- THESE IMAGES DRAW ON TOP OF THE BLANK HEARTS SO WHEN CONDITIONS DONT RUN THE BLANK HEARTS SHOW UP
-        while(i < gp.player.curLife) {
-            g2.drawImage(heart_half, x, y, null);
-            i++;
-            if(i < gp.player.curLife) {
-                g2.drawImage(heart_full, x, y, null);
-            }
-            i++;
-            x+= gp.tileSize;
+            g2.setColor(new Color(255, 0, 30));
+            g2.fillRect(x, y / 2, gp.tileSize * 3, 20);
+
+            g2.setColor(new Color(0, 0, 0));
+            g2.fillRect(x*4, y / 2, gp.tileSize, 20);
+        }
+        else if(gp.player.curLife == 2) {
+
+            g2.setColor(new Color(255, 0, 30));
+            g2.fillRect(x, y / 2, gp.tileSize * 2, 20);
+
+            g2.setColor(new Color(0, 0, 0));
+            g2.fillRect(x*3, y / 2, gp.tileSize*2, 20);
+        }
+        else if (gp.player.curLife == 1){
+            g2.setColor(new Color(255, 0, 30));
+            g2.fillRect(x, y / 2, gp.tileSize, 20);
+
+            g2.setColor(new Color(0, 0, 0));
+            g2.fillRect(x*2, y / 2, gp.tileSize*3, 20);
         }
     }
 
@@ -282,6 +294,7 @@ public class UI {
 
     public void drawPauseScreen() {
 
+        g2.setColor(new Color(255, 255, 255));
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80F));
         String text = "PAUSED";
         int x = getXforCenteredText(text);
