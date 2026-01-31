@@ -104,11 +104,12 @@ public class Player extends Entity{
             // SPRINTING MECHANICS
             if(keyH.shiftPressed == true) {
                 sprintCounter++;
-                System.out.println(sprintCounter);
                 if(sprintCounter < 180) { // if sprintCounter is less than 3 seconds then sprint
+                    System.out.println("SPRINTING!!");
                     speed = 6;
                 }
                 else if (sprintCounter > 180 && sprintCounter < 360){ // BE TIRED FOR 3 SECONDS
+                    System.out.println("IM TIRED!!");
                     speed = 4; // STAYS AT NORMAL SPEED DURING TIRED DURATION
                 }
                 else if (sprintCounter > 360) { // ONCE PLAYER RESTED FOR 3 SECONDS, START RUNNING
@@ -309,7 +310,6 @@ public class Player extends Entity{
     public void cutGrass(int i) {
 
         if (i != 999 && gp.obj[i] instanceof OBJ_TallGrass) {
-            System.out.println("Hit !");
             if(gp.obj[i].invincible == false) {// put cutting grass functions here, like it'll take 3 attacks from rake to dissapear
 
                 gp.playSE(10); // enter grass cutting sound here
@@ -321,8 +321,6 @@ public class Player extends Entity{
                 }
             }
         }
-
-        else System.out.println("Miss");
     }
 
     public void draw(Graphics2D g2) {
@@ -392,8 +390,8 @@ public class Player extends Entity{
 
 
         // COLLISION HITBOX VISUAL (DEBUG)
-//        g2.setColor(Color.red);
-//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        g2.setColor(Color.red);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         // INVINCIBLE COUNTER (DEBUG)
 //        g2.setFont(new Font("Arial", Font.PLAIN, 25));
 //        g2.setColor(Color.white);

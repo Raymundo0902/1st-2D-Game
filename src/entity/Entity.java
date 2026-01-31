@@ -185,8 +185,8 @@ public class Entity {
 
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             // COLLISION VISUALS (DEBUG)
-//            g2.setColor(Color.red);
-//            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            g2.setColor(Color.red);
+            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
 
     }
