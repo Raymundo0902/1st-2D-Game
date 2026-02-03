@@ -76,6 +76,10 @@ public class UI {
             drawPlayerLife();
             drawDialogueScreen();
         }
+        // CHARACTER STATE
+        if(gp.gameState == gp.characterState) {
+            drawCharacterScreen();
+        }
 
     }
 
@@ -291,6 +295,16 @@ public class UI {
 
     }
 
+    public void drawCharacterScreen() {
+
+        // CREATE A FRAME
+        final int frameX = gp.tileSize*10;
+        final int frameY = gp.tileSize;
+        final int frameWidth = gp.tileSize*5;
+        final int frameHeight = gp.tileSize * 8;
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+    }
 
     public void drawPauseScreen() {
 
@@ -313,7 +327,8 @@ public class UI {
 
         drawSubWindow(x, y, width, height);
 
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32));
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32));
         x += gp.tileSize;
         y += gp.tileSize;
 
@@ -326,14 +341,22 @@ public class UI {
 
     public void drawSubWindow(int x, int y, int width, int height) {
 
-        Color c = new Color(0, 0, 0, 200);
+        // OUTERMOST BORDER
+        Color c = new Color(43,26,23);
         g2.setColor(c);
-        g2.fillRoundRect(x, y, width, height, 35, 35);
+        g2.setStroke(new BasicStroke(8)); // setStroke(new BasicStroke(int)) defines the width of outlines of graphics which are rendered with a Graphics 2D
+        g2.drawRoundRect(x, y, width+1, height+1, 30, 30);
 
-        c = new Color(255,255,255);
+        // ACTUAL RECTANGLE
+        c = new Color(100,50,27, 250);
+        g2.setColor(c);
+        g2.fillRoundRect(x, y, width, height, 30, 30);
+
+        // INSIDE BORDER
+        c = new Color(43,26,23);
         g2.setColor(c);
         g2.setStroke(new BasicStroke(5)); // setStroke(new BasicStroke(int)) defines the width of outlines of graphics which are rendered with a Graphics 2D
-        g2.drawRoundRect(x+5, y+5, width-10, height-10, 25, 25);
+        g2.drawRoundRect(x+10, y+10, width-20, height-20, 25, 25);
 
     }
 

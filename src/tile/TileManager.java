@@ -108,9 +108,6 @@ public class TileManager {
             setup(73, "bRightGrassToSandWaterCorner", true);
             setup(74, "water2", true);
             setup(75, "bridge2", false);
-
-
-
     }
 
     public void setup(int index, String imageName, boolean collision) {

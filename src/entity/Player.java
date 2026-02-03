@@ -19,6 +19,7 @@ public class Player extends Entity{
     int standCounter = 0;
     int sprintCounter = 0; // 2 seconds of sprinting till no more stamina
     public BufferedImage rakeUp1, rakeDown1, rakeRight1, rakeLeft1;
+    public boolean rakeCanceled = false;
 
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
@@ -154,6 +155,13 @@ public class Player extends Entity{
                 }
             }
 
+            if(keyH.enterPressed == true && rakeCanceled == false) {
+                gp.playSE(9); // swinging rake SE
+                raking = true;
+            }
+
+            rakeCanceled = false;
+
             gp.keyH.enterPressed = false;
 
             spriteCounter++;
@@ -284,14 +292,12 @@ public class Player extends Entity{
 
             if (i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
 
+                rakeCanceled = true;
                 gp.gameState = gp.dialogueState;
                 gp.playSE(12);
                 gp.npc[i].speak();
             }
-            else {
-                gp.playSE(9); // swinging rake SE
-                raking = true;
-            }
+
         }
     }
 

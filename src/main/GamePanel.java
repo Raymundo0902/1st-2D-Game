@@ -55,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
+    public final int characterState = 4;
 
     public GamePanel () {
 
@@ -152,7 +153,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         // DEBUG
         long drawStart = 0;
-        if(keyH.checkDrawTime == true) {
+        if(keyH.checkDebugText == true) {
             drawStart = System.nanoTime();
         }
         // TITLE SCREEN
@@ -210,15 +211,23 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         // DEBUG
-        if(keyH.checkDrawTime == true) {
+        if(keyH.checkDebugText == true) {
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
+
+            g2.setFont(new Font("Arial", Font.PLAIN, 20));
             g2.setColor(Color.white);
-            g2.drawString("Draw Time: " + passed, 10, 400); // shows how much time has passed
-            System.out.println("Draw Time: "+ passed);
+            int x = 100;
+            int y = 400;
+            int lineHeight = 20;
+
+            g2.drawString("WorldX" + player.worldX, x, y); y += lineHeight;
+            g2.drawString("WorldY" + player.worldY, x, y); y += lineHeight;
+            g2.drawString("Col" + (player.worldX + player.solidArea.x) / tileSize, x, y); y += lineHeight;
+            g2.drawString("Row" + (player.worldY + player.solidArea.y) / tileSize, x, y); y += lineHeight;
+            g2.drawString("Draw Time: " + passed, x, y); // shows how much time has passed
+
         }
-
-
         g2.dispose(); // Dispose of this graphics context and release any system resources that it is using. Disposes Graphics2D, programing still works without this line but it is good practice to save memory.
     }
 

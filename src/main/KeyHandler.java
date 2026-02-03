@@ -7,7 +7,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, enterPressed;
     // DEBUG
-    boolean checkDrawTime = false;
+    boolean checkDebugText = false;
 
     GamePanel gp;
 
@@ -26,137 +26,167 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
         // TITLE STATE
         if(gp.gameState == gp.titleState) { // check current titleState substate inside this if statement
-
-            if(gp.ui.titleScreenState == 0) { // main menu
-
-                if(code == KeyEvent.VK_W) {
-                    gp.ui.commandNum--;
-                    if(gp.ui.commandNum < 0) { // keeps arrow from disappearing from select menu
-                        gp.ui.commandNum = 2;
-                    }
-                }
-
-                if(code == KeyEvent.VK_S) {
-                    gp.ui.commandNum++;
-                    if(gp.ui.commandNum > 2) {
-                        gp.ui.commandNum = 0;
-                    }
-                }
-
-                if(code == KeyEvent.VK_ENTER) {
-                    // NEW GAME
-                    if(gp.ui.commandNum == 0) {
-                        gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
-                        gp.ui.titleScreenState = 1;
-                    }
-                    // LOAD GAME
-                    if(gp.ui.commandNum == 1) {
-                        gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
-
-                    }
-                    // QUIT
-                    if(gp.ui.commandNum == 2) {
-                        System.exit(0);
-                    }
-                }
-
-            }
-
-            else if(gp.ui.titleScreenState == 1) { // character pick menu
-                if(code == KeyEvent.VK_W) {
-                    gp.ui.commandNum--;
-                    if(gp.ui.commandNum < 0) { // keeps arrow from disappearing from select menu
-                        gp.ui.commandNum = 2;
-                    }
-                }
-
-                if(code == KeyEvent.VK_S) {
-                    gp.ui.commandNum++;
-                    if(gp.ui.commandNum > 2) {
-                        gp.ui.commandNum = 0;
-                    }
-                }
-
-                if(code == KeyEvent.VK_ENTER) {
-                    // SELECT SALLY
-                    gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
-                    if (gp.ui.commandNum == 0) {
-                        System.out.println("Do specific stuff for Sally");
-                        gp.stopMusic();
-                        gp.gameState = gp.playState;
-                        gp.playMusic(6);
-                    }
-                    // SELECT CHAD
-                    if (gp.ui.commandNum == 1) {
-
-                        System.out.println("Do specific stuff for Chad");
-                        gp.stopMusic();
-                        gp.gameState = gp.playState;
-                        gp.playMusic(6);
-                    }
-
-                    // GO BACK TO MAIN SCREEN
-                    if (gp.ui.commandNum == 2) {
-                        gp.ui.titleScreenState = 0;
-                        gp.ui.commandNum = 0; // makes sure the cursor goes back to default pointing at "New Game"
-
-                    }
-                }
-            }
-
+            titleState(code);
         }
 
         // PLAY STATE
         else if(gp.gameState == gp.playState) {
-
-            if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
-                upPressed = true;
-            }
-            if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
-                leftPressed = true;
-            }
-            if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
-                downPressed = true;
-            }
-            if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
-                rightPressed = true;
-            }
-            if(code == KeyEvent.VK_SHIFT) { // SPRINTING
-                shiftPressed = true;
-            }
-            if(code == KeyEvent.VK_P) {
-                gp.gameState = gp.pauseState;
-
-            }
-            if(code == KeyEvent.VK_ENTER) {
-                enterPressed = true;
-            }
-
-            // DEBUG
-            if(code == KeyEvent.VK_T) {
-                if(checkDrawTime == false) {
-                    checkDrawTime = true;
-                }
-                else if(checkDrawTime == true) {
-                    checkDrawTime = false;
-                }
-            }
+            playState(code);
         }
         // PAUSE STATE
         else if(gp.gameState == gp.pauseState) {
-
-            if(code == KeyEvent.VK_P) {
-                gp.gameState = gp.playState;
-            }
+           pauseState(code);
         }
 
         // DIALOGUE STATE
         else if(gp.gameState == gp.dialogueState) {
-            if(code == KeyEvent.VK_ENTER) {
-                gp.gameState = gp.playState;
-            }
+            dialogueState(code);
         }
 
+        // CHARACTER STATE
+        else if(gp.gameState == gp.characterState) {
+           characterState(code);
+        }
+
+    }
+    public void titleState(int code) {
+
+        if(gp.ui.titleScreenState == 0) { // main menu
+
+            if(code == KeyEvent.VK_W) {
+                gp.ui.commandNum--;
+                if(gp.ui.commandNum < 0) { // keeps arrow from disappearing from select menu
+                    gp.ui.commandNum = 2;
+                }
+            }
+
+            if(code == KeyEvent.VK_S) {
+                gp.ui.commandNum++;
+                if(gp.ui.commandNum > 2) {
+                    gp.ui.commandNum = 0;
+                }
+            }
+
+            if(code == KeyEvent.VK_ENTER) {
+                // NEW GAME
+                if(gp.ui.commandNum == 0) {
+                    gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
+                    gp.ui.titleScreenState = 1;
+                }
+                // LOAD GAME
+                if(gp.ui.commandNum == 1) {
+                    gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
+
+                }
+                // QUIT
+                if(gp.ui.commandNum == 2) {
+                    System.exit(0);
+                }
+            }
+
+        }
+
+        else if(gp.ui.titleScreenState == 1) { // character pick menu
+            if(code == KeyEvent.VK_W) {
+                gp.ui.commandNum--;
+                if(gp.ui.commandNum < 0) { // keeps arrow from disappearing from select menu
+                    gp.ui.commandNum = 2;
+                }
+            }
+
+            if(code == KeyEvent.VK_S) {
+                gp.ui.commandNum++;
+                if(gp.ui.commandNum > 2) {
+                    gp.ui.commandNum = 0;
+                }
+            }
+
+            if(code == KeyEvent.VK_ENTER) {
+                // SELECT SALLY
+                gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
+                if (gp.ui.commandNum == 0) {
+                    System.out.println("Do specific stuff for Sally");
+                    gp.stopMusic();
+                    gp.gameState = gp.playState;
+                    gp.playMusic(6);
+                }
+                // SELECT CHAD
+                if (gp.ui.commandNum == 1) {
+
+                    System.out.println("Do specific stuff for Chad");
+                    gp.stopMusic();
+                    gp.gameState = gp.playState;
+                    gp.playMusic(6);
+                }
+
+                // GO BACK TO MAIN SCREEN
+                if (gp.ui.commandNum == 2) {
+                    gp.ui.titleScreenState = 0;
+                    gp.ui.commandNum = 0; // makes sure the cursor goes back to default pointing at "New Game"
+
+                }
+            }
+        }
+    }
+
+    public void playState(int code) {
+
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            upPressed = true;
+        }
+        if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+            leftPressed = true;
+        }
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            downPressed = true;
+        }
+        if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+            rightPressed = true;
+        }
+        if(code == KeyEvent.VK_SHIFT) { // SPRINTING
+            shiftPressed = true;
+        }
+        if(code == KeyEvent.VK_P) {
+            gp.gameState = gp.pauseState;
+        }
+        if(code == KeyEvent.VK_C) {
+            gp.gameState = gp.characterState;
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+
+        // DEBUG
+        if(code == KeyEvent.VK_T) {
+            if(checkDebugText == false) {
+                checkDebugText = true;
+            }
+            else if(checkDebugText == true) {
+                checkDebugText = false;
+            }
+        }
+        if(code == KeyEvent.VK_B) {
+            gp.tileM.loadMap("/maps/world01.txt");
+            System.out.println("load map");
+        }
+    }
+
+    public void pauseState(int code) {
+        if(code == KeyEvent.VK_P) {
+            gp.gameState = gp.playState;
+        }
+    }
+
+    public void dialogueState(int code) {
+        if(code == KeyEvent.VK_ENTER) {
+            gp.gameState = gp.playState;
+        }
+    }
+
+    public void characterState(int code) {
+        if(code == KeyEvent.VK_C) {
+            gp.gameState = gp.playState;
+        }
     }
 
     @Override
