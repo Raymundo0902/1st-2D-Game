@@ -187,6 +187,19 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(code == KeyEvent.VK_C) {
             gp.gameState = gp.playState;
         }
+        if(code == KeyEvent.VK_W) {
+//            if(gp.ui.slotRow == )
+            gp.ui.slotRow--;
+        }
+        if(code == KeyEvent.VK_A) {
+            gp.ui.slotCol--;
+        }
+        if(code == KeyEvent.VK_S) {
+            gp.ui.slotRow++;
+        }
+        if(code == KeyEvent.VK_D) {
+            gp.ui.slotCol++;
+        }
     }
 
     @Override

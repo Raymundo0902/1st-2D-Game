@@ -25,6 +25,8 @@ public class UI {
     public int imgSpriteCounter = 0;
     public int imgSpriteNum = 1;
     public int playerType; // 1 for sally, 2 for chad
+    public int slotCol = 0; // indicates the cursors current position on inventory window
+    public int slotRow = 0;
 
     public UI (GamePanel gp) {
         this.gp = gp;
@@ -78,7 +80,7 @@ public class UI {
         }
         // CHARACTER STATE
         if(gp.gameState == gp.characterState) {
-            drawCharacterScreen();
+            drawInventory();
         }
 
     }
@@ -295,14 +297,29 @@ public class UI {
 
     }
 
-    public void drawCharacterScreen() {
+    public void drawInventory() {
 
-        // CREATE A FRAME
+        // FRAME WINDOW
         final int frameX = gp.tileSize*10;
         final int frameY = gp.tileSize;
         final int frameWidth = gp.tileSize*5;
         final int frameHeight = gp.tileSize * 8;
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+        // SLOTS
+        final int slotXStart = frameX + 20; // from the frameX corner and shift right by 20 pixels
+        final int slotYStart = frameY + 20;
+        int slotX = slotXStart;
+        int slotY = slotYStart;
+
+        // CURSOR
+        int cursorX = slotXStart + (gp.tileSize * slotCol); // X AND Y GIVES US THE COORDS OF THE CURSOR BOX
+        int cursorY = slotYStart + (gp.tileSize * slotRow);
+        int cursorWidth = gp.tileSize;
+        int cursorHeight = gp.tileSize;
+        // DRAW CURSOR
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
 
     }
 
@@ -348,7 +365,7 @@ public class UI {
         g2.drawRoundRect(x, y, width+1, height+1, 30, 30);
 
         // ACTUAL RECTANGLE
-        c = new Color(100,50,27, 250);
+        c = new Color(100,50,27, 240);
         g2.setColor(c);
         g2.fillRoundRect(x, y, width, height, 30, 30);
 
