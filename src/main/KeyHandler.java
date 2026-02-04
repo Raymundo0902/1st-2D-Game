@@ -45,7 +45,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
         // CHARACTER STATE
         else if(gp.gameState == gp.characterState) {
-           characterState(code);
+           inventoryState(code);
         }
 
     }
@@ -183,22 +183,33 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
     }
 
-    public void characterState(int code) {
+    public void inventoryState(int code) {
         if(code == KeyEvent.VK_C) {
             gp.gameState = gp.playState;
         }
         if(code == KeyEvent.VK_W) {
-//            if(gp.ui.slotRow == )
-            gp.ui.slotRow--;
+            if(gp.ui.slotRow != 0) {
+                gp.playSE(13);
+                gp.ui.slotRow--;
+            }
         }
         if(code == KeyEvent.VK_A) {
-            gp.ui.slotCol--;
+            if(gp.ui.slotCol != 0) {
+                gp.playSE(13);
+                gp.ui.slotCol--;
+            }
         }
         if(code == KeyEvent.VK_S) {
-            gp.ui.slotRow++;
+            if(gp.ui.slotRow != 2) {
+                gp.playSE(13);
+                gp.ui.slotRow++;
+            }
         }
         if(code == KeyEvent.VK_D) {
-            gp.ui.slotCol++;
+            if(gp.ui.slotCol != 3) {
+                gp.playSE(13);
+                gp.ui.slotCol++;
+            }
         }
     }
 

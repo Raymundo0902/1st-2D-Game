@@ -25,6 +25,8 @@ public class Sound {
         soundURL[10] = getClass().getResource("/sound/grassCut.wav");
         soundURL[11] = getClass().getResource("/sound/receiveDamage.wav");
         soundURL[12] = getClass().getResource("/sound/dialogueBox.wav");
+        soundURL[13] = getClass().getResource("/sound/cursorSelect.wav");
+
 
     }
 

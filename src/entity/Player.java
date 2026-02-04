@@ -3,12 +3,15 @@ package entity;
 import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
+import object.OBJ_Key;
+import object.OBJ_Rake;
 import object.OBJ_TallGrass;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player extends Entity{
 
@@ -20,6 +23,8 @@ public class Player extends Entity{
     int sprintCounter = 0; // 2 seconds of sprinting till no more stamina
     public BufferedImage rakeUp1, rakeDown1, rakeRight1, rakeLeft1;
     public boolean rakeCanceled = false;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int inventorySize = 16;
 
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
@@ -45,6 +50,7 @@ public class Player extends Entity{
         setDefaultValues();
         getPlayerImage();
         getPlayerRakeImage();
+        setItems();
     }
 
     public void setDefaultValues() {
@@ -59,6 +65,19 @@ public class Player extends Entity{
         maxLife = 4; // 2 lifes = one full heart
         curLife = maxLife; // players current life
     }
+
+    public void setItems() {
+
+        inventory.add(new OBJ_Rake(gp));
+        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key(gp));
+
+
+    }
+
     public void getPlayerImage() {
 
         up1 = setup("/girl_player/sally_up1", gp.tileSize, gp.tileSize);
@@ -78,7 +97,6 @@ public class Player extends Entity{
         rakeLeft1 = setup("/girl_player/sally_rake_left1", gp.tileSize*2, gp.tileSize);
         rakeRight1 = setup("/girl_player/sally_rake_right1", gp.tileSize*2, gp.tileSize);
     }
-
 
     public void update() { // this method gets called 60x per second
 

@@ -43,7 +43,10 @@ public class Entity {
     public int maxLife;
     public int curLife;
     public int speed;
+
+    // ITEM ATTRIBUTES
     public Entity currentItem; // flashlight, key, etc
+    public String description = "";
 
     public Entity(GamePanel gp) {
         this.gp = gp;
