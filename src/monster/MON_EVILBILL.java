@@ -18,7 +18,7 @@ public class MON_EVILBILL extends Entity {
         speed = 4;
         maxLife = 4;
         curLife = maxLife;
-        type = 2;
+        type = TYPE_MONSTER;
 
         solidArea.x = 8;
         solidArea.y = 16;

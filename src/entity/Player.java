@@ -3,6 +3,7 @@ package entity;
 import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
+import object.OBJ_Hands;
 import object.OBJ_Key;
 import object.OBJ_Rake;
 import object.OBJ_TallGrass;
@@ -24,12 +25,11 @@ public class Player extends Entity{
     public BufferedImage rakeUp1, rakeDown1, rakeRight1, rakeLeft1;
     public boolean rakeCanceled = false;
     public ArrayList<Entity> inventory = new ArrayList<>();
-    public final int inventorySize = 16;
+    public final int maxInventorySize = 12;
 
     // ITEM ENABLEMENT - ONLY PLAYER WILL USE SO WE PUT IT HERE INSTEAD OF ITS PARENT
     public boolean rakeSelect = false; // THIS WILL ONLY ALLOW PLAYER TO USE RAKE WHEN IT HAS BEEN SELECTED FROM INVENTORY
     boolean raking = false;
-
     public boolean keySelect = false;
 
 
@@ -65,21 +65,22 @@ public class Player extends Entity{
         worldY = gp.tileSize * 60;
         speed = 4;
         direction = "down";
-        type = 0;
+        type = TYPE_PLAYER;
 
         // PLAYER STATUS
         maxLife = 4; // 2 lifes = one full heart
         curLife = maxLife; // players current life
+        currentItem = new OBJ_Hands(gp);
     }
 
     public void setItems() {
 
         inventory.add(new OBJ_Rake(gp));
-        inventory.add(new OBJ_Key(gp));
-        inventory.add(new OBJ_Key(gp));
-        inventory.add(new OBJ_Key(gp));
-        inventory.add(new OBJ_Key(gp));
-        inventory.add(new OBJ_Key(gp));
+//        inventory.add(new OBJ_Key(gp));
+//        inventory.add(new OBJ_Key(gp));
+//        inventory.add(new OBJ_Key(gp));
+//        inventory.add(new OBJ_Key(gp));
+//        inventory.add(new OBJ_Key(gp));
     }
 
     public void getPlayerImage() {
@@ -177,7 +178,7 @@ public class Player extends Entity{
                 }
             }
 
-            if(rakeSelect == true) {
+            if(currentItem.type == TYPE_RAKE) {
                 if (keyH.enterPressed == true && rakeCanceled == false) {
                     gp.playSE(9); // swinging rake SE
                     raking = true;
@@ -274,6 +275,9 @@ public class Player extends Entity{
                     gp.playSE(1);
                     hasKey++;
                     gp.obj[i] = null;
+                    if(inventory.size() != maxInventorySize) {
+                        inventory.add(new OBJ_Key(gp));
+                    }
                     gp.ui.showMessage("You got a key!");
                     break;
                 case "Door":
@@ -350,6 +354,29 @@ public class Player extends Entity{
                     gp.obj[i] = null;
                 }
             }
+        }
+    }
+
+    public void selectItem() {
+
+        int itemIndex = gp.ui.getItemIndexOnSlot();
+
+        if(itemIndex < inventory.size()) { // NOT SELECTING VACANT SLOTS
+
+            Entity selectedItem = inventory.get(itemIndex);
+
+            if(selectedItem.type == TYPE_KEY) {
+
+//                keySelect = true;
+                currentItem = selectedItem;
+            }
+            if(selectedItem.type == TYPE_RAKE) {
+
+//                rakeSelect = true;
+                currentItem = selectedItem;
+
+            }
+
         }
     }
 

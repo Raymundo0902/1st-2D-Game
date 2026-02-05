@@ -22,6 +22,8 @@ public class NPC_Ayden extends Entity {
         solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 32;
+
+        type = TYPE_NPC;
     }
     public void getNPCImage() {
 

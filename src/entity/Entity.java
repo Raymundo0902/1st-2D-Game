@@ -35,9 +35,16 @@ public class Entity {
     public int actionLockCounter = 0; // USUALLY FOR NPC, MAKE THEM LOCK INTO A IMAGE FOR A SPECIFIC AMOUNT OF FRAMES
     public int invincibleCounter = 0; // after taking damage, player becomes invisible for a bit
 
+    // TYPE
+    public int type; // 0 = player, 1 = npc, 2 = monster
+    public final int TYPE_PLAYER = 0;
+    public final int TYPE_NPC = 1;
+    public final int TYPE_MONSTER = 2;
+    public final int TYPE_RAKE = 3;
+    public final int TYPE_KEY = 4;
+    public final int TYPE_HANDS = 5;
 
     // CHARACTER ATTRIBUTES
-    public int type; // 0 = player, 1 = npc, 2 = monster
     public String name;
     public int maxLife;
     public int curLife;
@@ -91,7 +98,7 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this); // if hits player, set collision = true
 
-        if(this.type == 2 && contactPlayer == true) {
+        if(this.type == TYPE_MONSTER && contactPlayer == true) {
             if(gp.player.invincible == false) {
                 // we can give damage
 

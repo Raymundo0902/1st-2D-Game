@@ -32,6 +32,9 @@ public class UI {
     final int MAX_COL = 4;
     final int MAX_ROW = 3;
 
+    // INVENTORY ITEMS
+    public boolean isKey = false;
+    public boolean isRake = false;
 
     public UI (GamePanel gp) {
         this.gp = gp;
@@ -321,7 +324,6 @@ public class UI {
 
         // DRAW PLAYER'S CURRENT ITEMS & SLOT BOX
         for(int i = 0; i < gp.player.inventory.size(); i++) {
-
 
             if(i % MAX_COL == 0 && i != 0) { // SINCE 4 IS OUT MAX_COL, ANYTHING PERFECTLY DIVISIBLE BY 4 WITH REMAINDER 0 WILL JUMP TO NEW ROW.
                                             // BETTER PRACTICE THAN JUST COMPARING i TO AN INTEGER IN CASE THERE'S LATER CHANGES. 4, 8, 12, 16 ALL WORKS WITH DIVISION BY 4.
