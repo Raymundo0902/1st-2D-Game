@@ -211,6 +211,26 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 gp.ui.slotCol++;
             }
         }
+        if(code == KeyEvent.VK_ENTER) { // SELECTING AN ITEM FROM INVENTORY - NEED TO FIND A BETTER WAY TO HANDLE THE IF STATEMENTS
+                                        // INSTEAD OF JUST USING ITEM POSITION. PERHAPS A BOOLEAN ENABLED IN FOR LOOP WHERE INVENTORY IS DRAWN?
+            gp.playSE(14);
+            if(gp.ui.slotCol == 0 && gp.ui.slotRow == 0) { // WHERE RAKE IS LOCATED
+                System.out.println("you've selected rake!");
+                // ENABLE RAKING TO BE TRUE
+                gp.player.rakeSelect = true;
+            }
+            if(gp.ui.slotCol == 1 && gp.ui.slotRow == 0) { // WHERE KEY IS LOCATED
+
+                System.out.println("You've selected key!");
+
+                gp.player.keySelect = true; // ENABLE KEY USAGE
+
+                if(gp.player.rakeSelect == true) { // DISABLE PLAYER FROM USING RAKE
+                    gp.player.rakeSelect = false;
+
+                }
+            }
+        }
     }
 
     @Override

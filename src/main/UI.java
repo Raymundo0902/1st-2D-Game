@@ -25,8 +25,13 @@ public class UI {
     public int imgSpriteCounter = 0;
     public int imgSpriteNum = 1;
     public int playerType; // 1 for sally, 2 for chad
+
+    // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
     public int slotRow = 0;
+    final int MAX_COL = 4;
+    final int MAX_ROW = 3;
+
 
     public UI (GamePanel gp) {
         this.gp = gp;
@@ -318,8 +323,8 @@ public class UI {
         for(int i = 0; i < gp.player.inventory.size(); i++) {
 
 
-            if(i == 4 || i == 8) {
-
+            if(i % MAX_COL == 0 && i != 0) { // SINCE 4 IS OUT MAX_COL, ANYTHING PERFECTLY DIVISIBLE BY 4 WITH REMAINDER 0 WILL JUMP TO NEW ROW.
+                                            // BETTER PRACTICE THAN JUST COMPARING i TO AN INTEGER IN CASE THERE'S LATER CHANGES. 4, 8, 12, 16 ALL WORKS WITH DIVISION BY 4.
                 slotY += slotSize;
                 slotX = slotXStart;
             }
@@ -351,10 +356,10 @@ public class UI {
         int dFrameY = (gp.tileSize * 5) + 10;
         int dFrameWidth = frameWidth;
         int dFrameHeight = gp.tileSize *3;
-        drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+//        drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight); UNCOMMENT AND DELETE FROM FOR LOOP IF YOU WANT BOX TO ALWAYS APPEAR
 
         // DRAW DESCRIPTION TEXT
-        g2.setColor(Color.white);
+//        g2.setColor(Color.white);
         int textX = dFrameX + 20;
         int textY = dFrameY + gp.tileSize;
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20));
@@ -363,6 +368,9 @@ public class UI {
 
         if(itemIndex < gp.player.inventory.size()) {
 
+            drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight); // BOX ONLY GETS DRAWN WHEN THE CURSOR IS ON AN ITEM
+
+            g2.setColor(Color.white);
             for(String line : gp.player.inventory.get(itemIndex).description.split("\n")) {
 
                 g2.drawString(line, textX, textY);
@@ -406,8 +414,8 @@ public class UI {
     }
 
     public int getItemIndexOnSlot() {
-        int itemIndex = slotCol + (slotRow*5); // gets correct index
-        return itemIndex;
+        // gets correct index
+        return slotCol + (slotRow * MAX_COL);
     }
 
     public void drawSubWindow(int x, int y, int width, int height) {

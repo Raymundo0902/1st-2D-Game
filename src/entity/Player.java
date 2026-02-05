@@ -26,6 +26,12 @@ public class Player extends Entity{
     public ArrayList<Entity> inventory = new ArrayList<>();
     public final int inventorySize = 16;
 
+    // ITEM ENABLEMENT - ONLY PLAYER WILL USE SO WE PUT IT HERE INSTEAD OF ITS PARENT
+    public boolean rakeSelect = false; // THIS WILL ONLY ALLOW PLAYER TO USE RAKE WHEN IT HAS BEEN SELECTED FROM INVENTORY
+    boolean raking = false;
+
+    public boolean keySelect = false;
+
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -74,8 +80,6 @@ public class Player extends Entity{
         inventory.add(new OBJ_Key(gp));
         inventory.add(new OBJ_Key(gp));
         inventory.add(new OBJ_Key(gp));
-
-
     }
 
     public void getPlayerImage() {
@@ -173,9 +177,11 @@ public class Player extends Entity{
                 }
             }
 
-            if(keyH.enterPressed == true && rakeCanceled == false) {
-                gp.playSE(9); // swinging rake SE
-                raking = true;
+            if(rakeSelect == true) {
+                if (keyH.enterPressed == true && rakeCanceled == false) {
+                    gp.playSE(9); // swinging rake SE
+                    raking = true;
+                }
             }
 
             rakeCanceled = false;
@@ -271,7 +277,7 @@ public class Player extends Entity{
                     gp.ui.showMessage("You got a key!");
                     break;
                 case "Door":
-                    if(hasKey > 0) {
+                    if(hasKey > 0 && keySelect == true) { // MUST HAVE SELECTED KEY TO OPEN FROM INVENTORY
                         gp.playSE(4);
                         gp.obj[i] = null;
                         hasKey--;
@@ -285,7 +291,7 @@ public class Player extends Entity{
                     if(gp.obj[i].worldX == gp.obj[5].worldX && gp.obj[i].worldY == gp.obj[5].worldY) {
                         gp.obj[i].collision = false; // set to false since starting door must be open since no keys available
                     }
-                    else if(hasKey > 0) {
+                    else if(hasKey > 0 && keySelect == true) {
                         gp.playSE(4);
                         gp.obj[i] = null;
                         hasKey--;
@@ -414,8 +420,8 @@ public class Player extends Entity{
 
 
         // COLLISION HITBOX VISUAL (DEBUG)
-        g2.setColor(Color.red);
-        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//        g2.setColor(Color.red);
+//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         // INVINCIBLE COUNTER (DEBUG)
 //        g2.setFont(new Font("Arial", Font.PLAIN, 25));
 //        g2.setColor(Color.white);

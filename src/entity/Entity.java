@@ -28,7 +28,6 @@ public class Entity {
     public int spriteNum = 1;
     int dialogueIndex = 0;
     public String direction = "down";
-    boolean raking = false;
     public int grassState = 3; // for grass
 
     // COUNTER - sprite animations
@@ -125,8 +124,6 @@ public class Entity {
 
         animate();
         invincible();
-
-
     }
 
     public void animate() {
@@ -141,7 +138,7 @@ public class Entity {
         }
     }
 
-    public void invincible() {
+    public void invincible() { // DONT TAKE DAMAGE DURING THIS PERIOD
         if(invincible == true) {
             invincibleCounter++;
             if(invincibleCounter > 40) {
@@ -189,8 +186,8 @@ public class Entity {
 
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             // COLLISION VISUALS (DEBUG)
-            g2.setColor(Color.red);
-            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//            g2.setColor(Color.red);
+//            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
 
     }
