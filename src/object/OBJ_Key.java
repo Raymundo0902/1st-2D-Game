@@ -14,6 +14,13 @@ public class OBJ_Key extends Entity {
         description = "[" + name + "]\n key to open what?";
     }
 
+    @Override
+    public void use(Entity entity) {
+
+        gp.gameState = gp.dialogueState;
+        gp.ui.currentDialogue = "You opened the door!";
+    }
+
     public void update() {
 
     }

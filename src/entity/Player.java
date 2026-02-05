@@ -281,7 +281,8 @@ public class Player extends Entity{
                     gp.ui.showMessage("You got a key!");
                     break;
                 case "Door":
-                    if(hasKey > 0 && keySelect == true) { // MUST HAVE SELECTED KEY TO OPEN FROM INVENTORY
+                    if(hasKey > 0 && currentItem.type == TYPE_KEY) { // MUST HAVE SELECTED KEY TO OPEN FROM INVENTORY
+                        currentItem.use(this);
                         gp.playSE(4);
                         gp.obj[i] = null;
                         hasKey--;
@@ -363,21 +364,17 @@ public class Player extends Entity{
 
         if(itemIndex < inventory.size()) { // NOT SELECTING VACANT SLOTS
 
-            Entity selectedItem = inventory.get(itemIndex);
+            Entity selectedItem = inventory.get(itemIndex); // stores a reference to the current object. could be the reference to the Key, Rake, ... object
 
             if(selectedItem.type == TYPE_KEY) {
 
-//                keySelect = true;
-                currentItem = selectedItem;
-            }
-            if(selectedItem.type == TYPE_RAKE) {
-
-//                rakeSelect = true;
                 currentItem = selectedItem;
 
             }
 
+            if(selectedItem.type == TYPE_RAKE) currentItem = selectedItem;
         }
+
     }
 
     public void draw(Graphics2D g2) {

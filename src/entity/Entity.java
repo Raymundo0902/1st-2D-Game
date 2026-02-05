@@ -51,7 +51,7 @@ public class Entity {
     public int speed;
 
     // ITEM ATTRIBUTES
-    public Entity currentItem; // flashlight, key, etc
+    public Entity currentItem; // store reference to rake, key, flashlight, etc
     public String description = "";
 
     public Entity(GamePanel gp) {
@@ -87,6 +87,9 @@ public class Entity {
 
 
     }
+
+    public void use(Entity entity) { }
+
     public void update() {
 
         setAction();

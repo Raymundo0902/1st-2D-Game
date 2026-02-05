@@ -15,6 +15,7 @@ public class OBJ_Rake extends Entity {
 
     }
 
+
     public void update() {
         // is a static image so it just doesnt update
     }

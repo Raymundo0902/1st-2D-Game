@@ -408,7 +408,7 @@ public class UI {
         x += gp.tileSize;
         y += gp.tileSize;
 
-        for(String line : currentDialogue.split("\n")) {
+        for(String line : currentDialogue.split("\n")) { // split method turns this string into a temporary array
             g2.drawString(line, x, y);
             y += 40;
         }
