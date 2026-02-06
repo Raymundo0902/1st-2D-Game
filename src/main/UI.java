@@ -416,7 +416,7 @@ public class UI {
     }
 
     public int getItemIndexOnSlot() {
-        // gets correct index
+        // gets correct, current hovered index
         return slotCol + (slotRow * MAX_COL);
     }
 

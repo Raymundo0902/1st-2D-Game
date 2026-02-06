@@ -43,6 +43,7 @@ public class Entity {
     public final int TYPE_RAKE = 3;
     public final int TYPE_KEY = 4;
     public final int TYPE_HANDS = 5;
+    public final int TYPE_ROCK = 6;
 
     // CHARACTER ATTRIBUTES
     public String name;
@@ -50,9 +51,12 @@ public class Entity {
     public int curLife;
     public int speed;
 
-    // ITEM ATTRIBUTES
+    // ITEM/PROJECTILE ATTRIBUTES
     public Entity currentItem; // store reference to rake, key, flashlight, etc
     public String description = "";
+    public Projectile projectile;
+    public boolean isDisplayable = true;
+
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -84,11 +88,9 @@ public class Entity {
                 direction = "left";
                 break;
         }
-
-
     }
 
-    public void use(Entity entity) { }
+    public void use(Entity entity) { } // USE THIS METHOD IN CHILDREN CLASSES FOR WHEN USING KEYS, DRINKING SOMETHING, ETC
 
     public void update() {
 

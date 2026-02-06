@@ -41,15 +41,16 @@ public class GamePanel extends JPanel implements Runnable {
     public EventHandler eventH = new EventHandler(this);
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
 
-    // ENTITY AND OBJECT
+    // ENTITIES AND OBJECTS
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler reference to objects inside the Player class. so Player class can get the things it needs from both classes.
     public Entity obj[] = new Entity[15]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[20]; // num of monsters we can display at the same time not the total monsters we can create
     // ARRAYLISTS STORES OBJECTS ONLY, STRING OBJECTS, IN OUR CASE, ENTITY OBJECTS
+    public ArrayList<Entity> projectileList = new ArrayList<>();
     ArrayList<Entity> entityArrList = new ArrayList<>(); // store all entities: players, npc's, obj in this list.
 
-    // GAME STATE
+    // GAME STATES
     public int gameState; // game state is like a title screen state, play, pause, etc
     public final int titleState = 0;
     public final int playState = 1;
@@ -121,24 +122,43 @@ public class GamePanel extends JPanel implements Runnable {
 
         if(gameState == playState) {
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
+
             // NPC
             for(int i = 0; i < npc.length; i++ ){
                 if(npc[i] != null) {
                     npc[i].update();
                 }
             }
+
+
             // MONSTER
             for(int i = 0; i < monster.length; i++) {
                 if(monster[i] != null) {
                     monster[i].update();
                 }
             }
+
+            // PROJECTILES
+            for(int i = 0; i < projectileList.size(); i++) {
+                if(projectileList.get(i) != null) {
+                    if(projectileList.get(i).isDisplayable == true) {
+                        projectileList.get(i).update();
+                    }
+                    if(projectileList.get(i).isDisplayable == false) { // WHEN ROCK BASICALLY HITS GROUND.
+                        projectileList.remove(i);
+                    }
+                }
+            }
+
+
             // OBJECTS - arranged code so the obj doesnt change animations like players and npcs.
             for(int i = 0; i < obj.length; i++) {
                 if(obj[i] != null) {
                     obj[i].update();
                 }
             }
+
+
         }
         if(gameState == pauseState) {
             // nothing, no updating player info while paused
@@ -178,6 +198,12 @@ public class GamePanel extends JPanel implements Runnable {
             for(int i = 0; i < monster.length; i++) {
                 if(monster[i] != null) {
                     entityArrList.add(monster[i]);
+                }
+            }
+
+            for(int i = 0; i < projectileList.size(); i++) {
+                if(projectileList.get(i) != null) {
+                    entityArrList.add(projectileList.get(i));
                 }
             }
 

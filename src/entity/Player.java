@@ -3,10 +3,7 @@ package entity;
 import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
-import object.OBJ_Hands;
-import object.OBJ_Key;
-import object.OBJ_Rake;
-import object.OBJ_TallGrass;
+import object.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -26,12 +23,11 @@ public class Player extends Entity{
     public boolean rakeCanceled = false;
     public ArrayList<Entity> inventory = new ArrayList<>();
     public final int maxInventorySize = 12;
+    public Entity defaultCurrentItem;
 
     // ITEM ENABLEMENT - ONLY PLAYER WILL USE SO WE PUT IT HERE INSTEAD OF ITS PARENT
     public boolean rakeSelect = false; // THIS WILL ONLY ALLOW PLAYER TO USE RAKE WHEN IT HAS BEEN SELECTED FROM INVENTORY
     boolean raking = false;
-    public boolean keySelect = false;
-
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -71,6 +67,8 @@ public class Player extends Entity{
         maxLife = 4; // 2 lifes = one full heart
         curLife = maxLife; // players current life
         currentItem = new OBJ_Hands(gp);
+        defaultCurrentItem = currentItem;
+        projectile = new OBJ_Rock(gp);
     }
 
     public void setItems() {
@@ -191,20 +189,29 @@ public class Player extends Entity{
 
             spriteCounter++;
             if(spriteCounter > 12) { // this means player image changes every 7 frames
-                if(spriteNum == 1) {spriteNum = 2;}
-                else if(spriteNum == 2) {spriteNum = 1;}
+                if(spriteNum == 1) spriteNum = 2;
+                else if(spriteNum == 2) spriteNum = 1;
                 spriteCounter = 0;
             }
 
         }
+
         else {
-            standCounter++; // this starts to increment by one once theres no wasd or arrow key detection.
+            standCounter++; // this starts to increment by one once there's no wasd or arrow key detection.
 
             if(standCounter == 20) { // standCounter and this if statement helps stop awkward reset when its making the sprite switchover animation--
                 spriteNum = 1;      //  looks natural resetting back to normal position. gives it 19 frames to stay on the animation before resetting back to normal sprite state
                 standCounter = 0;
             }
         }
+
+        if(gp.keyH.throwPressed == true ) {
+
+            projectile.setInfo(worldX, worldY, direction);
+
+            gp.projectileList.add(projectile); // PROJECTILE STORES REFERENCE TO OBJ_ROCK ADDRESS IN HEAP
+        }
+
 
         // this needs to be outside key statement so counter increase even when player isn't moving
         if(invincible == true) {
@@ -266,6 +273,8 @@ public class Player extends Entity{
 
     public void pickUpObject(int i) {
 
+        int itemIndex;
+
         if(i != 999) { // if this index is 999 then that means we didn't touch any object. Otherwise, then we did touch an object. the reason for 999 is to make sure its not used by the object array's index
 
             String objectName = gp.obj[i].name; // refers to the index's string name from each obj subclass
@@ -282,11 +291,22 @@ public class Player extends Entity{
                     break;
                 case "Door":
                     if(hasKey > 0 && currentItem.type == TYPE_KEY) { // MUST HAVE SELECTED KEY TO OPEN FROM INVENTORY
+
+                        inventory.remove(currentItem); // GOES THROUGH FOR LOOP AND CHECKS IF THIS REFERENCE POINTS TO SAME OBJECT
                         currentItem.use(this);
+
+                        currentItem = defaultCurrentItem; // SET BACK TO HANDS
                         gp.playSE(4);
-                        gp.obj[i] = null;
-                        hasKey--;
+                        gp.obj[i] = null; // DISAPPEAR FROM MAP
+
+                        hasKey--; // MAKES IT WHERE I CANNOT OPEN DOORS IF hasKey < 1
                         gp.ui.showMessage("You opened door!");
+//                        for(int j = 0; j < inventory.size(); j++) {
+//                            if(inventory.get(j).type == TYPE_KEY) {
+//                                inventory.remove(j);
+//                                break; // remove only one key
+//                            }
+//                        }
                     }
                     else {
                         gp.ui.showMessage("You need a key!");
@@ -296,7 +316,7 @@ public class Player extends Entity{
                     if(gp.obj[i].worldX == gp.obj[5].worldX && gp.obj[i].worldY == gp.obj[5].worldY) {
                         gp.obj[i].collision = false; // set to false since starting door must be open since no keys available
                     }
-                    else if(hasKey > 0 && keySelect == true) {
+                    else if(hasKey > 0) {
                         gp.playSE(4);
                         gp.obj[i] = null;
                         hasKey--;
@@ -366,11 +386,7 @@ public class Player extends Entity{
 
             Entity selectedItem = inventory.get(itemIndex); // stores a reference to the current object. could be the reference to the Key, Rake, ... object
 
-            if(selectedItem.type == TYPE_KEY) {
-
-                currentItem = selectedItem;
-
-            }
+            if(selectedItem.type == TYPE_KEY) currentItem = selectedItem;
 
             if(selectedItem.type == TYPE_RAKE) currentItem = selectedItem;
         }

@@ -1,11 +1,13 @@
 package main;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener { // must add the key: typed, pressed and released methods when implementing KeyListener
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, enterPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, enterPressed, throwPressed;
     // DEBUG
     boolean checkDebugText = false;
 
@@ -155,6 +157,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;
         }
+        if(code == KeyEvent.VK_F) {
+            throwPressed = true;
+        }
 
         // DEBUG
         if(code == KeyEvent.VK_T) {
@@ -165,11 +170,13 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 checkDebugText = false;
             }
         }
+        // FAST REAL-TIME MAP EDIT
         if(code == KeyEvent.VK_B) {
             gp.tileM.loadMap("/maps/world01.txt");
             System.out.println("load map");
         }
     }
+
 
     public void pauseState(int code) {
         if(code == KeyEvent.VK_P) {
@@ -177,11 +184,13 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
     }
 
+
     public void dialogueState(int code) {
         if(code == KeyEvent.VK_ENTER) {
             gp.gameState = gp.playState;
         }
     }
+
 
     public void inventoryState(int code) {
         if(code == KeyEvent.VK_C) {
@@ -218,6 +227,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
     }
 
+
     @Override
     public void keyReleased(KeyEvent e) { // the boolean variables are set to false because it's telling the computer that no key is being detected thus is the goal of the keyReleased method.
 
@@ -238,6 +248,11 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(code == KeyEvent.VK_SHIFT) {
             shiftPressed = false;
         }
-
+        if(code == KeyEvent.VK_F) {
+            throwPressed = false;
+        }
     }
+
+
+
 }
