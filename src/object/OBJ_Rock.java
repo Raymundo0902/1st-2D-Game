@@ -3,6 +3,9 @@ package object;
 import entity.Projectile;
 import main.GamePanel;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class OBJ_Rock extends Projectile { // SUB CLASS OF PROJECTILE AND ENTITY BUT DIRECT PARENT IS PROJECTILE
 
     GamePanel gp;
@@ -13,9 +16,11 @@ public class OBJ_Rock extends Projectile { // SUB CLASS OF PROJECTILE AND ENTITY
         this.gp = gp;
         name = "Rock";
         type = TYPE_ROCK;
-        speed = 2;
+        speed = 6;
         maxLife = 40;
         curLife = maxLife;
+        direction = "left";
+
         getImage();
     }
 
@@ -30,10 +35,7 @@ public class OBJ_Rock extends Projectile { // SUB CLASS OF PROJECTILE AND ENTITY
         up2 = setup("/projectiles/upDownThrowRock2", gp.tileSize, gp.tileSize);
         down1 = setup("/projectiles/upDownThrowRock1", gp.tileSize, gp.tileSize);
         down2 = setup("/projectiles/upDownThrowRock2", gp.tileSize, gp.tileSize);
-
-
     }
-
 
 
 }

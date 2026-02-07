@@ -34,6 +34,8 @@ public class Entity {
     public int spriteCounter = 0;
     public int actionLockCounter = 0; // USUALLY FOR NPC, MAKE THEM LOCK INTO A IMAGE FOR A SPECIFIC AMOUNT OF FRAMES
     public int invincibleCounter = 0; // after taking damage, player becomes invisible for a bit
+    public int itemCooldown = 0; // AFTER USING ITEM, COOLDOWN BEFORE USING AGAIN
+    public int itemCooldownMax = 60; // AFTER 1 SECONDS USE ITEM AGAIN
 
     // TYPE
     public int type; // 0 = player, 1 = npc, 2 = monster
@@ -55,7 +57,7 @@ public class Entity {
     public Entity currentItem; // store reference to rake, key, flashlight, etc
     public String description = "";
     public Projectile projectile;
-    public boolean isDisplayable = true;
+    public boolean alive = false;
 
 
     public Entity(GamePanel gp) {

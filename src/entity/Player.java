@@ -17,6 +17,7 @@ public class Player extends Entity{
     public final int screenX; // screenX and Y indicate where we draw player on the screen and never change since its final. player always will be in the center of the camera.
     public final int screenY;
     public int hasKey = 0;
+    public int hasRock = 0;
     int standCounter = 0;
     int sprintCounter = 0; // 2 seconds of sprinting till no more stamina
     public BufferedImage rakeUp1, rakeDown1, rakeRight1, rakeLeft1;
@@ -24,6 +25,7 @@ public class Player extends Entity{
     public ArrayList<Entity> inventory = new ArrayList<>();
     public final int maxInventorySize = 12;
     public Entity defaultCurrentItem;
+
 
     // ITEM ENABLEMENT - ONLY PLAYER WILL USE SO WE PUT IT HERE INSTEAD OF ITS PARENT
     public boolean rakeSelect = false; // THIS WILL ONLY ALLOW PLAYER TO USE RAKE WHEN IT HAS BEEN SELECTED FROM INVENTORY
@@ -68,17 +70,13 @@ public class Player extends Entity{
         curLife = maxLife; // players current life
         currentItem = new OBJ_Hands(gp);
         defaultCurrentItem = currentItem;
-        projectile = new OBJ_Rock(gp);
+
     }
 
     public void setItems() {
 
         inventory.add(new OBJ_Rake(gp));
-//        inventory.add(new OBJ_Key(gp));
-//        inventory.add(new OBJ_Key(gp));
-//        inventory.add(new OBJ_Key(gp));
-//        inventory.add(new OBJ_Key(gp));
-//        inventory.add(new OBJ_Key(gp));
+
     }
 
     public void getPlayerImage() {
@@ -205,11 +203,21 @@ public class Player extends Entity{
             }
         }
 
-        if(gp.keyH.throwPressed == true ) {
+
+        if (gp.keyH.throwPressed == true && itemCooldown == 0 &&
+            hasRock > 0 && currentItem.type == TYPE_ROCK) { // START COOLDOWN
+
+            hasRock--;
+            Projectile projectile = new OBJ_Rock(gp);
 
             projectile.setInfo(worldX, worldY, direction);
-
             gp.projectileList.add(projectile); // PROJECTILE STORES REFERENCE TO OBJ_ROCK ADDRESS IN HEAP
+            itemCooldown = itemCooldownMax;
+            inventory.remove(currentItem); // REMOVES ROCK FROM INVENTORY
+
+        }
+        if(itemCooldown > 0) {
+            itemCooldown--;
         }
 
 
@@ -280,6 +288,16 @@ public class Player extends Entity{
             String objectName = gp.obj[i].name; // refers to the index's string name from each obj subclass
 
             switch(objectName) { // objectName is the one being evaluated at which must be one of the following below. e.g. Key, Door, Chest, Boots, etc
+
+                case "Rock":
+                    gp.playSE(1);
+                    hasRock++;
+                    gp.obj[i] = null;
+                    if(inventory.size() != maxInventorySize) {
+                        inventory.add(new OBJ_Rock(gp));
+                    }
+                    break;
+
                 case "Key":
                     gp.playSE(1);
                     hasKey++;
@@ -386,7 +404,7 @@ public class Player extends Entity{
 
             Entity selectedItem = inventory.get(itemIndex); // stores a reference to the current object. could be the reference to the Key, Rake, ... object
 
-            if(selectedItem.type == TYPE_KEY) currentItem = selectedItem;
+            if(selectedItem.type == TYPE_KEY || selectedItem.type == TYPE_ROCK) currentItem = selectedItem;
 
             if(selectedItem.type == TYPE_RAKE) currentItem = selectedItem;
         }

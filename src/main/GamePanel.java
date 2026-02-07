@@ -2,6 +2,7 @@ package main;
 
 import entity.Entity;
 import entity.Player;
+import entity.Projectile;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -46,9 +48,11 @@ public class GamePanel extends JPanel implements Runnable {
     public Entity obj[] = new Entity[15]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[20]; // num of monsters we can display at the same time not the total monsters we can create
+
     // ARRAYLISTS STORES OBJECTS ONLY, STRING OBJECTS, IN OUR CASE, ENTITY OBJECTS
-    public ArrayList<Entity> projectileList = new ArrayList<>();
+    public ArrayList<Projectile> projectileList = new ArrayList<>();
     ArrayList<Entity> entityArrList = new ArrayList<>(); // store all entities: players, npc's, obj in this list.
+
 
     // GAME STATES
     public int gameState; // game state is like a title screen state, play, pause, etc
@@ -138,16 +142,16 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
+
             // PROJECTILES
-            for(int i = 0; i < projectileList.size(); i++) {
-                if(projectileList.get(i) != null) {
-                    if(projectileList.get(i).isDisplayable == true) {
-                        projectileList.get(i).update();
-                    }
-                    if(projectileList.get(i).isDisplayable == false) { // WHEN ROCK BASICALLY HITS GROUND.
-                        projectileList.remove(i);
-                    }
-                }
+            Iterator<Projectile> cursor = projectileList.iterator(); // CURSOR HOLDS A REFERENCE TO PROJECTILE LIST. NOT THE LIST ITSELF. NEEDS TO RECREATE EVERY FRAME SO IT STARTS THE WALK FROM BEGINNING OF THE LIST.
+
+            while(cursor.hasNext()) { // ITERATOR STARTS BEFORE THE FIRST ELEMENT
+
+                Projectile p = cursor.next(); // GETS THE NEXT PROJECTILE REFERENCE IN THE ARRAYLIST. AT THIS POINT CURSOR TAKES ONE STEP FORWARD.
+
+                if(p.alive) p.update();
+                else cursor.remove(); // IF IT ISN'T ALIVE, REMOVE IT FROM THE CURRENT INDEX CURSOR IS IN
             }
 
 
