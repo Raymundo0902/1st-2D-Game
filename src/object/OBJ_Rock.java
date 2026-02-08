@@ -20,6 +20,7 @@ public class OBJ_Rock extends Projectile { // SUB CLASS OF PROJECTILE AND ENTITY
         maxLife = 40;
         curLife = maxLife;
         direction = "left";
+        description = "[Rock]\nRocks may save your life.";
 
         getImage();
     }

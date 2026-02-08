@@ -27,8 +27,7 @@ public class Sound {
         soundURL[12] = getClass().getResource("/sound/dialogueBox.wav");
         soundURL[13] = getClass().getResource("/sound/cursorMovement.wav");
         soundURL[14] = getClass().getResource("/sound/cursorSelect.wav");
-
-
+        soundURL[15] = getClass().getResource("/sound/pickupRock.wav");
     }
 
     public void setFile(int i) {

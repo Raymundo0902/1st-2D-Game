@@ -30,6 +30,7 @@ public class Player extends Entity{
     // ITEM ENABLEMENT - ONLY PLAYER WILL USE SO WE PUT IT HERE INSTEAD OF ITS PARENT
     public boolean rakeSelect = false; // THIS WILL ONLY ALLOW PLAYER TO USE RAKE WHEN IT HAS BEEN SELECTED FROM INVENTORY
     boolean raking = false;
+    boolean throwingRock = false;
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -54,6 +55,7 @@ public class Player extends Entity{
         setDefaultValues();
         getPlayerImage();
         getPlayerRakeImage();
+        getPlayerThrowImage();
         setItems();
     }
 
@@ -76,7 +78,6 @@ public class Player extends Entity{
     public void setItems() {
 
         inventory.add(new OBJ_Rake(gp));
-
     }
 
     public void getPlayerImage() {
@@ -97,6 +98,14 @@ public class Player extends Entity{
         rakeDown1 = setup("/girl_player/sally_rake_down1", gp.tileSize, gp.tileSize*2);
         rakeLeft1 = setup("/girl_player/sally_rake_left1", gp.tileSize*2, gp.tileSize);
         rakeRight1 = setup("/girl_player/sally_rake_right1", gp.tileSize*2, gp.tileSize);
+    }
+
+    public void getPlayerThrowImage() {
+
+        throwLeft1 = setup("/girl_player/throwRockLeft1", gp.tileSize, gp.tileSize);
+        throwRight1 = setup("/girl_player/throwRockRight1", gp.tileSize, gp.tileSize);
+        throwUp1 = setup("/girl_player/throwRockUp1", gp.tileSize, gp.tileSize);
+        throwDown1 = setup("/girl_player/throwRockDown1", gp.tileSize, gp.tileSize);
     }
 
     public void update() { // this method gets called 60x per second
@@ -203,22 +212,27 @@ public class Player extends Entity{
             }
         }
 
-
         if (gp.keyH.throwPressed == true && itemCooldown == 0 &&
             hasRock > 0 && currentItem.type == TYPE_ROCK) { // START COOLDOWN
 
+            throwingRock = true;
+            spriteThrowCounter = 16;
+            itemCooldown = itemCooldownMax;
             hasRock--;
             Projectile projectile = new OBJ_Rock(gp);
 
             projectile.setInfo(worldX, worldY, direction);
             gp.projectileList.add(projectile); // PROJECTILE STORES REFERENCE TO OBJ_ROCK ADDRESS IN HEAP
-            itemCooldown = itemCooldownMax;
-            inventory.remove(currentItem); // REMOVES ROCK FROM INVENTORY
 
+            inventory.remove(currentItem);
+            // RESET BACK TO HANDS TO AVOID THROWING THE OBJECT ROCK THAT WE ALREADY REMOVED FROM INVENTORY
+            currentItem = defaultCurrentItem;
         }
-        if(itemCooldown > 0) {
-            itemCooldown--;
-        }
+        // STOPS YOU FROM SPAMMING THROWS
+        if(itemCooldown > 0) itemCooldown--;
+        // PREVENTS FROM HOLDING DOWN THE THROW SPRITE ANIMATION WITH F KEY - NEED TO ONLY START DECREASING WHEN F PRESSED
+        if(spriteThrowCounter > 0) spriteThrowCounter--;
+        else throwingRock = false;
 
 
         // this needs to be outside key statement so counter increase even when player isn't moving
@@ -290,7 +304,7 @@ public class Player extends Entity{
             switch(objectName) { // objectName is the one being evaluated at which must be one of the following below. e.g. Key, Door, Chest, Boots, etc
 
                 case "Rock":
-                    gp.playSE(1);
+                    gp.playSE(15);
                     hasRock++;
                     gp.obj[i] = null;
                     if(inventory.size() != maxInventorySize) {
@@ -319,12 +333,12 @@ public class Player extends Entity{
 
                         hasKey--; // MAKES IT WHERE I CANNOT OPEN DOORS IF hasKey < 1
                         gp.ui.showMessage("You opened door!");
-//                        for(int j = 0; j < inventory.size(); j++) {
-//                            if(inventory.get(j).type == TYPE_KEY) {
-//                                inventory.remove(j);
-//                                break; // remove only one key
-//                            }
-//                        }
+                        for(int j = 0; j < inventory.size(); j++) {
+                            if(inventory.get(j).type == TYPE_KEY) {
+                                inventory.remove(j);
+                                break; // remove only one key
+                            }
+                        }
                     }
                     else {
                         gp.ui.showMessage("You need a key!");
@@ -432,6 +446,10 @@ public class Player extends Entity{
                     tempScreenY = screenY - gp.tileSize;
                     if(spriteNum == 1) {image = rakeUp1;}
                 }
+                if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
+                    System.out.println("throw sprite!");
+                    if(spriteNum == 1) {image = throwUp1;}
+                }
                 break;
             case "down":
                 if(raking == false) {
@@ -440,6 +458,10 @@ public class Player extends Entity{
                 }
                 if(raking == true) {
                     if(spriteNum == 1) {image = rakeDown1;}
+                }
+                if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
+                    System.out.println("throw sprite!");
+                    if(spriteNum == 1) {image = throwDown1;}
                 }
                     break;
             case "left":
@@ -451,6 +473,10 @@ public class Player extends Entity{
                     tempScreenX = screenX - gp.tileSize;
                     if(spriteNum == 1) {image = rakeLeft1;}
                 }
+                if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
+                    System.out.println("throw sprite!");
+                    if(spriteNum == 1) {image = throwLeft1;}
+                }
                 break;
             case "right":
                 if(raking == false) {
@@ -459,6 +485,10 @@ public class Player extends Entity{
                 }
                 if(raking == true) {
                     if(spriteNum == 1) {image = rakeRight1;}
+                }
+                if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
+                    System.out.println("throw sprite!");
+                    if(spriteNum == 1) {image = throwRight1;}
                 }
                 break;
         }

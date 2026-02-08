@@ -68,7 +68,7 @@ public class Projectile extends Entity{
             }
         }
 
-        else { // STATIC DRAW ON LOCATION WHEN NOT PICKED UP
+        else { // STATIC UPDATE ON LOCATION WHEN NOT PICKED UP
 
 
         }

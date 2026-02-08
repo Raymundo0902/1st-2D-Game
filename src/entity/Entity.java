@@ -13,7 +13,7 @@ public class Entity {
 
     protected GamePanel gp;
 
-    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2; // BufferedImage describes an Image with an accessible buffer of image data. (we use this to store our image files)
+    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2, throwLeft1, throwRight1, throwUp1, throwDown1; // BufferedImage describes an Image with an accessible buffer of image data. (we use this to store our image files)
     public boolean collision = false;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48); // create a invisible or abstract rectangle and store data like x,y width and height. is the default solidArea but can be changed within the children classes
     public Rectangle rakeArea = new Rectangle(0, 0, 0, 0); // rake grass
@@ -36,6 +36,7 @@ public class Entity {
     public int invincibleCounter = 0; // after taking damage, player becomes invisible for a bit
     public int itemCooldown = 0; // AFTER USING ITEM, COOLDOWN BEFORE USING AGAIN
     public int itemCooldownMax = 60; // AFTER 1 SECONDS USE ITEM AGAIN
+    public int spriteThrowCounter = 8; // SHOW THROWING SPRITE ANIMATION FOR 8 FRAMES
 
     // TYPE
     public int type; // 0 = player, 1 = npc, 2 = monster
