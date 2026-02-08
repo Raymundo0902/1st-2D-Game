@@ -23,33 +23,39 @@ public class Projectile extends Entity{
 
         if(alive == true) { // MAKES ALL ROCKS MOVE, FIX IT SO ONLY THE PICKED UP ONE MOVES
 
-            switch (direction) {
-                case "up":
-                    worldY -= speed;
-                    break;
-                case "down":
-                    worldY += speed;
-                    break;
+            collisionOn = false;
 
-                case "left":
+            gp.cChecker.checkTile(this);
 
-                    worldX -= speed; // HORIZONTAL MOTION - ALWAYS HAPPENS
-                    // VERTICAL ARC
-                    if (showTime > 30) worldY -= 2; // STRONG UPWARD
-                    else if (showTime > 25) worldY -= 1; // SLOWER UPWARD
-                    else if (showTime > 20) worldY += 1; // SLOWER FALLING
-                    else worldY += 2; // FALL FASTER
-                    break;
+            if(collisionOn == false) {
 
-                case "right":
 
-                    worldX += speed;
+                switch (direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
 
-                    if (showTime > 30) worldY -= 2;
-                    else if (showTime > 25) worldY -= 1;
-                    else if (showTime > 20) worldY += 1;
-                    else worldY += 2;
-                    break;
+                    case "left":
+                        worldX -= speed; // HORIZONTAL MOTION - ALWAYS HAPPENS
+                        // VERTICAL ARC
+                        if (showTime > 30) worldY -= 2; // STRONG UPWARD
+                        else if (showTime > 25) worldY -= 1; // SLOWER UPWARD
+                        else if (showTime > 20) worldY += 1; // SLOWER FALLING
+                        else worldY += 2; // FALL FASTER
+                        break;
+
+                    case "right":
+                        worldX += speed;
+
+                        if (showTime > 30) worldY -= 2;
+                        else if (showTime > 25) worldY -= 1;
+                        else if (showTime > 20) worldY += 1;
+                        else worldY += 2;
+                        break;
+                }
             }
 
             showTime--; // SINCE UPDATE GETS CALLED 60X PER SECOND, IT WILL DISAPPEAR ABOUT 1.2 SECONDS
@@ -67,6 +73,7 @@ public class Projectile extends Entity{
                 spriteCounter = 0;
             }
         }
+
 
         else { // STATIC UPDATE ON LOCATION WHEN NOT PICKED UP
 
