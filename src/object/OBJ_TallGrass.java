@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 
 public class OBJ_TallGrass extends Entity {
 
-//    GamePanel gp;
     BufferedImage grassFull, grassMed, grassLow;
     public int grassState;
 

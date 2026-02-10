@@ -77,7 +77,7 @@ public class TileManager {
             setup(42, "bRightCornerGravelRoad", false);
             setup(43, "tLeftCornerGravelRoad", false);
             setup(44, "tRightCornerGravelRoad", false);
-            setup(45, "litFireplace", true);
+//            setup(45, "litFireplace", true);
             setup(46, "deadNPC", false);
             setup(47, "topWater", true);
             setup(48, "bottomWater", true);

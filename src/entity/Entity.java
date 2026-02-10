@@ -142,13 +142,12 @@ public class Entity {
     }
 
     public void animate() {
+
         spriteCounter++;
         if (spriteCounter > 12) { // this means Entity's image changes every 12 frames
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 1;
-            }
+
+            if (spriteNum == 1) spriteNum = 2;
+            else if (spriteNum == 2) spriteNum = 1;
             spriteCounter = 0;
         }
     }

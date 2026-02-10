@@ -72,6 +72,26 @@ public class AssetSetter {
         gp.obj[13].worldX = 23 * gp.tileSize;
         gp.obj[13].worldY = 54 * gp.tileSize;
 
+        gp.obj[14] = new OBJ_Rock(gp);
+        gp.obj[14].worldX = 24 * gp.tileSize;
+        gp.obj[14].worldY = 54 * gp.tileSize;
+
+        gp.obj[15] = new OBJ_Rock(gp);
+        gp.obj[15].worldX = 24 * gp.tileSize;
+        gp.obj[15].worldY = 55 * gp.tileSize;
+
+        gp.obj[16] = new OBJ_Campfire(gp);
+        gp.obj[16].worldX = 21 * gp.tileSize;
+        gp.obj[16].worldY = 56 * gp.tileSize;
+
+        gp.obj[17] = new OBJ_Campfire(gp);
+        gp.obj[17].worldX = 13 * gp.tileSize;
+        gp.obj[17].worldY = 77 * gp.tileSize;
+
+        gp.obj[18] = new OBJ_Campfire(gp);
+        gp.obj[18].worldX = 48 * gp.tileSize;
+        gp.obj[18].worldY = 39 * gp.tileSize;
+
     }
 
     public void setNPC() {

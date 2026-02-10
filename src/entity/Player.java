@@ -114,8 +114,9 @@ public class Player extends Entity{
             raking();
         }
 
+        // without this, player will move without stopping && enterPressed here is for the purpose of checking npc collision when we just press enter key for dialogue without having to simultaneously move to npc and press enter.
         else if (keyH.upPressed == true || keyH.downPressed == true ||
-                keyH.leftPressed == true || keyH.rightPressed == true || keyH.enterPressed == true){ // without this, player will move without stopping
+                keyH.leftPressed == true || keyH.rightPressed == true || keyH.enterPressed == true){
 
             if(keyH.upPressed == true) {
                 direction = "up";
@@ -153,10 +154,11 @@ public class Player extends Entity{
 
             }
 
-            // CHECK TILE COLLISON
+            // CHECK TILE COLLISION - collisionOn = false  will be set to true if in the collision methods above detect collision.
             collisionOn = false;
             gp.cChecker.checkTile(this); // since player class is child to its parent class "Entity" checkTile receives this player class as an entity
 
+            // THE VARIABLES THAT HAVE "Index" IN THEIR NAME ARE TO RETRIEVE THE ENTITIES/OBJECT INDEX SO WE CAN USE TO INTERACT, RECIEVE DAMAGE, DO A SPECIFIC EVENT, ETC
             // CHECK OBJECT COLLISION
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
@@ -172,8 +174,9 @@ public class Player extends Entity{
             // CHECK EVENT COLLISION
             gp.eventH.checkEvent();
 
-            // IF COLLISON IS FALSE, PLAYER CAN MOVE
-            if(collisionOn == false && keyH.enterPressed == false) {
+
+            // IF COLLISON IS FALSE, PLAYER CAN MOVE AND WITHOUT THE ENTERPRESSED HERE, PLAYER CAN MOVE WHEN PRESSING ENTER.
+            if(collisionOn == false && keyH.enterPressed == false) { // REMOVING ENTERPRESSED HERE REMOVES THE WEIRD HOLD ENTER KEY DOWN BUGGY SCREEN. NOT A PRIORITY THOUGH. POLISH IF YOU WANT LATER
 
                 switch(direction) {
                     case "up": worldY -= speed; break;
@@ -182,6 +185,7 @@ public class Player extends Entity{
                     case "right": worldX += speed; break;
                 }
             }
+
 
             if(currentItem.type == TYPE_RAKE) {
                 if (keyH.enterPressed == true && rakeCanceled == false) {
@@ -192,7 +196,9 @@ public class Player extends Entity{
 
             rakeCanceled = false;
 
+            // RESET IT TO FALSE OR ELSE PLAYER WILL FREEZE BECAUSE IF ENTER WAS PRESSED, THE IF STATEMENT ABOVE WON'T EVER PASS AGAIN CAUSING PLAYER TO FREEZE.
             gp.keyH.enterPressed = false;
+
 
             spriteCounter++;
             if(spriteCounter > 12) { // this means player image changes every 7 frames
@@ -211,6 +217,8 @@ public class Player extends Entity{
                 standCounter = 0;
             }
         }
+
+
 
         if (gp.keyH.throwPressed == true && itemCooldown == 0 &&
             hasRock > 0 && currentItem.type == TYPE_ROCK) { // START COOLDOWN

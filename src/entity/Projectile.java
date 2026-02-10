@@ -21,7 +21,7 @@ public class Projectile extends Entity{
 
     public void update() { // CALLED 60X A SECOND , ADD AN IF STATEMENT WHERE THIS ONLY GOES THROUGH WHEN ROCK IS PICKED UP
 
-        if(alive == true) { // MAKES ALL ROCKS MOVE, FIX IT SO ONLY THE PICKED UP ONE MOVES
+        if(alive == true) {
 
             collisionOn = false;
 
@@ -56,15 +56,20 @@ public class Projectile extends Entity{
                         else worldY += 2;
                         break;
                 }
-            }
 
-            showTime--; // SINCE UPDATE GETS CALLED 60X PER SECOND, IT WILL DISAPPEAR ABOUT 1.2 SECONDS
-            if (showTime <= 0) {
+                showTime--; // SINCE UPDATE GETS CALLED 60X PER SECOND, IT WILL DISAPPEAR ABOUT .8 SECONDS
+                if (showTime <= 0) {
+                    alive = false;
+                    System.out.println("STOP SHOWING ROCK!\t");
+                    showTime = 45;
+                }
+
+            }
+            else { // NO UPDATES WHEN NOT ALIVE.
                 alive = false;
-                System.out.println("STOP SHOWING ROCK!\t");
-                showTime = 45;
             }
 
+            // SHOULD ANIMATE NO MATTER IF COLLISION ON OR FALSE.
             spriteCounter++;
             if (spriteCounter > 8) {
 
@@ -72,13 +77,9 @@ public class Projectile extends Entity{
                 else if (spriteNum == 2) spriteNum = 1;
                 spriteCounter = 0;
             }
-        }
-
-
-        else { // STATIC UPDATE ON LOCATION WHEN NOT PICKED UP
-
 
         }
+
 
 
     }
