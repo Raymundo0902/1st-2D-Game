@@ -25,7 +25,7 @@ public class Projectile extends Entity{
 
             collisionOn = false;
 
-            gp.cChecker.checkTile(this);
+            gp.cChecker.checkObject(this, false);
 
             if(collisionOn == false) {
 

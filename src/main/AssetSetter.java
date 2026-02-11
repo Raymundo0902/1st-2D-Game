@@ -92,6 +92,10 @@ public class AssetSetter {
         gp.obj[18].worldX = 48 * gp.tileSize;
         gp.obj[18].worldY = 39 * gp.tileSize;
 
+        gp.obj[19] = new OBJ_Rake(gp);
+        gp.obj[19].worldX = 49 * gp.tileSize;
+        gp.obj[19].worldY = 58 * gp.tileSize;
+
     }
 
     public void setNPC() {

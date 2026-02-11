@@ -11,7 +11,7 @@ public class OBJ_Rake extends Entity {
         type = TYPE_RAKE;
         name = "Rake";
         down1 = setup("/objects/rake", gp.tileSize, gp.tileSize);
-        description = "[" + name + "]\n when life gives you a rake,\n go do some yard work!";
+        description = "[" + name + "]\n Rusty, good ol' rake.";
 
     }
 

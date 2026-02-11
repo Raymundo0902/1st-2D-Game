@@ -27,10 +27,11 @@ public class Player extends Entity{
     public Entity defaultCurrentItem;
 
 
-    // ITEM ENABLEMENT - ONLY PLAYER WILL USE SO WE PUT IT HERE INSTEAD OF ITS PARENT
+    // ITEM ENABLEMENT & INTERACTION - ONLY PLAYER WILL USE SO WE PUT IT HERE INSTEAD OF ITS PARENT
     public boolean rakeSelect = false; // THIS WILL ONLY ALLOW PLAYER TO USE RAKE WHEN IT HAS BEEN SELECTED FROM INVENTORY
     boolean raking = false;
     boolean throwingRock = false;
+    public boolean itemDrop = false;
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -75,9 +76,9 @@ public class Player extends Entity{
 
     }
 
+    // ITEMS THAT SHOULD ALREADY BE IN INVENTORY AT START OF GAME GOES HERE
     public void setItems() {
 
-        inventory.add(new OBJ_Rake(gp));
     }
 
     public void getPlayerImage() {
@@ -135,11 +136,9 @@ public class Player extends Entity{
             if(keyH.shiftPressed == true) {
                 sprintCounter++;
                 if(sprintCounter < 180) { // if sprintCounter is less than 3 seconds then sprint
-                    System.out.println("SPRINTING!!");
                     speed = 6;
                 }
                 else if (sprintCounter > 180 && sprintCounter < 360){ // BE TIRED FOR 3 SECONDS
-                    System.out.println("IM TIRED!!");
                     speed = 4; // STAYS AT NORMAL SPEED DURING TIRED DURATION
                 }
                 else if (sprintCounter > 360) { // ONCE PLAYER RESTED FOR 3 SECONDS, START RUNNING
@@ -147,7 +146,7 @@ public class Player extends Entity{
                 }
             }
             else { // IF SHIFT KEY NOT BEING PRESSED PLAYER SHOULD STILL BE RESTING
-                if(sprintCounter > 0) { // MAKES SURE SPRINTCOUNTER < 0 BECAUSE THAT WOULD BREAK THE SPRINT AND TIRED PERIODS
+                if(sprintCounter > 0) { // MAKES SURE SPRINT COUNTER < 0 BECAUSE THAT WOULD BREAK THE SPRINT AND TIRED PERIODS
                     sprintCounter--;
                 }
                 speed = 4;
@@ -158,7 +157,7 @@ public class Player extends Entity{
             collisionOn = false;
             gp.cChecker.checkTile(this); // since player class is child to its parent class "Entity" checkTile receives this player class as an entity
 
-            // THE VARIABLES THAT HAVE "Index" IN THEIR NAME ARE TO RETRIEVE THE ENTITIES/OBJECT INDEX SO WE CAN USE TO INTERACT, RECIEVE DAMAGE, DO A SPECIFIC EVENT, ETC
+            // THE VARIABLES THAT HAVE "Index" IN THEIR NAME ARE TO RETRIEVE THE ENTITIES/OBJECT INDEX SO WE CAN USE TO INTERACT, RECEIVE DAMAGE, DO A SPECIFIC EVENT, ETC
             // CHECK OBJECT COLLISION
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
@@ -252,6 +251,11 @@ public class Player extends Entity{
             }
         }
 
+
+    }
+
+    public void itemDrop() {
+
     }
 
     public void raking() {
@@ -310,6 +314,14 @@ public class Player extends Entity{
             String objectName = gp.obj[i].name; // refers to the index's string name from each obj subclass
 
             switch(objectName) { // objectName is the one being evaluated at which must be one of the following below. e.g. Key, Door, Chest, Boots, etc
+
+                case "Rake":
+                    gp.playSE(15); // find a better sound like pickup a tool sound effect
+                    gp.obj[i] = null;
+                    if(inventory.size() != maxInventorySize) {
+                        inventory.add(new OBJ_Rake(gp));
+                    }
+                    break;
 
                 case "Rock":
                     gp.playSE(15);

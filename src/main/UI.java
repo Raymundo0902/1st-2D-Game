@@ -365,6 +365,8 @@ public class UI {
         int textX = dFrameX + 20;
         int textY = dFrameY + gp.tileSize;
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20));
+        String interactItem = " 'G' to drop ";
+
 
         int itemIndex = getItemIndexOnSlot();
 
@@ -373,11 +375,14 @@ public class UI {
             drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight); // BOX ONLY GETS DRAWN WHEN THE CURSOR IS ON AN ITEM
 
             g2.setColor(Color.white);
-            for(String line : gp.player.inventory.get(itemIndex).description.split("\n")) {
+            for(String line : gp.player.inventory.get(itemIndex).description.split("\n")) { // .split CONVERTS THE STRING INTO AN ARRAY OF SUBSTRINGS.
 
                 g2.drawString(line, textX, textY);
-                textY += 32;
+                textY += 32; // MOVE DOWN TO THE NEXT LINE
             }
+
+            g2.drawString(interactItem, textX, textY);
+
         }
 
     }

@@ -106,15 +106,8 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this); // if hits player, set collision = true
 
-        if(this.type == TYPE_MONSTER && contactPlayer == true) {
-            if(gp.player.invincible == false) {
-                // we can give damage
 
-                gp.playSE(11);
-                gp.player.curLife -= 1;
-                gp.player.invincible = true;
-            }
-        }
+        if(this.type == TYPE_MONSTER && contactPlayer == true) { attackPlayer(); }
 
         // IF COLLISON IS FALSE, PLAYER CAN MOVE
         if(collisionOn == false) {
@@ -162,6 +155,16 @@ public class Entity {
         }
     }
 
+    public void attackPlayer() {
+
+        if(gp.player.invincible == false) {
+            // GIVE PLAYER DAMAGE
+            gp.playSE(11);
+            gp.player.curLife -= 1;
+            gp.player.invincible = true;
+        }
+    }
+
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;
@@ -198,7 +201,7 @@ public class Entity {
 
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f)); // makes Entity back to normal transparency
 
-            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(image, screenX, screenY, null);
             // COLLISION VISUALS (DEBUG)
             g2.setColor(Color.red);
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);

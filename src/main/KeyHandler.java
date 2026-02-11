@@ -30,7 +30,6 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(gp.gameState == gp.titleState) { // check current titleState substate inside this if statement
             titleState(code);
         }
-
         // PLAY STATE
         else if(gp.gameState == gp.playState) {
             playState(code);
@@ -53,7 +52,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
     }
     public void titleState(int code) {
 
-        if(gp.ui.titleScreenState == 0) { // main menu
+        if(gp.ui.titleScreenState == 0) { // MAIN MENU
 
             if(code == KeyEvent.VK_W) {
                 gp.ui.commandNum--;
@@ -88,7 +87,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
         }
 
-        else if(gp.ui.titleScreenState == 1) { // character pick menu
+        else if(gp.ui.titleScreenState == 1) { // CHARACTER PICK MENU
             if(code == KeyEvent.VK_W) {
                 gp.ui.commandNum--;
                 if(gp.ui.commandNum < 0) { // keeps arrow from disappearing from select menu
@@ -220,11 +219,13 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 gp.ui.slotCol++;
             }
         }
+
         if(code == KeyEvent.VK_ENTER) { // SELECTING AN ITEM FROM INVENTORY - NEED TO FIND A BETTER WAY TO HANDLE THE IF STATEMENTS
                                         // INSTEAD OF JUST USING ITEM POSITION. PERHAPS A BOOLEAN ENABLED IN FOR LOOP WHERE INVENTORY IS DRAWN?
             gp.playSE(14);
             gp.player.selectItem();
         }
+
     }
 
 
@@ -251,6 +252,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(code == KeyEvent.VK_F) {
             throwPressed = false;
         }
+
     }
 
 

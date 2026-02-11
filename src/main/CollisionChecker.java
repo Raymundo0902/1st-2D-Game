@@ -64,7 +64,9 @@ public class CollisionChecker {
         }
     }
 
-    public int checkObject (Entity entity, boolean player) { // we recieve either a player, enemy, etc and then check if the entity is player or not
+    // we recieve either a player, enemy, etc and then check if the entity is player or not
+    // WE RECEIVE EITHER A PLAYER, ENEMY, PROJECTILE AND THEN CHEC IF THE ENTITY IS A PLAYER SO IT CAN USE THE INDEX OF OBJECT FOR METHODS LIKE pickupObject.
+    public int checkObject (Entity entity, boolean player) {
 
         int index = 999;
 

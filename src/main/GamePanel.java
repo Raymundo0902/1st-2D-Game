@@ -61,6 +61,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int characterState = 4;
+    public final int loadingState = 5; // IMPLEMENT SOON FOR WHEN STARTING NEW GAME
+
 
     public GamePanel () {
 
