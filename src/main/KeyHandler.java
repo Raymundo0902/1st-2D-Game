@@ -30,6 +30,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(gp.gameState == gp.titleState) { // check current titleState substate inside this if statement
             titleState(code);
         }
+        if(gp.gameState == gp.initialDialogueState) {
+            initDialogueState(code);
+        }
         // PLAY STATE
         else if(gp.gameState == gp.playState) {
             playState(code);
@@ -50,6 +53,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
 
     }
+
     public void titleState(int code) {
 
         if(gp.ui.titleScreenState == 0) { // MAIN MENU
@@ -108,7 +112,8 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 if (gp.ui.commandNum == 0) {
                     System.out.println("Do specific stuff for Sally");
                     gp.stopMusic();
-                    gp.gameState = gp.playState;
+                    gp.gameState = gp.initialDialogueState;
+//                    gp.gameState = gp.playState;
                     gp.playMusic(6);
                 }
                 // SELECT CHAD
@@ -129,6 +134,22 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
             }
         }
     }
+
+    public void initDialogueState(int code) {
+
+        // TO ENTER THE INITIAL DIALOGUE U MUST PRESS ENTER WHICH CARRIES OVER TO HERE SO U NEED TO RESET THE CODE TO SOMETHING ELSE
+
+        if(code != KeyEvent.VK_ENTER) {
+            gp.ui.canAdvanceDialogue = true;
+            // DRAW NEXT STRING PROMPT
+
+        }
+        if(gp.ui.canAdvanceDialogue != true) {
+            System.out.println("ENTER DIALOGUE SYSTEM HERE");
+        }
+
+    }
+
 
     public void playState(int code) {
 
@@ -252,6 +273,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(code == KeyEvent.VK_F) {
             throwPressed = false;
         }
+
 
     }
 

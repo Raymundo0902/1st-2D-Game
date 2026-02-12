@@ -26,6 +26,10 @@ public class UI {
     public int imgSpriteNum = 1;
     public int playerType; // 1 for sally, 2 for chad
 
+    // INITIAL DIALOGUE MECHANICS
+    public int nextText = 0;
+    public boolean canAdvanceDialogue = false;
+
     // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
     public int slotRow = 0;
@@ -71,7 +75,10 @@ public class UI {
         if(gp.gameState == gp.titleState) {
             drawTitleScreen();
         }
-
+        // INITIAL DIALOGUE STATE
+        if(gp.gameState == gp.initialDialogueState) {
+            drawIntroDialogueScreen();
+        }
         // PLAY STATE
         if(gp.gameState == gp.playState) {
             drawPlayerLife();
@@ -262,6 +269,20 @@ public class UI {
         }
 
     }
+
+    public void drawIntroDialogueScreen() {
+
+        if(nextText == 0) {
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 95F));
+            g2.drawString("Hello", 100, 100);
+        }
+        if(nextText == 1) {
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 95F));
+            g2.drawString("Bye", 100, 100);
+
+        }
+    }
+
 
     public void drawSpriteVariation(int spriteNum) {
         int x = gp.tileSize;

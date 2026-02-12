@@ -61,7 +61,11 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int characterState = 4;
-    public final int loadingState = 5; // IMPLEMENT SOON FOR WHEN STARTING NEW GAME
+    public final int initialDialogueState = 5; // IMPLEMENT SOON FOR WHEN STARTING NEW GAME
+
+    // CONTROL VARIABLES FOR ONE TIME FUNCTIONS - LOADING SCREEN, DIALOGUE, ETC
+    private int transitionGameCounter = 60;
+
 
 
     public GamePanel () {
@@ -126,7 +130,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
+
         if(gameState == playState) {
+
+
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
 
             // NPC
@@ -186,8 +193,15 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == titleState) {
             ui.draw(g2);
         }
-        // OTHERS
+        if(gameState == initialDialogueState) {
+            ui.draw(g2);
+            System.out.println(ui.nextText);
+        }
+        // OTHER GAME STATES. START THE MAIN DIALOGUE HERE:
         else{
+
+            // INITIAL DIALOGUE SCREEN HERE
+
 
             // TILE
             tileM.draw(g2); // put this above player because if not, background tiles will hide the player character
