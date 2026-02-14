@@ -132,6 +132,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         if(gameState == initialDialogueState) {
 
+
+
+
             if(keyH.enterPressed == true) {
 
                 // IF DIALOGUE HASN'T FINISHED

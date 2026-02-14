@@ -290,13 +290,21 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30f));
 
         String currentText = introDialogues[dialogueIndex];
-        // lines stores : ["hello"], \n ["goodbye"]
+        // lines example : ["hello"], \n ["goodbye"]
         String[] lines = currentText.split("\n");
-        g2.drawString(lines[0], 40, 40);
 
+        int y = gp.tileSize *2;
 
-        System.out.println(lines.length); // length = 9 true index length = 8
-        // ONLY DO TYPE WRITER EFFECT WHEN NEXTLINE(next index) IS LESS THAN THE LENGTH. PREVENTS EXCEPTIONS
+        // Draw all completed lines so they stay on screen.
+        // nextLine represents how many lines have finished typing.
+        // As nextLine increases, this loop redraws more full lines each frame.
+        for(int i = 0; i < nextLine; i++) {
+
+            g2.drawString(lines[i], 48, y);
+            y += 40;
+        }
+
+        // Only do typewriter effect when nextLine(next index) is less than the length. Prevents exception errors.
         if(nextLine < lines.length) {
 
             String curWord = lines[nextLine].substring(0, wordEnd);
