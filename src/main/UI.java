@@ -29,10 +29,14 @@ public class UI {
     public int playerType; // 1 for sally, 2 for chad
 
     // INITIAL DIALOGUE MECHANICS
-    public int nextText = 0;
     public int dialogueIndex = 0; // WHEN PRESSING ENTER IT INCREASES TO GO THROUGH THE ARRAY
-    public int textCooldown = 60; // 1 seconds of no enter pressing
     String[] introDialogues; // STORES AN ARRAY OF ALL THE STRINGS OF THE INTRO DIALOGUE
+    int wordEnd = 0;
+    int nextLine = 0;
+    // USING TILESIZE REAL NUMBERS SINCE IF I PUT GP'S VARIABLES HERE ITS STILL NULL AT THE TIME.
+    int introDialogueX = 48;
+    int introDialogueY = 96;
+
 
     // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
@@ -56,7 +60,9 @@ public class UI {
             e.printStackTrace();
         }
 
+
         // INITIALIZE THE INTRODUCTORY DIALOGUE
+
         setIntroArray();
         // CREATE HUD OBJECT
         Entity heart = new OBJ_Heart(gp);
@@ -281,22 +287,34 @@ public class UI {
 
     public void drawIntroDialogueScreen() {
 
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30f));
 
-       for(int i = 0; i < introDialogues.length; i++) {
+        String currentText = introDialogues[dialogueIndex];
+        // lines stores : ["hello"], \n ["goodbye"]
+        String[] lines = currentText.split("\n");
+        g2.drawString(lines[0], 40, 40);
 
-            // FONT STYLES
-           g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50f));
-           int x = gp.tileSize;
-           int y = gp.tileSize*2;
 
-           String currentText = introDialogues[dialogueIndex];
+        System.out.println(lines.length); // length = 9 true index length = 8
+        // ONLY DO TYPE WRITER EFFECT WHEN NEXTLINE(next index) IS LESS THAN THE LENGTH. PREVENTS EXCEPTIONS
+        if(nextLine < lines.length) {
 
-           for (String line : currentText.split("\n")) {
-               g2.drawString(line, x, y);
-               y += 50;
+            String curWord = lines[nextLine].substring(0, wordEnd);
+            g2.drawString(curWord, introDialogueX, introDialogueY);
 
-           }
-       }
+            // ONLY SHOW LONGER WORD WHEN WE ARE LESS THAN THE WORD LENGTH
+            if(wordEnd < lines[nextLine].length()) {
+
+                wordEnd++;
+            }
+            // ONCE DRAWN FULL WORD, SET BACK TO ZERO FOR SHOWING THE WORD AND GO TO NEXT INDEX OF SENTENCE.
+            else if(wordEnd >= lines[nextLine].length()) {
+                wordEnd = 0;
+                nextLine++;
+
+                introDialogueY += 40;
+            }
+        }
 
     }
 
@@ -459,6 +477,7 @@ public class UI {
     }
 
     public void setIntroArray() {
+
 
                                         // INDEX 0
         introDialogues = new String[] {"Hello. I decided to finally open up\n" +

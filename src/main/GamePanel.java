@@ -134,18 +134,23 @@ public class GamePanel extends JPanel implements Runnable {
 
             if(keyH.enterPressed == true) {
 
+                // IF DIALOGUE HASN'T FINISHED
                 if(ui.dialogueIndex < ui.introDialogues.length -1) {
-
                     ui.dialogueIndex++;
+                    ui.nextLine = 0;
+                    ui.introDialogueY = tileSize*2;
+
                 }
-                else gameState = playState;
+                // DIALOGUE FINISHED
+                else {
+                    gameState = playState;
+                }
             }
             keyH.enterPressed = false;
         }
 
 
         if(gameState == playState) {
-
 
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
 
@@ -245,7 +250,8 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-            // SORT
+            // SORT - " new Comparator<Entity>() means to create a new object whose type is Comparator<Entity> and since Comparator is an interface, we must state its method here. We basically skipped making a new class page.
+            // In simplist form, its saying Collections.sort(entityArrList, Object)
             Collections.sort(entityArrList, new Comparator<Entity>() { // COMPUTER DOESN'T LOOK AT LIST ALL AT ONCE. 2 ENTITIES AT A TIME THEN ASKS COMPARATOR WHICH SHOULD BE DRAWN FIRST
                     // compare is a method of the Comparator interface.
                     @Override
