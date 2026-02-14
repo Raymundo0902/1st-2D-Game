@@ -36,6 +36,7 @@ public class UI {
     // USING TILESIZE REAL NUMBERS SINCE IF I PUT GP'S VARIABLES HERE ITS STILL NULL AT THE TIME.
     int introDialogueX = 48;
     int introDialogueY = 96;
+    public boolean finishedTyping = false;
 
 
     // INVENTORY DESIGN
@@ -323,6 +324,8 @@ public class UI {
                 introDialogueY += 40;
             }
         }
+        // ONCE FINISHED TYPING THE FULL CURRENT PAGE. WE USE THIS TO ALLOW TO PRESS ENTER
+        else finishedTyping = true;
 
     }
 

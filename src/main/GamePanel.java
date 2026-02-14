@@ -65,6 +65,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     // CONTROL VARIABLES FOR ONE TIME FUNCTIONS - LOADING SCREEN, DIALOGUE, ETC
     private int transitionGameCounter = 60;
+    public int nextDialogueCooldown = 30;
+    public boolean startDialogueCooldown = false;
 
 
 
@@ -133,22 +135,30 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == initialDialogueState) {
 
 
+            if (keyH.enterPressed == true) {
 
+                if(ui.finishedTyping == true) {
 
-            if(keyH.enterPressed == true) {
+                    // IF FULL DIALOGUE HASN'T FINISHED WE CAN TURN PAGE
+                    if (ui.dialogueIndex < ui.introDialogues.length - 1) {
+                        ui.finishedTyping = false;
+                        ui.dialogueIndex++;
+                        ui.nextLine = 0;
+                        ui.introDialogueY = tileSize * 2;
+                        playSE(16);
+                    }
 
-                // IF DIALOGUE HASN'T FINISHED
-                if(ui.dialogueIndex < ui.introDialogues.length -1) {
-                    ui.dialogueIndex++;
-                    ui.nextLine = 0;
-                    ui.introDialogueY = tileSize*2;
-
-                }
-                // DIALOGUE FINISHED
-                else {
-                    gameState = playState;
+                    // DIALOGUE FINISHED
+                    else {
+                        se.stop();
+                        gameState = playState;
+                    }
                 }
             }
+
+
+
+
             keyH.enterPressed = false;
         }
 
