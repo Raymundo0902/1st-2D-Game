@@ -130,6 +130,19 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
+        if(gameState == initialDialogueState) {
+
+            if(keyH.enterPressed == true) {
+
+                if(ui.dialogueIndex < ui.introDialogues.length -1) {
+
+                    ui.dialogueIndex++;
+                }
+                else gameState = playState;
+            }
+            keyH.enterPressed = false;
+        }
+
 
         if(gameState == playState) {
 
@@ -195,7 +208,6 @@ public class GamePanel extends JPanel implements Runnable {
         }
         if(gameState == initialDialogueState) {
             ui.draw(g2);
-            System.out.println(ui.nextText);
         }
         // OTHER GAME STATES. START THE MAIN DIALOGUE HERE:
         else{

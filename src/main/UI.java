@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static javax.swing.text.StyleConstants.getBackground;
+
 public class UI {
 
     GamePanel gp;
@@ -28,7 +30,9 @@ public class UI {
 
     // INITIAL DIALOGUE MECHANICS
     public int nextText = 0;
-    public boolean canAdvanceDialogue = false;
+    public int dialogueIndex = 0; // WHEN PRESSING ENTER IT INCREASES TO GO THROUGH THE ARRAY
+    public int textCooldown = 60; // 1 seconds of no enter pressing
+    String[] introDialogues; // STORES AN ARRAY OF ALL THE STRINGS OF THE INTRO DIALOGUE
 
     // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
@@ -51,11 +55,16 @@ public class UI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // INITIALIZE THE INTRODUCTORY DIALOGUE
+        setIntroArray();
         // CREATE HUD OBJECT
         Entity heart = new OBJ_Heart(gp);
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;
+
+
     }
 
     public void showMessage(String text) {
@@ -272,15 +281,23 @@ public class UI {
 
     public void drawIntroDialogueScreen() {
 
-        if(nextText == 0) {
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 95F));
-            g2.drawString("Hello", 100, 100);
-        }
-        if(nextText == 1) {
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 95F));
-            g2.drawString("Bye", 100, 100);
 
-        }
+       for(int i = 0; i < introDialogues.length; i++) {
+
+            // FONT STYLES
+           g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50f));
+           int x = gp.tileSize;
+           int y = gp.tileSize*2;
+
+           String currentText = introDialogues[dialogueIndex];
+
+           for (String line : currentText.split("\n")) {
+               g2.drawString(line, x, y);
+               y += 50;
+
+           }
+       }
+
     }
 
 
@@ -438,6 +455,28 @@ public class UI {
             g2.drawString(line, x, y);
             y += 40;
         }
+
+    }
+
+    public void setIntroArray() {
+
+                                        // INDEX 0
+        introDialogues = new String[] {"Hello. I decided to finally open up\n" +
+                                       "about a story that happened to me\n"+
+                                       "in 2003.\n\n" +
+                                       "When I was 19, I had wanted to get\n" +
+                                       "away from home and work.\n\n" +
+                                       "So I found work as a park ranger in \n" +
+                                       "Pinewood Camp. I wish I didn't.",
+                                        // INDEX 1
+                                       "The first few weeks of work was\n" +
+                                       "fun, actually. I made some good\n" +
+                                       "friends and explored the wilderness.\n\n" +
+                                       "It was therapeutic coming from\n" +
+                                       "an unforgiving home. It was\n" +
+                                       "good until this specific night..",
+                                        // INDEX 2
+                                       "I will never forget about this moment"};
 
     }
 

@@ -8,6 +8,9 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener { // must add the key: typed, pressed and released methods when implementing KeyListener
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, enterPressed, throwPressed;
+
+    public boolean introJustStarted = false;
+
     // DEBUG
     boolean checkDebugText = false;
 
@@ -21,6 +24,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
     public void keyTyped(KeyEvent e) { // don't use this method but for the bottom two we will.
     }
 
+    // RUNS ONCE FOR EVERY KEY INPUT
     @Override
     public void keyPressed(KeyEvent e) {
 
@@ -30,7 +34,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(gp.gameState == gp.titleState) { // check current titleState substate inside this if statement
             titleState(code);
         }
-        if(gp.gameState == gp.initialDialogueState) {
+        else if(gp.gameState == gp.initialDialogueState) {
             initDialogueState(code);
         }
         // PLAY STATE
@@ -107,12 +111,17 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
             }
 
             if(code == KeyEvent.VK_ENTER) {
+
                 // SELECT SALLY
                 gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
                 if (gp.ui.commandNum == 0) {
                     System.out.println("Do specific stuff for Sally");
                     gp.stopMusic();
                     gp.gameState = gp.initialDialogueState;
+
+                    gp.ui.dialogueIndex = 0;
+                    enterPressed = false;
+
 //                    gp.gameState = gp.playState;
                     gp.playMusic(6);
                 }
@@ -137,16 +146,13 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
     public void initDialogueState(int code) {
 
-        // TO ENTER THE INITIAL DIALOGUE U MUST PRESS ENTER WHICH CARRIES OVER TO HERE SO U NEED TO RESET THE CODE TO SOMETHING ELSE
+        System.out.println(gp.ui.dialogueIndex);
 
-        if(code != KeyEvent.VK_ENTER) {
-            gp.ui.canAdvanceDialogue = true;
-            // DRAW NEXT STRING PROMPT
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
 
-        }
-        if(gp.ui.canAdvanceDialogue != true) {
-            System.out.println("ENTER DIALOGUE SYSTEM HERE");
-        }
+
 
     }
 
