@@ -325,7 +325,10 @@ public class UI {
             }
         }
         // ONCE FINISHED TYPING THE FULL CURRENT PAGE. WE USE THIS TO ALLOW TO PRESS ENTER
-        else finishedTyping = true;
+        else {
+            finishedTyping = true;
+            gp.se.stop();
+        }
 
     }
 
