@@ -66,6 +66,9 @@ public class GamePanel extends JPanel implements Runnable {
     // CONTROL VARIABLES FOR ONE TIME FUNCTIONS - LOADING SCREEN, DIALOGUE, ETC
 
     public boolean canTypeSound = true;
+    public boolean drawBlackScreen = false;
+
+    float j = 1f;
 
 
 
@@ -154,7 +157,7 @@ public class GamePanel extends JPanel implements Runnable {
 
                     // DIALOGUE FINISHED
                     else {
-//                        se.stop();
+                        drawBlackScreen = true;
                         gameState = playState;
                     }
                 }
@@ -164,6 +167,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
         if(gameState == playState) {
+
 
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
 
@@ -230,9 +234,6 @@ public class GamePanel extends JPanel implements Runnable {
         // OTHER GAME STATES. START THE MAIN DIALOGUE HERE:
         else{
 
-            // INITIAL DIALOGUE SCREEN HERE
-
-
             // TILE
             tileM.draw(g2); // put this above player because if not, background tiles will hide the player character
 
@@ -285,6 +286,21 @@ public class GamePanel extends JPanel implements Runnable {
 
             // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
             ui.draw(g2);
+
+            // Intro dialogue transition to game.
+            if(drawBlackScreen == true) {
+                if(j > 0) {
+                    g2.setColor(Color.black);
+
+                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, j));
+                    g2.fillRect(0, 0, screenWidth, screenHeight);
+                    j -= 0.005f;
+                }
+                else {
+                    drawBlackScreen = false;
+                }
+            }
+
         }
 
         // DEBUG

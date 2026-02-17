@@ -37,6 +37,9 @@ public class UI {
     int introDialogueX = 48;
     int introDialogueY = 96;
     public boolean finishedTyping = false;
+    // TRANSITION
+    float j = 1f;
+    public boolean transitionScreen = false;
 
 
     // INVENTORY DESIGN
@@ -327,6 +330,7 @@ public class UI {
         // ONCE FINISHED TYPING THE FULL CURRENT PAGE. WE USE THIS TO ALLOW TO PRESS ENTER
         else {
             finishedTyping = true;
+            transitionScreen = true;
             gp.se.stop();
         }
 
@@ -494,20 +498,20 @@ public class UI {
 
 
                                         // INDEX 0
-        introDialogues = new String[] {"Hello. I decided to finally open up\n" +
+        introDialogues = new String[] {"Hello. I decided it's finally time to open up\n" +
                                        "about a story that happened to me\n"+
                                        "in 2003.\n\n" +
                                        "When I was 19, I had wanted to get\n" +
-                                       "away from home and work.\n\n" +
-                                       "So I found work as a park ranger in \n" +
-                                       "Pinewood Camp. I wish I didn't.",
+                                       "away from home.. and I mean far away\n\n" +
+                                       "So, I found a job as a park ranger in \n" +
+                                       "Pinewood Camp. This is where the story turns",
                                         // INDEX 1
                                        "The first few weeks of work was\n" +
-                                       "fun, actually. I made some good\n" +
+                                       "exciting, I made some good\n" +
                                        "friends and explored the wilderness.\n\n" +
                                        "It was therapeutic coming from\n" +
-                                       "an unforgiving home. It was\n" +
-                                       "good until this specific night..",
+                                       "a chaotic home.\n" +
+                                       " It was good until a specific night shift.",
                                         // INDEX 2
                                        "I will never forget about this moment"};
 

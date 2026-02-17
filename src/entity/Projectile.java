@@ -60,7 +60,6 @@ public class Projectile extends Entity{
                 showTime--; // SINCE UPDATE GETS CALLED 60X PER SECOND, IT WILL DISAPPEAR ABOUT .8 SECONDS
                 if (showTime <= 0) {
                     alive = false;
-                    System.out.println("STOP SHOWING ROCK!\t");
                     showTime = 45;
                 }
 

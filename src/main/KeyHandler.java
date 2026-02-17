@@ -115,7 +115,6 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 // SELECT SALLY
                 gp.playSE(7); // SOUND EFFECT WHEN PRESSING ENTER
                 if (gp.ui.commandNum == 0) {
-                    System.out.println("Do specific stuff for Sally");
                     gp.stopMusic();
                     gp.gameState = gp.initialDialogueState;
 
@@ -128,7 +127,6 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 // SELECT CHAD
                 if (gp.ui.commandNum == 1) {
 
-                    System.out.println("Do specific stuff for Chad");
                     gp.stopMusic();
                     gp.gameState = gp.playState;
                     gp.playMusic(6);
@@ -146,14 +144,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
     public void initDialogueState(int code) {
 
-        System.out.println(gp.ui.dialogueIndex);
-
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;
         }
-
-
-
     }
 
 

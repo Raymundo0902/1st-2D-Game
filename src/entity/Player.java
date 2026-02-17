@@ -467,7 +467,6 @@ public class Player extends Entity{
                     if(spriteNum == 1) {image = rakeUp1;}
                 }
                 if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
-                    System.out.println("throw sprite!");
                     if(spriteNum == 1) {image = throwUp1;}
                 }
                 break;
@@ -480,7 +479,6 @@ public class Player extends Entity{
                     if(spriteNum == 1) {image = rakeDown1;}
                 }
                 if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
-                    System.out.println("throw sprite!");
                     if(spriteNum == 1) {image = throwDown1;}
                 }
                     break;
@@ -494,7 +492,6 @@ public class Player extends Entity{
                     if(spriteNum == 1) {image = rakeLeft1;}
                 }
                 if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
-                    System.out.println("throw sprite!");
                     if(spriteNum == 1) {image = throwLeft1;}
                 }
                 break;
@@ -507,7 +504,6 @@ public class Player extends Entity{
                     if(spriteNum == 1) {image = rakeRight1;}
                 }
                 if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
-                    System.out.println("throw sprite!");
                     if(spriteNum == 1) {image = throwRight1;}
                 }
                 break;
