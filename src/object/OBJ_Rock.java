@@ -45,6 +45,7 @@ public class OBJ_Rock extends Projectile { // SUB CLASS OF PROJECTILE AND ENTITY
         up2 = setup("/projectiles/upDownThrowRock2", gp.tileSize, gp.tileSize);
         down1 = setup("/projectiles/upDownThrowRock1", gp.tileSize, gp.tileSize);
         down2 = setup("/projectiles/upDownThrowRock2", gp.tileSize, gp.tileSize);
+
     }
 
 

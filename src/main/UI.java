@@ -95,25 +95,25 @@ public class UI {
             drawTitleScreen();
         }
         // INITIAL DIALOGUE STATE
-        if(gp.gameState == gp.initialDialogueState) {
+        else if(gp.gameState == gp.initialDialogueState) {
             drawIntroDialogueScreen();
         }
         // PLAY STATE
-        if(gp.gameState == gp.playState) {
+        else if(gp.gameState == gp.playState) {
             drawPlayerLife();
         }
         // PAUSE STATE
-        if(gp.gameState == gp.pauseState) {
+        else if(gp.gameState == gp.pauseState) {
             drawPlayerLife();
             drawPauseScreen();
         }
         // DIALOGUE STATE
-        if(gp.gameState == gp.dialogueState) {
+        else if(gp.gameState == gp.dialogueState) {
             drawPlayerLife();
             drawDialogueScreen();
         }
         // CHARACTER STATE
-        if(gp.gameState == gp.characterState) {
+        else if(gp.gameState == gp.characterState) {
             drawInventory();
         }
 
@@ -160,6 +160,7 @@ public class UI {
     }
 
     public void drawTitleScreen(){
+
         // DRAW MAIN MENU BACKGROUND IMAGE
         BufferedImage menuImage = null;
         try{
@@ -170,6 +171,8 @@ public class UI {
         }catch (IOException e){
             e.printStackTrace();
         }
+
+
 
         if(titleScreenState == 0) { // MAIN MENU
 

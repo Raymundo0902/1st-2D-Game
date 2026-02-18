@@ -205,6 +205,7 @@ public class Entity {
             // COLLISION VISUALS (DEBUG)
             g2.setColor(Color.red);
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+
         }
 
     }

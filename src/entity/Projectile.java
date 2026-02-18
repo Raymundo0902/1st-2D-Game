@@ -2,6 +2,9 @@ package entity;
 
 import main.GamePanel;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class Projectile extends Entity{
 
     public int showTime = 45; // HOW LONG A PROJECTILE IS DISPLAYED ON SCREEN
@@ -61,6 +64,7 @@ public class Projectile extends Entity{
                 if (showTime <= 0) {
                     alive = false;
                     showTime = 45;
+
                 }
 
             }
@@ -76,13 +80,8 @@ public class Projectile extends Entity{
                 else if (spriteNum == 2) spriteNum = 1;
                 spriteCounter = 0;
             }
-
         }
-
-
-
     }
-
 
 
 }

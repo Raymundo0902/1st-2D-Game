@@ -3,10 +3,12 @@ package main;
 import entity.Entity;
 import entity.Player;
 import entity.Projectile;
+import object.OBJ_Rock;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,14 +21,20 @@ public class GamePanel extends JPanel implements Runnable {
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale; // 48x48 tile true tile size that will be displayed on screen. public so any other packages can access it
-    public final int maxScreenCol = 16; // 16 tiles horizontally
+    public final int maxScreenCol = 20; // 16 tiles horizontally
     public final int maxScreenRow = 12; // 12 tiles vertically
-    public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
+    public final int screenWidth = tileSize * maxScreenCol; // 960 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
     // WORLD SETTINGS
     public final int maxWorldCol = 60;
     public final int maxWorldRow = 86;
+
+    // FULL SCREEN
+    int screenWidth2 = screenWidth;
+    int screenHeight2 = screenHeight;
+    BufferedImage tempScreen;
+    Graphics2D g2;
 
     // FPS
     int FPS = 60;
@@ -64,12 +72,9 @@ public class GamePanel extends JPanel implements Runnable {
     public final int initialDialogueState = 5; // IMPLEMENT SOON FOR WHEN STARTING NEW GAME
 
     // CONTROL VARIABLES FOR ONE TIME FUNCTIONS - LOADING SCREEN, DIALOGUE, ETC
-
     public boolean canTypeSound = true;
     public boolean drawBlackScreen = false;
-
     float j = 1f;
-
 
 
     public GamePanel () {
@@ -88,6 +93,31 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setMonster();
         playMusic(8); // play main menu music -- VHS 80s-90s MUSIC
         gameState = titleState;
+
+        tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+        g2 = (Graphics2D)tempScreen.getGraphics();
+
+        setFullScreen();
+    }
+
+    public void setFullScreen() {
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+        Main.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        screenWidth2 = (int) width;
+        screenHeight2 = (int) height;
+
+
+//        // GET LOCAL SCREEN DEVICE
+//        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        GraphicsDevice gd = ge.getDefaultScreenDevice();
+//        gd.setFullScreenWindow(Main.window);
+//
+//        // GET FULL SCREEN WIDTH & HEIGHT
+//        screenWidth2 = Main.window.getWidth();
+//        screenHeight2 = Main.window.getHeight();
     }
 
     public void startGameThread() {
@@ -107,6 +137,7 @@ public class GamePanel extends JPanel implements Runnable {
         long timer = 0;
         int drawCount = 0;
 
+
         while(gameThread != null) { // as-long as gameThread exists, it will repeat the process thats in the while loop
 
             currentTime = System.nanoTime();
@@ -115,9 +146,12 @@ public class GamePanel extends JPanel implements Runnable {
             timer += (currentTime - lastTime); // add how many nanoseconds passed during each frame.
             lastTime = currentTime;
 
+
             if(delta >= 1) {
                 update();
-                repaint(); // schedule a paint event which eventually calls the paintComponenet() method
+                drawToTempScreen();
+                drawToScreen();
+//                repaint(); // schedule a paint event which eventually calls the paintComponenet() method
                 delta--;
                 drawCount++;
             }
@@ -212,12 +246,11 @@ public class GamePanel extends JPanel implements Runnable {
             // nothing, no updating player info while paused
         }
     }
+    public void drawToTempScreen() {
 
-    public void paintComponent(Graphics g) { // the "Graphics" is a class that has many functions to draw objects on the screen
-
-        super.paintComponent(g); //whenever you use the paintComponent method on JPanel you need to type this line. super means the parent class of this class in this case parent is JPanel since GamePanel is a subclass of it.
-        Graphics2D g2 = (Graphics2D)g; // Graphics2D class extends the Graphics class to provide more sophisticated control over geometry, coordinate transformations, color management, and text layout.
-
+//        // Clear previous frame
+        g2.setColor(Color.black);
+        g2.fillRect(0, 0, screenWidth, screenHeight);
 
         // DEBUG
         long drawStart = 0;
@@ -228,7 +261,7 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == titleState) {
             ui.draw(g2);
         }
-        if(gameState == initialDialogueState) {
+        else if(gameState == initialDialogueState) {
             ui.draw(g2);
         }
         // OTHER GAME STATES. START THE MAIN DIALOGUE HERE:
@@ -267,17 +300,18 @@ public class GamePanel extends JPanel implements Runnable {
             // SORT - " new Comparator<Entity>() means to create a new object whose type is Comparator<Entity> and since Comparator is an interface, we must state its method here. We basically skipped making a new class page.
             // In simplist form, its saying Collections.sort(entityArrList, Object)
             Collections.sort(entityArrList, new Comparator<Entity>() { // COMPUTER DOESN'T LOOK AT LIST ALL AT ONCE. 2 ENTITIES AT A TIME THEN ASKS COMPARATOR WHICH SHOULD BE DRAWN FIRST
-                    // compare is a method of the Comparator interface.
-                    @Override
-                    public int compare(Entity e1, Entity e2) { // acts as referee. returns: -1 if e1 is less than e2(put e1 earlier in list/draw first),
-                                                               // 1 if e1 is greater than e2(put e1 later in list/draw last), 0 if e1 is equal to e2-- in this case, relative order doesn't change.
-                        int result = Integer.compare(e1.worldY, e2.worldY);
-                        return result;
-                    }
+                // compare is a method of the Comparator interface.
+                @Override
+                public int compare(Entity e1, Entity e2) { // acts as referee. returns: -1 if e1 is less than e2(put e1 earlier in list/draw first),
+                    // 1 if e1 is greater than e2(put e1 later in list/draw last), 0 if e1 is equal to e2-- in this case, relative order doesn't change.
+                    int result = Integer.compare(e1.worldY, e2.worldY);
+                    return result;
+                }
             });
 
             // DRAW ENTITIES
             for(int i = 0; i < entityArrList.size(); i++) {
+
                 entityArrList.get(i).draw(g2); // EX: if i = 0 and in the entityArrList.get(0) points to player, it essentially simplifies to player.draw(g2). if npc/object, then its basically saying npc[0].draw(g2).
             }
 
@@ -294,6 +328,8 @@ public class GamePanel extends JPanel implements Runnable {
 
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, j));
                     g2.fillRect(0, 0, screenWidth, screenHeight);
+                    g2.setComposite(AlphaComposite.SrcOver);   // switch back to normal mode - prevents other things to get blended
+
                     j -= 0.005f;
                 }
                 else {
@@ -321,10 +357,133 @@ public class GamePanel extends JPanel implements Runnable {
             g2.drawString("Col " + (player.worldX + player.solidArea.x) / tileSize, x, y); y += lineHeight;
             g2.drawString("Row " + (player.worldY + player.solidArea.y) / tileSize, x, y); y += lineHeight;
             g2.drawString("Draw Time: " + passed, x, y); // shows how much time has passed
-
         }
-        g2.dispose(); // Dispose of this graphics context and release any system resources that it is using. Disposes Graphics2D, programing still works without this line but it is good practice to save memory.
     }
+
+    public void drawToScreen() {
+
+        Graphics g = getGraphics();
+        g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
+        g.dispose();
+    }
+
+
+//    // Draws stuff directly to JPanel. Not used for Full
+//    public void paintComponent(Graphics g) { // the "Graphics" is a class that has many functions to draw objects on the screen
+//
+//        super.paintComponent(g); //whenever you use the paintComponent method on JPanel you need to type this line. super means the parent class of this class in this case parent is JPanel since GamePanel is a subclass of it.
+//        Graphics2D g2 = (Graphics2D)g; // Graphics2D class extends the Graphics class to provide more sophisticated control over geometry, coordinate transformations, color management, and text layout.
+//
+//
+//        // DEBUG
+//        long drawStart = 0;
+//        if(keyH.checkDebugText == true) {
+//            drawStart = System.nanoTime();
+//        }
+//        // TITLE SCREEN
+//        if(gameState == titleState) {
+//            ui.draw(g2);
+//        }
+//        if(gameState == initialDialogueState) {
+//            ui.draw(g2);
+//        }
+//        // OTHER GAME STATES. START THE MAIN DIALOGUE HERE:
+//        else{
+//
+//            // TILE
+//            tileM.draw(g2); // put this above player because if not, background tiles will hide the player character
+//
+//            // ADD ALL ENTITIES TO THE ARRAYLIST
+//            entityArrList.add(player);
+//
+//            for(int i = 0; i < npc.length; i++) {
+//                if(npc[i] != null) {
+//                    entityArrList.add(npc[i]);
+//                }
+//            }
+//
+//            for(int i = 0; i < monster.length; i++) {
+//                if(monster[i] != null) {
+//                    entityArrList.add(monster[i]);
+//                }
+//            }
+//
+//            for(int i = 0; i < projectileList.size(); i++) {
+//                if(projectileList.get(i) != null) {
+//                    entityArrList.add(projectileList.get(i));
+//                }
+//            }
+//
+//            for(int i = 0; i < obj.length; i++) {
+//                if(obj[i] != null) {
+//                    entityArrList.add(obj[i]);
+//                }
+//            }
+//
+//            // SORT - " new Comparator<Entity>() means to create a new object whose type is Comparator<Entity> and since Comparator is an interface, we must state its method here. We basically skipped making a new class page.
+//            // In simplist form, its saying Collections.sort(entityArrList, Object)
+//            Collections.sort(entityArrList, new Comparator<Entity>() { // COMPUTER DOESN'T LOOK AT LIST ALL AT ONCE. 2 ENTITIES AT A TIME THEN ASKS COMPARATOR WHICH SHOULD BE DRAWN FIRST
+//                    // compare is a method of the Comparator interface.
+//                    @Override
+//                    public int compare(Entity e1, Entity e2) { // acts as referee. returns: -1 if e1 is less than e2(put e1 earlier in list/draw first),
+//                                                               // 1 if e1 is greater than e2(put e1 later in list/draw last), 0 if e1 is equal to e2-- in this case, relative order doesn't change.
+//                        int result = Integer.compare(e1.worldY, e2.worldY);
+//                        return result;
+//                    }
+//            });
+//
+//            // DRAW ENTITIES
+//            for(int i = 0; i < entityArrList.size(); i++) {
+//
+//                entityArrList.get(i).draw(g2); // EX: if i = 0 and in the entityArrList.get(0) points to player, it essentially simplifies to player.draw(g2). if npc/object, then its basically saying npc[0].draw(g2).
+//            }
+//
+//
+//
+//            // EMPTY ENTITY LIST - OTHERWISE THE entityArrList GETS LARGER IN EVERY LOOP.
+//            entityArrList.clear();
+//
+//            // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
+//            ui.draw(g2);
+//
+//            // Intro dialogue transition to game.
+//            if(drawBlackScreen == true) {
+//                if(j > 0) {
+//                    g2.setColor(Color.black);
+//
+//                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, j));
+//                    g2.fillRect(0, 0, screenWidth, screenHeight);
+//                    j -= 0.005f;
+//                }
+//                else {
+//                    drawBlackScreen = false;
+//                }
+//            }
+//
+//        }
+//
+//        // DEBUG
+//        if(keyH.checkDebugText == true) {
+//            long drawEnd = System.nanoTime();
+//            long passed = drawEnd - drawStart;
+//
+//            g2.setFont(new Font("Arial", Font.PLAIN, 20));
+//            g2.setColor(Color.white);
+//            int x = 100;
+//            int y = 400;
+//            int lineHeight = 20;
+//
+//            g2.drawString("ScreenX " + player.screenX, x, y); y += lineHeight;
+//            g2.drawString("ScreenY " + player.screenY, x, y); y += lineHeight;
+//            g2.drawString("WorldX " + player.worldX, x, y); y += lineHeight;
+//            g2.drawString("WorldY " + player.worldY, x, y); y += lineHeight;
+//            g2.drawString("Col " + (player.worldX + player.solidArea.x) / tileSize, x, y); y += lineHeight;
+//            g2.drawString("Row " + (player.worldY + player.solidArea.y) / tileSize, x, y); y += lineHeight;
+//            g2.drawString("Draw Time: " + passed, x, y); // shows how much time has passed
+//
+//        }
+//        g2.dispose(); // Dispose of this graphics context and release any system resources that it is using. Disposes Graphics2D, programing still works without this line but it is good practice to save memory.
+//    }
 
 
     public void playMusic(int i) { // for music we use loop because it is obviously a continuous sound
