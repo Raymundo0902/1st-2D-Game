@@ -55,6 +55,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         else if(gp.gameState == gp.characterState) {
            inventoryState(code);
         }
+        else if(gp.gameState == gp.optionsState) {
+            optionsState(code);
+        }
 
     }
 
@@ -147,6 +150,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;
         }
+        if(code == KeyEvent.VK_ESCAPE) {
+            gp.ui.skipDialogue = true;
+        }
     }
 
 
@@ -178,6 +184,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         if(code == KeyEvent.VK_F) {
             throwPressed = true;
+        }
+        if(code == KeyEvent.VK_ESCAPE) {
+            gp.gameState = gp.optionsState;
         }
 
         // DEBUG
@@ -248,6 +257,36 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
     }
 
+    public void optionsState(int code) {
+
+        // These two variables help loop the arrow around
+        int topCommandNum = 0;
+        int bottomCommandNum = 2;
+
+        if(code == KeyEvent.VK_ESCAPE){
+            gp.gameState = gp.playState;
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+        if(code == KeyEvent.VK_W) {
+            if(gp.ui.commandNum > 0) {
+                gp.ui.commandNum--;
+            }
+            else {
+                gp.ui.commandNum = bottomCommandNum;
+            }
+        }
+        if(code == KeyEvent.VK_S){
+            if(gp.ui.commandNum < 2) {
+                gp.ui.commandNum++;
+            }
+            else {
+                gp.ui.commandNum = topCommandNum;
+            }
+        }
+    }
+
 
     @Override
     public void keyReleased(KeyEvent e) { // the boolean variables are set to false because it's telling the computer that no key is being detected thus is the goal of the keyReleased method.
@@ -271,6 +310,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         if(code == KeyEvent.VK_F) {
             throwPressed = false;
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = false;
         }
 
 

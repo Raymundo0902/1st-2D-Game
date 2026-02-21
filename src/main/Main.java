@@ -10,7 +10,7 @@ public class Main {
 
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // lets the window properly close when user clicks the "x" button
-        window.setResizable(false); // false = cannot resize the window. stays one size
+        window.setResizable(true); // false = cannot resize the window. stays one size
         window.setTitle("Pinewood Camp Stalker");
 
 

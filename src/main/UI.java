@@ -33,6 +33,9 @@ public class UI {
     String[] introDialogues; // STORES AN ARRAY OF ALL THE STRINGS OF THE INTRO DIALOGUE
     int wordEnd = 0;
     int nextLine = 0;
+    boolean skipDialogue = false;
+
+
     // USING TILESIZE REAL NUMBERS SINCE IF I PUT GP'S VARIABLES HERE ITS STILL NULL AT THE TIME.
     int introDialogueX = 48;
     int introDialogueY = 96;
@@ -51,6 +54,9 @@ public class UI {
     // INVENTORY ITEMS
     public boolean isKey = false;
     public boolean isRake = false;
+
+    // OPTIONS MENU
+    int subState = 0;
 
     public UI (GamePanel gp) {
         this.gp = gp;
@@ -115,6 +121,9 @@ public class UI {
         // CHARACTER STATE
         else if(gp.gameState == gp.characterState) {
             drawInventory();
+        }
+        else if(gp.gameState == gp.optionsState){
+            drawOptionsMenu();
         }
 
     }
@@ -311,30 +320,37 @@ public class UI {
             y += 40;
         }
 
-        // Only do typewriter effect when nextLine(next index) is less than the length. Prevents exception errors.
-        if(nextLine < lines.length) {
-
-            String curWord = lines[nextLine].substring(0, wordEnd);
-            g2.drawString(curWord, introDialogueX, introDialogueY);
-
-            // ONLY SHOW LONGER WORD WHEN WE ARE LESS THAN THE WORD LENGTH
-            if(wordEnd < lines[nextLine].length()) {
-
-                wordEnd++;
-            }
-            // ONCE DRAWN FULL WORD, SET BACK TO ZERO FOR SHOWING THE WORD AND GO TO NEXT INDEX OF SENTENCE.
-            else if(wordEnd >= lines[nextLine].length()) {
-                wordEnd = 0;
-                nextLine++;
-
-                introDialogueY += 40;
-            }
-        }
-        // ONCE FINISHED TYPING THE FULL CURRENT PAGE. WE USE THIS TO ALLOW TO PRESS ENTER
-        else {
-            finishedTyping = true;
-            transitionScreen = true;
+        // Skip dialogue
+        if(skipDialogue == true) {
+            gp.gameState = gp.playState;
             gp.se.stop();
+            gp.drawBlackScreen = true;
+        }
+        else {
+            // Only do typewriter effect when nextLine(next index) is less than the length. Prevents exception errors.
+            if (nextLine < lines.length) {
+
+                String curWord = lines[nextLine].substring(0, wordEnd);
+                g2.drawString(curWord, introDialogueX, introDialogueY);
+
+                // ONLY SHOW LONGER WORD WHEN WE ARE LESS THAN THE WORD LENGTH
+                if (wordEnd < lines[nextLine].length()) {
+
+                    wordEnd++;
+                }
+                // ONCE DRAWN FULL WORD, SET BACK TO ZERO FOR SHOWING THE WORD AND GO TO NEXT INDEX OF SENTENCE.
+                else if (wordEnd >= lines[nextLine].length()) {
+                    wordEnd = 0;
+                    nextLine++;
+
+                    introDialogueY += 40;
+                }
+            }
+            // ONCE FINISHED TYPING THE FULL CURRENT PAGE. WE USE THIS TO ALLOW TO PRESS ENTER
+            else {
+                finishedTyping = true;
+                gp.se.stop();
+            }
         }
 
     }
@@ -475,6 +491,120 @@ public class UI {
         g2.drawString(text, x, y);
     }
 
+    public void drawOptionsMenu() {
+
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(32F));
+
+        // Window
+        int frameX = gp.tileSize * 6;
+        int frameY = gp.tileSize * 3;
+        int frameWidth = gp.tileSize*8;
+        int frameHeight = gp.tileSize*4;
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+        // Switch between different screens of the options menu.
+        switch(subState) {
+            case 0: pausedMain(frameX, frameY); break;
+            case 1: optionsScreen(frameX, frameY); break;
+            case 2: break;
+        }
+
+    }
+
+    public void pausedMain(int frameX, int frameY) {
+
+        g2.setColor(Color.black);
+        int textX;
+        int textY;
+
+        // Title
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40));
+        String title = "Paused";
+        textX = getXforCenteredText(title);
+        textY = frameY + gp.tileSize;
+        g2.drawString(title, textX, textY);
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 28));
+
+        // Resume Game
+        textX = gp.tileSize*7;
+        textY += 32;
+        g2.drawString("Resume", textX, textY);
+        if(commandNum == 0) {
+            g2.drawString(">", textX - gp.tileSize/2, textY);
+        }
+
+        // Options
+        textY += 32;
+        g2.drawString("Options", textX, textY);
+        if(commandNum == 1 && gp.keyH.enterPressed == true) {
+
+            System.out.println("ENTER OPTIONS SCREEN");
+            subState = 1;
+        }
+            // Sub window in options
+                // Fullscreen ON/OFF
+//                textX = gp.tileSize*7;
+//                textY += gp.tileSize*2;
+//                g2.drawString("Full Screen", textX, textY);
+//
+//                // Music
+//                textY += gp.tileSize;
+//                g2.drawString("Music", textX, textY);
+//
+//                // SE
+//                textY += gp.tileSize;
+//                g2.drawString("SE", textX, textY);
+//
+
+        if(commandNum == 1) {
+            g2.drawString(">", textX - gp.tileSize/2, textY);
+        }
+        // Controls
+        textY += 32;
+        g2.drawString("Controls", textX, textY);
+
+        // End Game
+        textY += 32;
+        g2.drawString("End game", textX, textY);
+        if(commandNum == 2) {
+            g2.drawString(">", textX - gp.tileSize/2, textY);
+        }
+
+
+    }
+
+    public void optionsScreen(int frameX, int frameY) {
+
+        // Window
+        frameX = gp.tileSize * 6;
+        frameY = gp.tileSize * 3;
+        int frameWidth = gp.tileSize*8;
+        int frameHeight = gp.tileSize*8;
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+        // Make text uniform.
+
+        int textX;
+        int textY = 1;
+
+//        textX = gp.tileSize*7;
+//        textY += gp.tileSize*2;
+//        g2.drawString("Full Screen", textX, textY);
+//
+//        // Music
+//        textY += gp.tileSize;
+//        g2.drawString("Music", textX, textY);
+//
+//        // SE
+//        textY += gp.tileSize;
+//        g2.drawString("SE", textX, textY);
+//
+//        // Controls
+//        textY += gp.tileSize;
+//        g2.drawString("Controls", textX, textY);
+    }
+
     public void drawDialogueScreen() {
 
         // WINDOW
@@ -525,24 +655,25 @@ public class UI {
         return slotCol + (slotRow * MAX_COL);
     }
 
+
     public void drawSubWindow(int x, int y, int width, int height) {
 
         // OUTERMOST BORDER
         Color c = new Color(43,26,23);
         g2.setColor(c);
         g2.setStroke(new BasicStroke(8)); // setStroke(new BasicStroke(int)) defines the width of outlines of graphics which are rendered with a Graphics 2D
-        g2.drawRoundRect(x, y, width+1, height+1, 30, 30);
+        g2.drawRoundRect(x, y, width+1, height+1, 5, 5);
 
         // ACTUAL RECTANGLE
-        c = new Color(100,50,27, 240);
+        c = new Color(100,50,27);
         g2.setColor(c);
-        g2.fillRoundRect(x, y, width, height, 30, 30);
+        g2.fillRoundRect(x, y, width, height, 5, 5);
 
         // INSIDE BORDER
         c = new Color(43,26,23);
         g2.setColor(c);
         g2.setStroke(new BasicStroke(5)); // setStroke(new BasicStroke(int)) defines the width of outlines of graphics which are rendered with a Graphics 2D
-        g2.drawRoundRect(x+10, y+10, width-20, height-20, 25, 25);
+        g2.drawRoundRect(x+5, y+5, width-10, height-10, 5, 5);
 
     }
 

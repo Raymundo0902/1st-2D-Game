@@ -342,6 +342,7 @@ public class Player extends Entity{
                     gp.ui.showMessage("You got a key!");
                     break;
                 case "Door":
+
                     if(hasKey > 0 && currentItem.type == TYPE_KEY) { // MUST HAVE SELECTED KEY TO OPEN FROM INVENTORY
 
                         inventory.remove(currentItem); // GOES THROUGH FOR LOOP AND CHECKS IF THIS REFERENCE POINTS TO SAME OBJECT
@@ -350,15 +351,7 @@ public class Player extends Entity{
                         currentItem = defaultCurrentItem; // SET BACK TO HANDS
                         gp.playSE(4);
                         gp.obj[i] = null; // DISAPPEAR FROM MAP
-
                         hasKey--; // MAKES IT WHERE I CANNOT OPEN DOORS IF hasKey < 1
-                        gp.ui.showMessage("You opened door!");
-                        for(int j = 0; j < inventory.size(); j++) {
-                            if(inventory.get(j).type == TYPE_KEY) {
-                                inventory.remove(j);
-                                break; // remove only one key
-                            }
-                        }
                     }
                     else {
                         gp.ui.showMessage("You need a key!");
@@ -524,8 +517,8 @@ public class Player extends Entity{
 
 
         // COLLISION HITBOX VISUAL (DEBUG)
-//        g2.setColor(Color.red);
-//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        g2.setColor(Color.red);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         // INVINCIBLE COUNTER (DEBUG)
 //        g2.setFont(new Font("Arial", Font.PLAIN, 25));
 //        g2.setColor(Color.white);
