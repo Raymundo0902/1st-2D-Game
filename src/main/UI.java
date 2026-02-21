@@ -123,7 +123,7 @@ public class UI {
             drawInventory();
         }
         else if(gp.gameState == gp.optionsState){
-            drawOptionsMenu();
+            drawPausedMenu();
         }
 
     }
@@ -491,7 +491,7 @@ public class UI {
         g2.drawString(text, x, y);
     }
 
-    public void drawOptionsMenu() {
+    public void drawPausedMenu() {
 
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(32F));
@@ -503,13 +503,16 @@ public class UI {
         int frameHeight = gp.tileSize*4;
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
-        // Switch between different screens of the options menu.
+        // Switch between different screens of the pause menu.
         switch(subState) {
             case 0: pausedMain(frameX, frameY); break;
             case 1: optionsScreen(frameX, frameY); break;
-            case 2: break;
+            case 2: drawControlMenu(frameX, frameY); break;
+            case 3: fullScreenNotification(frameX, frameY); break;
         }
 
+        // Better to put here than in KeyHandler's keyReleased method to avoid distortedness.
+        gp.keyH.enterPressed = false;
     }
 
     public void pausedMain(int frameX, int frameY) {
@@ -524,7 +527,6 @@ public class UI {
         textX = getXforCenteredText(title);
         textY = frameY + gp.tileSize;
         g2.drawString(title, textX, textY);
-
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 28));
 
         // Resume Game
@@ -538,37 +540,24 @@ public class UI {
         // Options
         textY += 32;
         g2.drawString("Options", textX, textY);
-        if(commandNum == 1 && gp.keyH.enterPressed == true) {
-
-            System.out.println("ENTER OPTIONS SCREEN");
-            subState = 1;
-        }
-            // Sub window in options
-                // Fullscreen ON/OFF
-//                textX = gp.tileSize*7;
-//                textY += gp.tileSize*2;
-//                g2.drawString("Full Screen", textX, textY);
-//
-//                // Music
-//                textY += gp.tileSize;
-//                g2.drawString("Music", textX, textY);
-//
-//                // SE
-//                textY += gp.tileSize;
-//                g2.drawString("SE", textX, textY);
-//
-
         if(commandNum == 1) {
             g2.drawString(">", textX - gp.tileSize/2, textY);
+            if(gp.keyH.enterPressed == true) {
+                subState = 1;
+            }
         }
+
         // Controls
         textY += 32;
         g2.drawString("Controls", textX, textY);
+        if(commandNum == 2) {
+            g2.drawString(">", textX - gp.tileSize/2, textY);
+        }
 
         // End Game
         textY += 32;
         g2.drawString("End game", textX, textY);
-        if(commandNum == 2) {
+        if(commandNum == 3) {
             g2.drawString(">", textX - gp.tileSize/2, textY);
         }
 
@@ -578,31 +567,65 @@ public class UI {
     public void optionsScreen(int frameX, int frameY) {
 
         // Window
-        frameX = gp.tileSize * 6;
-        frameY = gp.tileSize * 3;
         int frameWidth = gp.tileSize*8;
-        int frameHeight = gp.tileSize*8;
+        int frameHeight = gp.tileSize*4;
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
         // Make text uniform.
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40));
+        g2.setColor(Color.black);
+        int textX = getXforCenteredText("Options");
+        int textY = frameY + gp.tileSize;
 
-        int textX;
-        int textY = 1;
+        // Title
+        g2.drawString("Options", textX, textY);
 
-//        textX = gp.tileSize*7;
-//        textY += gp.tileSize*2;
-//        g2.drawString("Full Screen", textX, textY);
-//
-//        // Music
-//        textY += gp.tileSize;
-//        g2.drawString("Music", textX, textY);
-//
-//        // SE
-//        textY += gp.tileSize;
-//        g2.drawString("SE", textX, textY);
-//
-//        // Controls
-//        textY += gp.tileSize;
-//        g2.drawString("Controls", textX, textY);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 28));
+
+
+        textX = gp.tileSize * 7;
+        // Fullscreen
+        textY += 32;
+        g2.drawString("Full Screen", textX, textY);
+        if(commandNum == 0) {
+            g2.drawString(">", textX - gp.tileSize/2, textY);
+            if(gp.keyH.enterPressed == true) {
+
+                if(gp.toggleFullScreen == false) {gp.toggleFullScreen = true;}
+                else { gp.toggleFullScreen = false; }
+                subState = 3;
+            }
+
+        }
+
+        // Music
+        textY += 32;
+        g2.drawString("Music", textX, textY);
+        if(commandNum == 1) {
+            g2.drawString(">", textX - gp.tileSize/2, textY);
+        }
+
+        // SE
+        textY += 32;
+        g2.drawString("SE", textX, textY);
+        if(commandNum == 2) {
+            g2.drawString(">", textX - gp.tileSize/2, textY);
+        }
+
+        // Back
+        textY += 32;
+        g2.drawString("Back", textX, textY);
+        if(commandNum == 3) {
+            g2.drawString(">", textX - gp.tileSize/2, textY);
+            if(gp.keyH.enterPressed == true) {
+                gp.ui.subState = 0;
+            }
+        }
+
+        // Call to draw the buttons to the right of menu
+        drawOptionMenuButtons();
+
+
+
     }
 
     public void drawDialogueScreen() {
@@ -653,6 +676,65 @@ public class UI {
     public int getItemIndexOnSlot() {
         // GETS CORRECT, CURRENT HOVERED ITEM INDEX. STARTS FROM ZERO.
         return slotCol + (slotRow * MAX_COL);
+    }
+
+    public void drawOptionMenuButtons() {
+
+        // Coordinates & styling
+        int shapeX = gp.tileSize*11;
+        int shapeY = (gp.tileSize*4) + 12;
+        g2.setStroke(new BasicStroke(3));
+        // Fullscreen toggle button
+        g2.drawRect(shapeX, shapeY, 20, 20);
+        if(gp.toggleFullScreen == true) {
+            g2.fillRect(shapeX, shapeY, 20, 20);
+        }
+
+        // Music bar
+        shapeY += 32;
+        g2.drawRect(shapeX, shapeY, 120, 20); // 120/5 = 24
+        int volumeWidth = 24 * gp.music.volumeScale;
+        g2.fillRect(shapeX, shapeY, volumeWidth, 20);
+
+
+        // SE bar
+        shapeY += 32;
+        g2.drawRect(shapeX, shapeY, 120, 20);
+        volumeWidth = 24 * gp.se.volumeScale;
+        g2.fillRect(shapeX, shapeY, volumeWidth, 20);
+    }
+
+    public void drawControlMenu(int frameX, int frameY) {}
+
+    public void fullScreenNotification(int frameX, int frameY) {
+
+        // Window
+        int frameWidth = gp.tileSize*8;
+        int frameHeight = gp.tileSize*4;
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+        // Make text uniform.
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32));
+        g2.setColor(Color.black);
+
+        currentDialogue = "To apply changes, \nplease restart the game.";
+
+        int textX = frameX + gp.tileSize;
+        int textY = frameY + gp.tileSize;
+
+        for(String line : currentDialogue.split("\n")) {
+            g2.drawString(line, textX, textY);
+            textY += 32;
+        }
+
+        // Back
+        textY += 32;
+        g2.drawString("Back", textX, textY);
+        if(commandNum == 0) {
+            g2.drawString(">", textX - gp.tileSize/2, textY);
+            if(gp.keyH.enterPressed == true) {
+                subState = 1;
+            }
+        }
     }
 
 

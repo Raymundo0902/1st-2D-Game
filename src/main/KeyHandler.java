@@ -259,32 +259,88 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
     public void optionsState(int code) {
 
-        // These two variables help loop the arrow around
+        // For main window
         int topCommandNum = 0;
-        int bottomCommandNum = 2;
+        int bottomCommandNum = 3;
 
-        if(code == KeyEvent.VK_ESCAPE){
-            gp.gameState = gp.playState;
-        }
-        if(code == KeyEvent.VK_ENTER) {
-            enterPressed = true;
-        }
-        if(code == KeyEvent.VK_W) {
-            if(gp.ui.commandNum > 0) {
-                gp.ui.commandNum--;
+        // Main window
+        if(gp.ui.subState == 0) {
+
+            if (code == KeyEvent.VK_ENTER) {
+                enterPressed = true;
+
+                if(gp.ui.commandNum == 0) {
+                    gp.gameState = gp.playState;
+                }
+
             }
-            else {
-                gp.ui.commandNum = bottomCommandNum;
+            if (code == KeyEvent.VK_W) {
+                if (gp.ui.commandNum > 0) {
+                    gp.ui.commandNum--;
+                } else {
+                    gp.ui.commandNum = bottomCommandNum;
+                }
+            }
+            if (code == KeyEvent.VK_S) {
+                if (gp.ui.commandNum < 3) {
+                    gp.ui.commandNum++;
+                } else {
+                    gp.ui.commandNum = topCommandNum;
+                }
             }
         }
-        if(code == KeyEvent.VK_S){
-            if(gp.ui.commandNum < 2) {
-                gp.ui.commandNum++;
+
+        // Options menu
+        else if(gp.ui.subState == 1) {
+
+            if(code == KeyEvent.VK_ENTER) {
+                enterPressed = true;
             }
-            else {
-                gp.ui.commandNum = topCommandNum;
+            if(code == KeyEvent.VK_W) {
+
+                if(gp.ui.commandNum > 0) { gp.ui.commandNum--; }
+                else { gp.ui.commandNum = bottomCommandNum; }
+            }
+            if(code == KeyEvent.VK_S) {
+
+                if(gp.ui.commandNum < 3) { gp.ui.commandNum++; }
+                else { gp.ui.commandNum = topCommandNum; }
+            }
+            // Adjust volume keys - for Music and SE
+            if(code == KeyEvent.VK_A) {
+
+                if(gp.ui.commandNum == 1 && gp.music.volumeScale > 0) {
+                    gp.music.volumeScale--;
+                    gp.music.checkVolume();
+                }
+                if(gp.ui.commandNum == 2 && gp.se.volumeScale > 0) {
+                    gp.se.volumeScale--;
+                }
+            }
+            if(code == KeyEvent.VK_D) {
+                if(gp.ui.commandNum == 1 && gp.music.volumeScale < 5) {
+                    gp.music.volumeScale++;
+                    gp.music.checkVolume();
+                }
+                if(gp.ui.commandNum == 2 && gp.se.volumeScale < 5) {
+                    gp.se.volumeScale++;
+                }
             }
         }
+
+        // Controls menu
+        else if(gp.ui.subState == 2) {
+
+        }
+
+        // Fullscreen notification
+        else if(gp.ui.subState == 3) {
+            gp.ui.commandNum = 0;
+            if(code == KeyEvent.VK_ENTER) {
+                enterPressed = true;
+            }
+        }
+
     }
 
 
@@ -310,9 +366,6 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         if(code == KeyEvent.VK_F) {
             throwPressed = false;
-        }
-        if(code == KeyEvent.VK_ENTER) {
-            enterPressed = false;
         }
 
 
