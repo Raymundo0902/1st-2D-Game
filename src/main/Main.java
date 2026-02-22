@@ -10,15 +10,16 @@ public class Main {
 
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // lets the window properly close when user clicks the "x" button
-        window.setResizable(true); // false = cannot resize the window. stays one size
+        window.setResizable(false); // false = cannot resize the window. stays one size
         window.setTitle("Pinewood Camp Stalker");
-
-
-        // Full screen option
-        // window.setUndecorated(true);
 
         GamePanel gamePanel = new GamePanel(); // GamePanel object is created on the heap
         window.add(gamePanel);
+
+        gamePanel.config.loadConfig();
+        if(gamePanel.toggleFullScreen == true) {
+            window.setUndecorated(true);
+        }
 
         window.pack(); // causes the window to be sized to fit the preferred size and layouts of its subcomponents (GamePanel)
 

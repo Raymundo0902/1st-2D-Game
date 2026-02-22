@@ -640,8 +640,8 @@ public class UI {
         // Call to draw the buttons to the right of menu
         drawOptionMenuButtons();
 
-
-
+        // Every time the optionsScreen method gets called, we save the settings in the saveConfig method.
+        gp.config.saveConfig();
     }
 
     public void drawDialogueScreen() {
@@ -778,8 +778,11 @@ public class UI {
             g2.drawString(">", textX+gp.tileSize, textY);
             if(gp.keyH.enterPressed == true) {
                 // return to title screen
-                gp.gameState = gp.titleState;
-                titleScreenState = 0;
+//                gp.gameState = gp.titleState;
+//                titleScreenState = 0;
+//                gp.music.stop();
+//                gp.music.play();
+
             }
         }
 
