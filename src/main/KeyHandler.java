@@ -4,6 +4,7 @@ import org.w3c.dom.ls.LSOutput;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 public class KeyHandler implements KeyListener { // must add the key: typed, pressed and released methods when implementing KeyListener
 
@@ -268,11 +269,6 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
             if (code == KeyEvent.VK_ENTER) {
                 enterPressed = true;
-
-                if(gp.ui.commandNum == 0) {
-                    gp.gameState = gp.playState;
-                }
-
             }
             if (code == KeyEvent.VK_W) {
                 if (gp.ui.commandNum > 0) {
@@ -331,14 +327,37 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         // Controls menu
         else if(gp.ui.subState == 2) {
 
+            if(code == KeyEvent.VK_ENTER) {
+                enterPressed = true;
+            }
         }
 
         // Fullscreen notification
         else if(gp.ui.subState == 3) {
-            gp.ui.commandNum = 0;
             if(code == KeyEvent.VK_ENTER) {
                 enterPressed = true;
             }
+        }
+
+        // Exit game
+        else if(gp.ui.subState == 4) {
+
+            if(code == KeyEvent.VK_ENTER) {
+                enterPressed = true;
+            }
+            if(code == KeyEvent.VK_W){
+                if(gp.ui.commandNum > 0) {
+                    gp.ui.commandNum--;
+                }
+                else gp.ui.commandNum = 1;
+            }
+            if(code == KeyEvent.VK_S){
+                if(gp.ui.commandNum < 1){
+                    gp.ui.commandNum++;
+                }
+                else gp.ui.commandNum = 0;
+            }
+
         }
 
     }

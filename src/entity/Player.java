@@ -117,7 +117,7 @@ public class Player extends Entity{
 
         // without this, player will move without stopping && enterPressed here is for the purpose of checking npc collision when we just press enter key for dialogue without having to simultaneously move to npc and press enter.
         else if (keyH.upPressed == true || keyH.downPressed == true ||
-                keyH.leftPressed == true || keyH.rightPressed == true || keyH.enterPressed == true){
+                keyH.leftPressed == true || keyH.rightPressed == true || keyH.enterPressed == true ){
 
             if(keyH.upPressed == true) {
                 direction = "up";
@@ -175,8 +175,7 @@ public class Player extends Entity{
 
 
             // IF COLLISON IS FALSE, PLAYER CAN MOVE AND WITHOUT THE ENTERPRESSED HERE, PLAYER CAN MOVE WHEN PRESSING ENTER.
-            if(collisionOn == false && keyH.enterPressed == false) { // REMOVING ENTERPRESSED HERE REMOVES THE WEIRD HOLD ENTER KEY DOWN BUGGY SCREEN. NOT A PRIORITY THOUGH. POLISH IF YOU WANT LATER
-
+            if(collisionOn == false && keyH.enterPressed == false) {
                 switch(direction) {
                     case "up": worldY -= speed; break;
                     case "down": worldY += speed; break;

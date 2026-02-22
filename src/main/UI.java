@@ -509,6 +509,7 @@ public class UI {
             case 1: optionsScreen(frameX, frameY); break;
             case 2: drawControlMenu(frameX, frameY); break;
             case 3: fullScreenNotification(frameX, frameY); break;
+            case 4: exitGameConfirmation(frameX, frameY); break;
         }
 
         // Better to put here than in KeyHandler's keyReleased method to avoid distortedness.
@@ -517,7 +518,6 @@ public class UI {
 
     public void pausedMain(int frameX, int frameY) {
 
-        g2.setColor(Color.black);
         int textX;
         int textY;
 
@@ -535,6 +535,9 @@ public class UI {
         g2.drawString("Resume", textX, textY);
         if(commandNum == 0) {
             g2.drawString(">", textX - gp.tileSize/2, textY);
+            if(gp.keyH.enterPressed == true) {
+                gp.gameState = gp.playState;
+            }
         }
 
         // Options
@@ -544,6 +547,7 @@ public class UI {
             g2.drawString(">", textX - gp.tileSize/2, textY);
             if(gp.keyH.enterPressed == true) {
                 subState = 1;
+                commandNum = 0;
             }
         }
 
@@ -552,6 +556,10 @@ public class UI {
         g2.drawString("Controls", textX, textY);
         if(commandNum == 2) {
             g2.drawString(">", textX - gp.tileSize/2, textY);
+            if(gp.keyH.enterPressed == true) {
+                subState = 2;
+                commandNum = 0;
+            }
         }
 
         // End Game
@@ -559,6 +567,10 @@ public class UI {
         g2.drawString("End game", textX, textY);
         if(commandNum == 3) {
             g2.drawString(">", textX - gp.tileSize/2, textY);
+            if(gp.keyH.enterPressed == true) {
+                subState = 4;
+                commandNum = 0;
+            }
         }
 
 
@@ -572,7 +584,7 @@ public class UI {
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
         // Make text uniform.
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40));
-        g2.setColor(Color.black);
+//        g2.setColor(Color.black);
         int textX = getXforCenteredText("Options");
         int textY = frameY + gp.tileSize;
 
@@ -589,10 +601,11 @@ public class UI {
         if(commandNum == 0) {
             g2.drawString(">", textX - gp.tileSize/2, textY);
             if(gp.keyH.enterPressed == true) {
-
+                commandNum = 0;
+                subState = 3;
                 if(gp.toggleFullScreen == false) {gp.toggleFullScreen = true;}
                 else { gp.toggleFullScreen = false; }
-                subState = 3;
+
             }
 
         }
@@ -618,6 +631,7 @@ public class UI {
             g2.drawString(">", textX - gp.tileSize/2, textY);
             if(gp.keyH.enterPressed == true) {
                 gp.ui.subState = 0;
+                commandNum = 0;
             }
         }
 
@@ -704,17 +718,87 @@ public class UI {
         g2.fillRect(shapeX, shapeY, volumeWidth, 20);
     }
 
-    public void drawControlMenu(int frameX, int frameY) {}
+    public void drawControlMenu(int frameX, int frameY) {
+
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 28));
+        int textX = (frameX + gp.tileSize) - gp.tileSize/2;
+        int textY = (frameY + gp.tileSize) - 12;
+
+        g2.drawString("Move", textX, textY);
+        g2.drawString("WASD", textX+gp.tileSize*5, textY);
+
+        textY += 24;
+        g2.drawString("Pause", textX, textY);
+        g2.drawString("Esc", textX+gp.tileSize*5, textY);
+
+        textY += 24;
+        g2.drawString("Throw", textX, textY);
+        g2.drawString("F", textX+gp.tileSize*5, textY);
+
+        textY += 24;
+        g2.drawString("Interact/Select", textX, textY);
+        g2.drawString("ENTER", textX+gp.tileSize*5, textY);
+
+        textY += 24;
+        g2.drawString("Inventory", textX, textY);
+        g2.drawString("C", textX+gp.tileSize*5, textY);
+
+        textY += 32;
+        g2.drawString("Back", textX, textY);
+        if(commandNum == 0) {
+            g2.drawString(">", textX - 12, textY);
+            if(gp.keyH.enterPressed == true) {
+                subState = 0;
+            }
+        }
+
+    }
+
+    public void exitGameConfirmation(int frameX,int frameY) {
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32));
+        currentDialogue = "Quit game and return\nto main screen?";
+
+        int textX = frameX + gp.tileSize;
+        int textY = frameY + gp.tileSize;
+
+        for(String line : currentDialogue.split("\n")){
+            g2.drawString(line, textX, textY);
+            textY += 32;
+        }
+
+        textY += 16;
+        int middleText = getXforCenteredText("Yes");
+        // Yes
+        g2.drawString("Yes", middleText, textY);
+        if(commandNum == 0) {
+            g2.drawString(">", textX+gp.tileSize, textY);
+            if(gp.keyH.enterPressed == true) {
+                // return to title screen
+                gp.gameState = gp.titleState;
+                titleScreenState = 0;
+            }
+        }
+
+        middleText = getXforCenteredText("Back");
+
+        // Back
+        textY += 32;
+        g2.drawString("Back", middleText, textY);
+        if(commandNum == 1){
+            g2.drawString(">", textX+gp.tileSize, textY);
+            if(gp.keyH.enterPressed == true) {
+                subState = 0;
+                commandNum = 0;
+            }
+        }
+
+    }
 
     public void fullScreenNotification(int frameX, int frameY) {
 
-        // Window
-        int frameWidth = gp.tileSize*8;
-        int frameHeight = gp.tileSize*4;
-        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
-        // Make text uniform.
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32));
-        g2.setColor(Color.black);
 
         currentDialogue = "To apply changes, \nplease restart the game.";
 
@@ -730,7 +814,7 @@ public class UI {
         textY += 32;
         g2.drawString("Back", textX, textY);
         if(commandNum == 0) {
-            g2.drawString(">", textX - gp.tileSize/2, textY);
+            g2.drawString(">", textX-20, textY);
             if(gp.keyH.enterPressed == true) {
                 subState = 1;
             }
