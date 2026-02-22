@@ -13,6 +13,7 @@ import static javax.swing.text.StyleConstants.getBackground;
 
 public class UI {
 
+    BufferedImage menuImage;
     GamePanel gp;
     Graphics2D g2;
     Font maruMonica;
@@ -60,6 +61,16 @@ public class UI {
 
     public UI (GamePanel gp) {
         this.gp = gp;
+
+        // TITLE SCREEN IMAGE
+        try{
+            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen.png"));
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        // FONT
         try {
             InputStream is = getClass().getResourceAsStream("/font/x12y16pxMaruMonica.ttf");
             maruMonica = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -79,8 +90,6 @@ public class UI {
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;
-
-
     }
 
     public void showMessage(String text) {
@@ -171,15 +180,8 @@ public class UI {
     public void drawTitleScreen(){
 
         // DRAW MAIN MENU BACKGROUND IMAGE
-        BufferedImage menuImage = null;
-        try{
-            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen.png"));
-            g2.drawImage(menuImage,0, 0, gp.screenWidth, gp.screenHeight, null);
+        g2.drawImage(menuImage,0, 0, gp.screenWidth, gp.screenHeight, null);
 
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
 
 
 
