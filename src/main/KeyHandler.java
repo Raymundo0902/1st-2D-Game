@@ -56,8 +56,13 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         else if(gp.gameState == gp.characterState) {
            inventoryState(code);
         }
+        // OPTIONS STATE
         else if(gp.gameState == gp.optionsState) {
             optionsState(code);
+        }
+        // GAME OVER STATE
+        else if(gp.gameState == gp.gameOverState) {
+            gameOverScreen(code);
         }
 
     }
@@ -206,6 +211,24 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
     }
 
+    public void gameOverScreen(int code) {
+
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+        if(code == KeyEvent.VK_W) {
+            gp.ui.commandNum--;
+            if(gp.ui.commandNum < 0) {
+                gp.ui.commandNum = 1;
+            }
+        }
+        if(code == KeyEvent.VK_S) {
+            gp.ui.commandNum++;
+            if(gp.ui.commandNum > 1) {
+                gp.ui.commandNum = 0;
+            }
+        }
+    }
 
     public void pauseState(int code) {
         if(code == KeyEvent.VK_P) {

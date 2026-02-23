@@ -35,15 +35,11 @@ public class UI {
     int wordEnd = 0;
     int nextLine = 0;
     boolean skipDialogue = false;
-
-
+    int defaultYPosition;
     // USING TILESIZE REAL NUMBERS SINCE IF I PUT GP'S VARIABLES HERE ITS STILL NULL AT THE TIME.
     int introDialogueX = 48;
     int introDialogueY = 96;
     public boolean finishedTyping = false;
-    // TRANSITION
-    float j = 1f;
-    public boolean transitionScreen = false;
 
 
     // INVENTORY DESIGN
@@ -52,19 +48,16 @@ public class UI {
     final int MAX_COL = 4;
     final int MAX_ROW = 3;
 
-    // INVENTORY ITEMS
-    public boolean isKey = false;
-    public boolean isRake = false;
-
     // OPTIONS MENU
     int subState = 0;
+
 
     public UI (GamePanel gp) {
         this.gp = gp;
 
         // TITLE SCREEN IMAGE
         try{
-            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen.png"));
+            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen2.png"));
 
         }catch (IOException e){
             e.printStackTrace();
@@ -90,6 +83,9 @@ public class UI {
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;
+
+        defaultYPosition = gp.tileSize * 2;
+
     }
 
     public void showMessage(String text) {
@@ -131,8 +127,63 @@ public class UI {
         else if(gp.gameState == gp.characterState) {
             drawInventory();
         }
+        // OPTIONS/PAUSE STATE
         else if(gp.gameState == gp.optionsState){
             drawPausedMenu();
+        }
+        // GAME OVER STATE
+        else if(gp.gameState == gp.gameOverState) {
+            drawGameOverScreen();
+        }
+
+    }
+
+    public void drawGameOverScreen() {
+
+        g2.setColor(new Color(0,0,0, 150));
+        g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
+
+        int x;
+        int y;
+        String text;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80f));
+
+        text = "Game Over";
+        g2.setColor(Color.red);
+        x = getXforCenteredText(text);
+        y = gp.tileSize * 4;
+        g2.drawString(text, x, y);
+        // Main
+        g2.setColor(Color.white);
+        g2.drawString(text, x-4, y-4);
+
+        // Retry
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50f));
+        text = "Try again";
+        x = getXforCenteredText(text);
+        y += gp.tileSize*4;
+        g2.drawString(text, x, y);
+        if(commandNum == 0) {
+            g2.drawString(">", x-(gp.tileSize/2), y);
+            if(gp.keyH.enterPressed == true) {
+                gp.gameState = gp.playState;
+                gp.retry();
+            }
+        }
+
+        // Return to title screen
+        text = "Quit";
+        x = getXforCenteredText(text);
+        y += 55;
+        g2.drawString(text, x, y);
+        if(commandNum == 1) {
+            g2.drawString(">", x-(gp.tileSize/2), y);
+            if(gp.keyH.enterPressed == true) {
+                gp.gameState = gp.titleState;
+                titleScreenState = 0;
+                gp.restart();
+
+            }
         }
 
     }
@@ -181,9 +232,6 @@ public class UI {
 
         // DRAW MAIN MENU BACKGROUND IMAGE
         g2.drawImage(menuImage,0, 0, gp.screenWidth, gp.screenHeight, null);
-
-
-
 
         if(titleScreenState == 0) { // MAIN MENU
 
@@ -311,7 +359,7 @@ public class UI {
         // lines example : ["hello"], \n ["goodbye"]
         String[] lines = currentText.split("\n");
 
-        int y = gp.tileSize *2;
+        int y = defaultYPosition;
 
         // Draw all completed lines so they stay on screen.
         // nextLine represents how many lines have finished typing.
@@ -327,6 +375,7 @@ public class UI {
             gp.gameState = gp.playState;
             gp.se.stop();
             gp.drawBlackScreen = true;
+            skipDialogue = false;
         }
         else {
             // Only do typewriter effect when nextLine(next index) is less than the length. Prevents exception errors.
@@ -337,14 +386,12 @@ public class UI {
 
                 // ONLY SHOW LONGER WORD WHEN WE ARE LESS THAN THE WORD LENGTH
                 if (wordEnd < lines[nextLine].length()) {
-
                     wordEnd++;
                 }
                 // ONCE DRAWN FULL WORD, SET BACK TO ZERO FOR SHOWING THE WORD AND GO TO NEXT INDEX OF SENTENCE.
                 else if (wordEnd >= lines[nextLine].length()) {
                     wordEnd = 0;
                     nextLine++;
-
                     introDialogueY += 40;
                 }
             }
@@ -356,7 +403,6 @@ public class UI {
         }
 
     }
-
 
     public void drawSpriteVariation(int spriteNum) {
         int x = gp.tileSize;
@@ -778,10 +824,10 @@ public class UI {
             g2.drawString(">", textX+gp.tileSize, textY);
             if(gp.keyH.enterPressed == true) {
                 // return to title screen
-//                gp.gameState = gp.titleState;
-//                titleScreenState = 0;
-//                gp.music.stop();
-//                gp.music.play();
+                subState = 0;
+                gp.gameState = gp.titleState;
+                titleScreenState = 0;
+                gp.restart();
 
             }
         }
@@ -825,7 +871,6 @@ public class UI {
             }
         }
     }
-
 
     public void drawSubWindow(int x, int y, int width, int height) {
 

@@ -62,10 +62,8 @@ public class Player extends Entity{
 
     public void setDefaultValues() {
 
-        worldX = gp.tileSize * 44; // not where we draw on screen this is players starting position on world map.
-        worldY = gp.tileSize * 60;
+        setDefaultPosition();
         speed = 4;
-        direction = "down";
         type = TYPE_PLAYER;
 
         // PLAYER STATUS
@@ -76,9 +74,25 @@ public class Player extends Entity{
 
     }
 
+    // Helpful to use when retrying after "Game Over"
+    public void setDefaultPosition() {
+
+        worldX = gp.tileSize * 44; // not where we draw on screen this is players starting position on world map.
+        worldY = gp.tileSize * 60;
+        direction = "down";
+    }
+
+    public void restoreLifeAndAttributes() {
+
+        curLife = maxLife;
+        currentItem = defaultCurrentItem; //
+        invincible = false;
+    }
+
     // ITEMS THAT SHOULD ALREADY BE IN INVENTORY AT START OF GAME GOES HERE
     public void setItems() {
 
+        inventory.clear();
     }
 
     public void getPlayerImage() {
@@ -248,6 +262,10 @@ public class Player extends Entity{
                 invincible = false;
                 invincibleCounter = 0;
             }
+        }
+        // Gameover
+        if(curLife <= 0) {
+            gp.gameState = gp.gameOverState;
         }
 
 

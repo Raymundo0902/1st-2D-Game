@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int characterState = 4;
     public final int initialDialogueState = 5; // IMPLEMENT SOON FOR WHEN STARTING NEW GAME
     public final int optionsState = 6;
+    public final int gameOverState = 7;
 
     // CONTROL VARIABLES FOR ONE TIME FUNCTIONS - LOADING SCREEN, DIALOGUE, ETC
     public boolean canTypeSound = true;
@@ -105,6 +106,40 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // maybe use this for if player reaches a checkpoint in game?
+    public void retry() {
+
+        player.setDefaultPosition();
+        player.restoreLifeAndAttributes();
+        aSetter.setNPC();
+        aSetter.setMonster();
+
+    }
+
+    // NEW GAME AGAIN
+    public void restart() {
+
+        // better to reset this after everything
+        canTypeSound = true;
+        drawBlackScreen = true;
+        ui.introDialogueY = ui.defaultYPosition;
+        ui.dialogueIndex = 0;
+        ui.wordEnd = 0;
+        ui.nextLine = 0;
+
+        // ENTITY DEFAULTS
+        player.setDefaultPosition();
+        player.restoreLifeAndAttributes();
+        player.setItems();
+        aSetter.setObject();
+        aSetter.setNPC();
+        aSetter.setMonster();
+
+        music.stop();
+        playMusic(8);
+
+    }
+
     public void setFullScreen() {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -114,15 +149,6 @@ public class GamePanel extends JPanel implements Runnable {
         screenWidth2 = (int) width;
         screenHeight2 = (int) height;
 
-
-//        // GET LOCAL SCREEN DEVICE
-//        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//        GraphicsDevice gd = ge.getDefaultScreenDevice();
-//        gd.setFullScreenWindow(Main.window);
-//
-//        // GET FULL SCREEN WIDTH & HEIGHT
-//        screenWidth2 = Main.window.getWidth();
-//        screenHeight2 = Main.window.getHeight();
     }
 
     public void startGameThread() {
@@ -171,6 +197,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     public void update() {
+        System.out.println("enter only works when true :"+ui.finishedTyping);
+        System.out.println(canTypeSound);
 
         if(gameState == initialDialogueState) {
 
@@ -195,8 +223,9 @@ public class GamePanel extends JPanel implements Runnable {
 
                     // DIALOGUE FINISHED
                     else {
-                        drawBlackScreen = true;
+                        ui.finishedTyping = false;
                         gameState = playState;
+                        drawBlackScreen = true;
                     }
                 }
             }
@@ -341,6 +370,7 @@ public class GamePanel extends JPanel implements Runnable {
                     j -= 0.005f;
                 }
                 else {
+                    j = 1;
                     drawBlackScreen = false;
                 }
             }
