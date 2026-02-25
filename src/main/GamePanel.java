@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // ENTITIES AND OBJECTS
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler reference to objects inside the Player class. so Player class can get the things it needs from both classes.
-    public Entity obj[] = new Entity[20]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
+    public Entity obj[] = new Entity[25]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[20]; // num of monsters we can display at the same time not the total monsters we can create
 
