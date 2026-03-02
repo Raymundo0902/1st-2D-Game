@@ -198,7 +198,7 @@ public class Player extends Entity{
                 }
             }
 
-
+            // statement 1
             if(currentItem.type == TYPE_RAKE) {
                 if (keyH.enterPressed == true && rakeCanceled == false) {
                     gp.playSE(9); // swinging rake SE
@@ -208,16 +208,16 @@ public class Player extends Entity{
 
             rakeCanceled = false;
 
-            // RESET IT TO FALSE OR ELSE PLAYER WILL FREEZE BECAUSE IF ENTER WAS PRESSED, THE IF STATEMENT ABOVE WON'T EVER PASS AGAIN CAUSING PLAYER TO FREEZE.
-            gp.keyH.enterPressed = false;
-
-
-            spriteCounter++;
-            if(spriteCounter > 12) { // this means player image changes every 7 frames
-                if(spriteNum == 1) spriteNum = 2;
-                else if(spriteNum == 2) spriteNum = 1;
-                spriteCounter = 0;
+            if(gp.keyH.enterPressed == false) { // stops player to animate when holding down enter key
+                spriteCounter++;
+                if (spriteCounter > 12) { // this means player image changes every 12 frames
+                    if (spriteNum == 1) spriteNum = 2;
+                    else if (spriteNum == 2) spriteNum = 1;
+                    spriteCounter = 0;
+                }
             }
+            // RESET IT TO FALSE OR ELSE PLAYER WILL FREEZE BECAUSE IF ENTER WAS PRESSED, THE IF STATEMENT "1" WON'T EVER PASS AGAIN CAUSING PLAYER TO FREEZE.
+            gp.keyH.enterPressed = false;
 
         }
 

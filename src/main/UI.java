@@ -1,15 +1,12 @@
 package main;
 
 import entity.Entity;
-import object.OBJ_Heart;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-
-import static javax.swing.text.StyleConstants.getBackground;
 
 public class UI {
 
@@ -76,13 +73,7 @@ public class UI {
 
 
         // INITIALIZE THE INTRODUCTORY DIALOGUE
-
         setIntroArray();
-        // CREATE HUD OBJECT
-        Entity heart = new OBJ_Heart(gp);
-        heart_full = heart.image;
-        heart_half = heart.image2;
-        heart_blank = heart.image3;
 
         defaultYPosition = gp.tileSize * 2;
 

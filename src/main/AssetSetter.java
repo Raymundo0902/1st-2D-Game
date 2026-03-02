@@ -97,8 +97,8 @@ public class AssetSetter {
         gp.obj[19].worldY = 58 * gp.tileSize;
 
         gp.obj[20] = new OBJ_Bed(gp);
-        gp.obj[20].worldX = 43 * gp.tileSize;
-        gp.obj[20].worldY = 59 * gp.tileSize;
+        gp.obj[20].worldX = 47 * gp.tileSize;
+        gp.obj[20].worldY = 57 * gp.tileSize-40;
 
     }
 
