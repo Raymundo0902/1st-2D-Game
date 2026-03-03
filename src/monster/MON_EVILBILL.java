@@ -42,27 +42,43 @@ public class MON_EVILBILL extends Entity {
         right1 = setup("/monster/monster_right1", gp.tileSize, gp.tileSize);
         right2 = setup("/monster/monster_right2", gp.tileSize, gp.tileSize);
     }
+
     public void setAction() {
 
-        actionLockCounter++;
-        if(actionLockCounter == 120) {
+        System.out.println(path);
+        if(path == true) {
 
-            Random random = new Random();
-            int i = random.nextInt(100) + 1; // get random number from 1-100. +1 because it picks from 0-99.
+            // goes past campfire
+            int goalCol = 18;
+            int goalRow = 56;
 
-            if (i <= 25) {
-                direction = "up";
+            // gets called 60x a second
+            searchPath(goalCol, goalRow);
+
+        }
+        else {
+            actionLockCounter++;
+            if (actionLockCounter == 120) {
+
+                Random random = new Random();
+                int i = random.nextInt(100) + 1; // get random number from 1-100. +1 because it picks from 0-99.
+
+                if (i <= 25) {
+                    direction = "up";
+                }
+                if (i > 25 && i <= 50) {
+                    direction = "down";
+                }
+                if (i > 50 && i <= 75) {
+                    direction = "left";
+                }
+                if (i > 75 && i <= 100) {
+                    direction = "right";
+                }
+                actionLockCounter = 0;
             }
-            if (i > 25 && i <= 50) {
-                direction = "down";
-            }
-            if (i > 50 && i <= 75) {
-                direction = "left";
-            }
-            if (i > 75 && i <= 100) {
-                direction = "right";
-            }
-            actionLockCounter = 0;
         }
     }
+
+
 }

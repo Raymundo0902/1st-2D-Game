@@ -29,6 +29,7 @@ public class Entity {
     int dialogueIndex = 0;
     public String direction = "down";
     public int grassState = 3; // for grass
+    public boolean path = false; // for trackingPath (pathfinding)
 
     // COUNTER - sprite animations
     public int spriteCounter = 0;
@@ -93,11 +94,7 @@ public class Entity {
         }
     }
 
-    public void use(Entity entity) { } // USE THIS METHOD IN CHILDREN CLASSES FOR WHEN USING KEYS, DRINKING SOMETHING, ETC
-
-    public void update() {
-
-        setAction();
+    public void checkCollision() {
 
         collisionOn = false;
         gp.cChecker.checkTile(this); // if finds wall collision = true
@@ -106,8 +103,101 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this); // if hits player, set collision = true
 
-
         if(this.type == TYPE_MONSTER && contactPlayer == true) { attackPlayer(); }
+    }
+
+    public void searchPath(int goalCol, int goalRow) {
+
+        // dividing by the tile size gives the col/row number.
+        int startCol = (worldX + solidArea.x) / gp.tileSize;
+        int startRow = (worldY + solidArea.y) / gp.tileSize;
+
+        gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
+
+        if(gp.pFinder.search() == true) {
+            // store the upcoming coordinates
+            int nextX = gp.pFinder.pathList.get(0).col * gp.tileSize;
+            int nextY = gp.pFinder.pathList.get(0).row * gp.tileSize;
+
+            // Entity's solid hitbox position - we need to get them here because there's no variables of calculations of their current hitbox in their normal classes. So we do it here.
+            int entityLeftX = worldX + solidArea.x;
+            int entityRightX = worldX + solidArea.x + solidArea.width; // the .width adding shifts to the right edge of hit box
+            int entityTopY = worldY + solidArea.y;
+            int entityBottomY = worldY + solidArea.y + solidArea.height;
+
+            // If match conditions, entity can go up,down,left, or right
+            if(entityTopY > nextY && entityLeftX >= nextX && entityRightX < nextX + gp.tileSize) {
+                direction = "up";
+            }
+            else if(entityTopY < nextY && entityLeftX >= nextX && entityRightX < nextX + gp.tileSize) {
+                direction = "down";
+            }
+            else if(entityTopY >= nextY && entityBottomY < nextY + gp.tileSize) {
+                // left or right
+                if(entityLeftX > nextX) {
+                    direction = "left";
+                }
+                if(entityLeftX < nextX) {
+                    direction = "right";
+                }
+            }
+            // Cases where entity gets stuck - check for objects as well
+            else if(entityTopY > nextY && entityLeftX > nextX) {
+                // up or left
+                direction = "up";
+                checkCollision();
+                if(collisionOn == true) {
+                    direction = "left";
+                }
+            }
+            else if(entityTopY > nextY && entityLeftX < nextX) {
+                // up or right
+                direction = "up";
+                checkCollision();
+                if(collisionOn == true) {
+                    direction = "left";
+                }
+            }
+            else if(entityTopY < nextY && entityLeftX > nextX) {
+                // Down or left
+                direction = "down";
+                checkCollision();
+                if(collisionOn == true) {
+                    direction = "left";
+                }
+            }
+            else if(entityTopY < nextY && entityLeftX < nextX) {
+                // Down or right
+                direction = "down";
+                checkCollision();
+                if(collisionOn == true) {
+                    direction = "right";
+                }
+            }
+            // I think i need to make more conditions if the entity tries to go by node but has solid node to the left or righ of hi and needs to go up
+
+
+
+            int nextCol = gp.pFinder.pathList.get(0).col;
+            int nextRow = gp.pFinder.pathList.get(0).row;
+            //
+            if(nextCol == goalCol && nextRow == goalRow) {
+                path = false;
+            }
+        }
+
+    }
+
+
+
+    public void use(Entity entity) { } // USE THIS METHOD IN CHILDREN CLASSES FOR WHEN USING KEYS, DRINKING SOMETHING, ETC
+
+    public void update() {
+
+        setAction();
+        checkCollision();
+
+
 
         // IF COLLISON IS FALSE, PLAYER CAN MOVE
         if(collisionOn == false) {

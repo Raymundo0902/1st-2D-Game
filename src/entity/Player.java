@@ -416,6 +416,8 @@ public class Player extends Entity{
 
         if (i != 999) {
 
+            gp.monster[i].path = true;
+
             if(invincible == false) {
                 curLife -= 1;
                 invincible = true;

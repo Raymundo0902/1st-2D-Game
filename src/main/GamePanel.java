@@ -1,5 +1,6 @@
 package main;
 
+import ai.AStarPathFinder;
 import entity.Entity;
 import entity.Player;
 import entity.Projectile;
@@ -29,6 +30,8 @@ public class GamePanel extends JPanel implements Runnable {
     // WORLD SETTINGS
     public final int maxWorldCol = 60;
     public final int maxWorldRow = 86;
+    public final int maxMaps = 5;
+    public final int currentMap = 0; // Current map player is in
 
     // FULL SCREEN
     int screenWidth2 = screenWidth;
@@ -42,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     // "this" as the argument is passing the reference to the exact GamePanel object thats currently running. (NOT THE OBJECT, NOT A COPY, NOT A NEW OBJECT)
-    TileManager tileM = new TileManager(this);
+    public TileManager tileM = new TileManager(this);
     public KeyHandler keyH = new KeyHandler(this);
     Sound music = new Sound();
     Sound se = new Sound(); // sound effect
@@ -51,7 +54,10 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui = new UI(this);
     public EventHandler eventH = new EventHandler(this);
     Config config = new Config(this);
+    public AStarPathFinder pFinder = new AStarPathFinder(this);
+
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
+
 
     // ENTITIES AND OBJECTS
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler reference to objects inside the Player class. so Player class can get the things it needs from both classes.
@@ -197,8 +203,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     public void update() {
-        System.out.println("enter only works when true :"+ui.finishedTyping);
-        System.out.println(canTypeSound);
+
 
         if(gameState == initialDialogueState) {
 

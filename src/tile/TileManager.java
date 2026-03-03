@@ -16,6 +16,7 @@ public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public int mapTileNum[][]; // 2d array
+    boolean drawPath = true;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
@@ -67,17 +68,16 @@ public class TileManager {
             setup(32, "grayWall", true); // change to index 32
             setup(33, "helpMeWall", true); // change to index 33
             setup(34, "wall", true); // change to index 34
-            setup(35, "darkgrass2", false); // change to index 34
-            setup(36, "leftGravelRoad", false); // change to index 34
-            setup(37, "rightGravelRoad", false); // change to index 34
-            setup(38, "topGravelRoad", false); // change to index 34
-            setup(39, "bottomGravelRoad", false); // change to index 34
-            setup(40, "tRightGravelRoad", false); // change to index 34
+            setup(35, "darkgrass2", false);
+            setup(36, "leftGravelRoad", false);
+            setup(37, "rightGravelRoad", false);
+            setup(38, "topGravelRoad", false);
+            setup(39, "bottomGravelRoad", false);
+            setup(40, "tRightGravelRoad", false);
             setup(41, "bLeftCornerGravelRoad", false);
             setup(42, "bRightCornerGravelRoad", false);
             setup(43, "tLeftCornerGravelRoad", false);
             setup(44, "tRightCornerGravelRoad", false);
-//            setup(45, "litFireplace", true);
             setup(46, "deadNPC", false);
             setup(47, "topWater", true);
             setup(48, "bottomWater", true);
@@ -192,6 +192,20 @@ public class TileManager {
             if(worldCol == gp.maxWorldCol) {
                 worldCol = 0;
                 worldRow++;
+            }
+        }
+        if(drawPath == true) {
+            g2.setColor(new Color(255, 0, 0, 70));
+
+            for(int i = 0; i < gp.pFinder.pathList.size(); i++) {
+                // WORLD POSITION
+                int worldX = gp.pFinder.pathList.get(i).col * gp.tileSize;
+                int worldY = gp.pFinder.pathList.get(i).row * gp.tileSize;
+                // SCREEN POSITION
+                int screenX = worldX - gp.player.worldX + gp.player.screenX;
+                int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
             }
         }
 
