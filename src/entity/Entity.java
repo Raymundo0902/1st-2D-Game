@@ -106,8 +106,8 @@ public class Entity {
         if(this.type == TYPE_MONSTER && contactPlayer == true) { attackPlayer(); }
     }
 
+    // Gets called 60x a second when path = true.
     public void searchPath(int goalCol, int goalRow) {
-
         // dividing by the tile size gives the col/row number.
         int startCol = (worldX + solidArea.x) / gp.tileSize;
         int startRow = (worldY + solidArea.y) / gp.tileSize;
@@ -127,26 +127,37 @@ public class Entity {
 
             // If match conditions, entity can go up,down,left, or right
             if(entityTopY > nextY && entityLeftX >= nextX && entityRightX < nextX + gp.tileSize) {
+                System.out.println("going up!");
                 direction = "up";
             }
             else if(entityTopY < nextY && entityLeftX >= nextX && entityRightX < nextX + gp.tileSize) {
+                System.out.println("going down!");
+
                 direction = "down";
             }
             else if(entityTopY >= nextY && entityBottomY < nextY + gp.tileSize) {
+
                 // left or right
                 if(entityLeftX > nextX) {
+                    System.out.println("going left!");
+
                     direction = "left";
                 }
                 if(entityLeftX < nextX) {
+                    System.out.println("going right!");
+
                     direction = "right";
                 }
             }
+
             // Cases where entity gets stuck - check for objects as well
             else if(entityTopY > nextY && entityLeftX > nextX) {
                 // up or left
                 direction = "up";
                 checkCollision();
                 if(collisionOn == true) {
+                    System.out.println("collision detected, going left!");
+
                     direction = "left";
                 }
             }
@@ -155,7 +166,9 @@ public class Entity {
                 direction = "up";
                 checkCollision();
                 if(collisionOn == true) {
-                    direction = "left";
+                    System.out.println("collision detected, going right!");
+
+                    direction = "right";
                 }
             }
             else if(entityTopY < nextY && entityLeftX > nextX) {
@@ -163,6 +176,8 @@ public class Entity {
                 direction = "down";
                 checkCollision();
                 if(collisionOn == true) {
+                    System.out.println("collision detected, going left!");
+
                     direction = "left";
                 }
             }
@@ -171,19 +186,20 @@ public class Entity {
                 direction = "down";
                 checkCollision();
                 if(collisionOn == true) {
+                    System.out.println("collision detected, going right!");
+
                     direction = "right";
                 }
             }
-            // I think i need to make more conditions if the entity tries to go by node but has solid node to the left or righ of hi and needs to go up
 
-
-
-            int nextCol = gp.pFinder.pathList.get(0).col;
-            int nextRow = gp.pFinder.pathList.get(0).row;
-            //
-            if(nextCol == goalCol && nextRow == goalRow) {
-                path = false;
-            }
+            // THIS IS ONLY FOR WHEN ENTITY PATHFINDING ISNT TO FOLLOW YOU.
+            // If entity reaches the goal, stop the search
+//            int nextCol = gp.pFinder.pathList.get(0).col;
+//            int nextRow = gp.pFinder.pathList.get(0).row;
+//
+//            if(nextCol == goalCol && nextRow == goalRow) {
+//                path = false;
+//            }
         }
 
     }
@@ -198,24 +214,13 @@ public class Entity {
         checkCollision();
 
 
-
         // IF COLLISON IS FALSE, PLAYER CAN MOVE
         if(collisionOn == false) {
             switch(direction) {
-                case "up":
-                    if(gp.npc[0].worldY >= 2880) { // cannot go past row 60 aka y = 60
-                        worldY -= speed;
-                    }
-                    break;
-                case "down":
-                    if(gp.npc[0].worldY <= 3408) { // cannot go past row 71 aka y = 71
-                        worldY += speed;
-                    }
-                    break;
-                case "left": worldX -= speed;
-                    break;
-                case "right": worldX += speed;
-                    break;
+                case "up": worldY -= speed; break;
+                case "down": worldY += speed; break;
+                case "left": worldX -= speed; break;
+                case "right": worldX += speed; break;
             }
 
         }
@@ -294,8 +299,8 @@ public class Entity {
             g2.drawImage(image, screenX, screenY, null);
             // COLLISION VISUALS (DEBUG)
 //
-//            g2.setColor(Color.red);
-//            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            g2.setColor(Color.red);
+            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
         }
 

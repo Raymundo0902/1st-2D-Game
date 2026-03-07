@@ -40,7 +40,7 @@ public class AStarPathFinder {
     }
 
     public void resetNodes() {
-
+//        System.out.println("RESET TOGGLED");
         int col = 0;
         int row = 0;
 
@@ -71,8 +71,9 @@ public class AStarPathFinder {
         // Set start and goal nodes
         startNode = node[startCol][startRow];
         currentNode = startNode;
-        openNodes.add(currentNode);
         goalNode = node[goalCol][goalRow];
+        openNodes.add(currentNode);
+
 
         int col = 0;
         int row = 0;
@@ -86,10 +87,12 @@ public class AStarPathFinder {
             if(gp.tileM.tile[tileNum].collision == true) {
                 node[col][row].solid = true;
             }
-            // need to check for objects like campfire, doors,etc (think about how the monster will chase you. Node must be solid at the campfires, perhaps not for doors though because he may need to break it down?..)
-           // should work?
-            if(col == 21 && row == 56) {
-                node[col][row].solid = true;
+            // solids do get detected but entity sometimes doesnt know to adjust itself well
+//           better way than just checking columns? -- i believe this is is working 100% run a few more test cases where entity is approaching from each possible position where it needs to go through campfire
+            if(gp.objManager.objectMap[col][row] != null) {
+                if (gp.objManager.objectMap[col][row].collision == true) {
+                    node[col][row].solid = true;
+                }
             }
 
             // Set cost
@@ -163,6 +166,7 @@ public class AStarPathFinder {
             }
             // If there is no node in the openNodes arraylist, end the loop
             if(openNodes.size() == 0) {
+
                 break;
             }
             // After loop,

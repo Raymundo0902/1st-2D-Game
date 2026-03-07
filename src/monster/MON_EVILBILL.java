@@ -3,6 +3,7 @@ package monster;
 import entity.Entity;
 import main.GamePanel;
 
+import java.awt.*;
 import java.util.Random;
 
 public class MON_EVILBILL extends Entity {
@@ -20,10 +21,11 @@ public class MON_EVILBILL extends Entity {
         curLife = maxLife;
         type = TYPE_MONSTER;
 
+        solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
-        solidArea.width = 32;
-        solidArea.height = 32;
+        solidArea.width = 25;
+        solidArea.height = 25;
         solidAreaDefaultX = solidArea.x; // reason we create solidAreaDefaultX,Y is so we can recall the default values of solidArea.x and y because we will change solidArea.x and y later.
         solidAreaDefaultY = solidArea.y;
 
@@ -45,12 +47,13 @@ public class MON_EVILBILL extends Entity {
 
     public void setAction() {
 
-        System.out.println(path);
+        // For testing, this toggles to true when player takes damage
         if(path == true) {
 
-            // goes past campfire
-            int goalCol = 18;
-            int goalRow = 56;
+
+            // follow player
+            int goalCol = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize;
+            int goalRow = (gp.player.worldY + gp.player.solidArea.y ) / gp.tileSize;
 
             // gets called 60x a second
             searchPath(goalCol, goalRow);

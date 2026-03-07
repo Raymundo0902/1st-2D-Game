@@ -5,6 +5,7 @@ import entity.Entity;
 import entity.Player;
 import entity.Projectile;
 import object.OBJ_Rock;
+import object.ObjectManager;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -54,8 +55,8 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui = new UI(this);
     public EventHandler eventH = new EventHandler(this);
     Config config = new Config(this);
+    public ObjectManager objManager = new ObjectManager(this);
     public AStarPathFinder pFinder = new AStarPathFinder(this);
-
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
 
 
@@ -239,7 +240,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 
         if(gameState == playState) {
-
 
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
 
