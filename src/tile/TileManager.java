@@ -22,10 +22,12 @@ public class TileManager {
         this.gp = gp;
 
         tile = new Tile[100]; // we gonna create 10 kinds of tiles, water tile, grass tile, etc. If needed more, increase more indicies (size)
-        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow]; // will put all the numbers in the map01.txt in this mapTileNum array basically saying 16colx12row
+        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
-        loadMap("/maps/world01.txt");
+        loadMap("/maps/gasStation.txt");
+//        loadMap("/maps/world01.txt"); CALL THIS WHEN LEAVING GAS STATION AND INSTANTIATE NPCS
+
     }
 
     public void getTileImage() {
@@ -195,7 +197,7 @@ public class TileManager {
             }
         }
         if(drawPath == true) {
-            g2.setColor(new Color(255, 0, 0, 70));
+            g2.setColor(new Color(12, 200, 200, 70));
 
             for(int i = 0; i < gp.pFinder.pathList.size(); i++) {
                 // WORLD POSITION

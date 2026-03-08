@@ -206,8 +206,10 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         // FAST REAL-TIME MAP EDIT
         if(code == KeyEvent.VK_B) {
-            gp.tileM.loadMap("/maps/world01.txt");
-            System.out.println("load map");
+            switch(gp.currentMap) {
+                case 0: gp.tileM.loadMap("/maps/gasStation.txt");
+                case 1: gp.tileM.loadMap("/maps/world01.txt");
+            }
         }
     }
 

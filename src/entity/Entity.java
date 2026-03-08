@@ -115,7 +115,8 @@ public class Entity {
         gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
 
         if(gp.pFinder.search() == true) {
-            // store the upcoming coordinates
+            // store the upcoming coordinates - get(0) because other indexes aren't used since this is called 60x a second. With that,
+            // each index zero as the path list changes per frame, so will 0 which will act as the next step.
             int nextX = gp.pFinder.pathList.get(0).col * gp.tileSize;
             int nextY = gp.pFinder.pathList.get(0).row * gp.tileSize;
 
@@ -127,25 +128,18 @@ public class Entity {
 
             // If match conditions, entity can go up,down,left, or right
             if(entityTopY > nextY && entityLeftX >= nextX && entityRightX < nextX + gp.tileSize) {
-                System.out.println("going up!");
                 direction = "up";
             }
             else if(entityTopY < nextY && entityLeftX >= nextX && entityRightX < nextX + gp.tileSize) {
-                System.out.println("going down!");
-
                 direction = "down";
             }
             else if(entityTopY >= nextY && entityBottomY < nextY + gp.tileSize) {
 
                 // left or right
                 if(entityLeftX > nextX) {
-                    System.out.println("going left!");
-
                     direction = "left";
                 }
                 if(entityLeftX < nextX) {
-                    System.out.println("going right!");
-
                     direction = "right";
                 }
             }
@@ -156,8 +150,6 @@ public class Entity {
                 direction = "up";
                 checkCollision();
                 if(collisionOn == true) {
-                    System.out.println("collision detected, going left!");
-
                     direction = "left";
                 }
             }
@@ -166,8 +158,6 @@ public class Entity {
                 direction = "up";
                 checkCollision();
                 if(collisionOn == true) {
-                    System.out.println("collision detected, going right!");
-
                     direction = "right";
                 }
             }
@@ -176,8 +166,6 @@ public class Entity {
                 direction = "down";
                 checkCollision();
                 if(collisionOn == true) {
-                    System.out.println("collision detected, going left!");
-
                     direction = "left";
                 }
             }
@@ -186,14 +174,13 @@ public class Entity {
                 direction = "down";
                 checkCollision();
                 if(collisionOn == true) {
-                    System.out.println("collision detected, going right!");
-
                     direction = "right";
                 }
             }
 
-            // THIS IS ONLY FOR WHEN ENTITY PATHFINDING ISNT TO FOLLOW YOU.
+            // THIS IS ONLY FOR WHEN ENTITY PATHFINDING ISN'T TO FOLLOW YOU.
             // If entity reaches the goal, stop the search
+            // We compare tiles instead of pixels to have a broader area rather than pinpoint area.
 //            int nextCol = gp.pFinder.pathList.get(0).col;
 //            int nextRow = gp.pFinder.pathList.get(0).row;
 //

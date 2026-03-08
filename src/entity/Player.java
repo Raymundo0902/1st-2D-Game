@@ -32,6 +32,7 @@ public class Player extends Entity{
     boolean raking = false;
     boolean throwingRock = false;
     public boolean itemDrop = false;
+    public boolean hasRake = false;
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -415,8 +416,6 @@ public class Player extends Entity{
     public void contactMonster(int i) {
 
         if (i != 999) {
-
-            gp.monster[i].path = true;
 
             if(invincible == false) {
                 curLife -= 1;

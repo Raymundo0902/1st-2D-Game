@@ -31,8 +31,10 @@ public class GamePanel extends JPanel implements Runnable {
     // WORLD SETTINGS
     public final int maxWorldCol = 60;
     public final int maxWorldRow = 86;
-    public final int maxMaps = 5;
-    public final int currentMap = 0; // Current map player is in
+    public int currentMap; // Current map player is in
+    public static final int GAS_STATION = 0;
+    public static final int PINEWOOD_CAMP = 1;
+
 
     // FULL SCREEN
     int screenWidth2 = screenWidth;
@@ -104,6 +106,7 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setMonster();
         playMusic(8); // play main menu music -- VHS 80s-90s MUSIC
         gameState = titleState;
+        currentMap = GAS_STATION;
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
@@ -133,6 +136,9 @@ public class GamePanel extends JPanel implements Runnable {
         ui.dialogueIndex = 0;
         ui.wordEnd = 0;
         ui.nextLine = 0;
+
+        // World
+        currentMap = GAS_STATION;
 
         // ENTITY DEFAULTS
         player.setDefaultPosition();

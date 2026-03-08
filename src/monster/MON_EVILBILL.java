@@ -45,6 +45,19 @@ public class MON_EVILBILL extends Entity {
         right2 = setup("/monster/monster_right2", gp.tileSize, gp.tileSize);
     }
 
+    public void update() {
+        super.update();
+
+        int xDistance = Math.abs(worldX - gp.player.worldX);
+        int yDistance = Math.abs(worldY - gp.player.worldY);
+        int detectionRange = gp.tileSize * 6;
+
+        if(xDistance <= detectionRange && yDistance <= detectionRange) {
+            path = true;
+        }
+        else { path = false; }
+    }
+
     public void setAction() {
 
         // For testing, this toggles to true when player takes damage
