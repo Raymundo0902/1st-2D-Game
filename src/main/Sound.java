@@ -33,6 +33,8 @@ public class Sound {
         soundURL[14] = getClass().getResource("/sound/cursorSelect.wav");
         soundURL[15] = getClass().getResource("/sound/pickupRock.wav");
         soundURL[16] = getClass().getResource("/sound/typingSE.wav");
+        soundURL[17] = getClass().getResource("/sound/Elevatormusic.wav");
+
 
     }
 

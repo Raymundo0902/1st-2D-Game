@@ -365,6 +365,8 @@ public class UI {
         if(skipDialogue == true) {
             gp.gameState = gp.playState;
             gp.se.stop();
+            gp.stopMusic();
+            gp.playMusic(17);
             gp.drawBlackScreen = true;
             skipDialogue = false;
         }

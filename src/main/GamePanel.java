@@ -238,6 +238,8 @@ public class GamePanel extends JPanel implements Runnable {
                         ui.finishedTyping = false;
                         gameState = playState;
                         drawBlackScreen = true;
+                        stopMusic();
+                        playMusic(17);
                     }
                 }
             }
