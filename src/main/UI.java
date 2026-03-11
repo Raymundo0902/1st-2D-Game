@@ -54,7 +54,7 @@ public class UI {
 
         // TITLE SCREEN IMAGE
         try{
-            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen2.png"));
+            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen3.png"));
 
         }catch (IOException e){
             e.printStackTrace();

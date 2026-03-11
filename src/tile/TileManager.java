@@ -57,7 +57,7 @@ public class TileManager {
             setup(19, "rightMainWall", true); // change to index 19
             setup(20, "bottomMainWall", true); // change to index 20
             setup(21, "verticalTwoWalls", true); // change to index 21
-            setup(22, "horizontalTwoWalls", true); // change to index 22
+            setup(22, "shelf1", true);
             setup(23, "bLeftCornerWall", true); // change to index 23
             setup(24, "bRightCornerWall", true); // change to index 24
             setup(25, "tLeftCornerWall", true); // change to index 25
@@ -67,7 +67,7 @@ public class TileManager {
             setup(29, "LHorizontalTwoWalls2", true); // change to index 29
             setup(30, "RHorizontalTwoWalls2", true); // change to index 30
             setup(31, "rDoubleCornerWall", true); // change to index 31
-            setup(32, "grayWall", true); // change to index 32
+            setup(32, "gasStationWall", true); // change to index 32
             setup(33, "helpMeWall", true); // change to index 33
             setup(34, "wall", true); // change to index 34
             setup(35, "darkgrass2", false);
@@ -111,6 +111,8 @@ public class TileManager {
             setup(74, "water2", true);
             setup(75, "bridge2", false);
             setup(76, "woodfloor", false);
+            setup(77, "shelf2", true);
+
     }
 
     public void setup(int index, String imageName, boolean collision) {
