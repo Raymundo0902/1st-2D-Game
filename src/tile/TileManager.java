@@ -46,13 +46,13 @@ public class TileManager {
 
             // MINUS 10 OUT OF ALL TO RETURN THE ORIGINAL INDEX OF SINGLE DIGIT
             setup(10, "darkgrass1", false); // change to index 10
-            setup(11, "topMainWall", true); // change to index 11
+            setup(11, "horizontalWall", true); // change to index 11
             setup(12, "water", true); // change to index 12
-            setup(13, "earth", false); // change to index 13
+            setup(13, "retroWall1", true);
             setup(14, "darkTree", true); // change to index 14
             setup(15, "gravelRoad1", false); // change to index 15
             setup(16, "48x48ConcreteTile", false); // change to index 16 // col 47-48 one of those are having issues for this tile index. gives AWT-EventQueue-0 Exception
-            setup(17, "48x48DarkConcreteTile", false); // change to index 17
+            setup(17, "16xTile", false); // change to index 17
             setup(18, "leftMainWall", true); // change to index 18
             setup(19, "rightMainWall", true); // change to index 19
             setup(20, "bottomMainWall", true); // change to index 20
@@ -80,6 +80,7 @@ public class TileManager {
             setup(42, "bRightCornerGravelRoad", false);
             setup(43, "tLeftCornerGravelRoad", false);
             setup(44, "tRightCornerGravelRoad", false);
+            setup(45, "bottomMainWall", true);
             setup(46, "deadNPC", false);
             setup(47, "topWater", true);
             setup(48, "bottomWater", true);
@@ -111,7 +112,12 @@ public class TileManager {
             setup(74, "water2", true);
             setup(75, "bridge2", false);
             setup(76, "woodfloor", false);
-            setup(77, "shelf2", true);
+            setup(77, "retroWall2", true);
+            setup(78, "retroWall3", true);
+            setup(79, "retroWall4", true);
+
+
+
 
     }
 

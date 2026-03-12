@@ -14,12 +14,19 @@ public class AssetSetter {
 
     public void setObject() {
 
-        // INSTANTIATED THESE 2 KEYS AND SET THEIR DEFAULT LOCATION.
+        // Make a method in here where it resets the values of the array when we transition to pinewood camp so it can fill in the other objs without maxing out space.
+        // Using i++ because it's easier to track and not skip over values.
 
         if(gp.currentMap == gp.GAS_STATION) {
+            System.out.println(gp.currentMap);
             // Instantiate only gas station entities here
+            int i = 0;
+            gp.obj[i] = new OBJ_SnackShelf(gp);
+            gp.obj[i].worldX = 38 * gp.tileSize;
+            gp.obj[i].worldY = (56 * gp.tileSize) - 20;
+            i++;
         }
-        if(gp.currentMap == gp.PINEWOOD_CAMP) {
+        else if(gp.currentMap == gp.PINEWOOD_CAMP) {
             // insert all the below entities in here
             gp.obj[0] = new OBJ_Key(gp);
             gp.obj[0].worldX = 26 * gp.tileSize;

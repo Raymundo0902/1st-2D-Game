@@ -32,8 +32,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldCol = 60;
     public final int maxWorldRow = 86;
     public int currentMap; // Current map player is in
-    public static final int GAS_STATION = 0;
-    public static final int PINEWOOD_CAMP = 1;
+    public final int GAS_STATION = 0;
+    public final int PINEWOOD_CAMP = 1;
 
 
     // FULL SCREEN
@@ -100,13 +100,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setupGame() { // created this method so we can add other setup stuff in the future
-
+        currentMap = GAS_STATION;
+        gameState = titleState;
         aSetter.setObject();
         aSetter.setNPC();
         aSetter.setMonster();
         playMusic(8); // play main menu music -- VHS 80s-90s MUSIC
-        gameState = titleState;
-        currentMap = GAS_STATION;
+
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
