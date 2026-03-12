@@ -6,19 +6,21 @@ import main.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class OBJ_SnackShelf extends Entity {
+public class OBJ_FruitBox extends Entity {
 
-    public OBJ_SnackShelf(GamePanel gp) {
+    public OBJ_FruitBox(GamePanel gp) {
         super(gp);
         name = "snackShelf1";
-        down1 = setup("/objects/snackShelf1", gp.tileSize * 4, gp.tileSize * 2);
+        down1 = setup("/objects/fruitBox1", gp.tileSize *2 , gp.tileSize*2);
         collision = true;
-        solidArea.y = 32;
-
+        solidArea.x = 14;
+        solidArea.y = 18;
+        // Must have these below so the solidArea stays at same location after certain player decisions
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = gp.tileSize * 4;
-        solidArea.height = gp.tileSize;
+
+        solidArea.width = 32 * 2;
+        solidArea.height = 32 * 2;
     }
 
     @Override

@@ -6,18 +6,17 @@ import main.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class OBJ_SnackShelf extends Entity {
-
-    public OBJ_SnackShelf(GamePanel gp) {
+public class OBJ_BackofShelf extends Entity {
+    public OBJ_BackofShelf(GamePanel gp) {
         super(gp);
-        name = "snackShelf1";
-        down1 = setup("/objects/snackShelf1", gp.tileSize * 4, gp.tileSize * 2);
+        name = "backOfShelf";
+        down1 = setup("/objects/backOfShelf", (int) (gp.tileSize * 1.3), gp.tileSize * 2);
         collision = true;
         solidArea.y = 32;
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = gp.tileSize * 4;
+        solidArea.width = gp.tileSize + 10;
         solidArea.height = gp.tileSize;
     }
 

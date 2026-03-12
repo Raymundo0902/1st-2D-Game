@@ -18,13 +18,43 @@ public class AssetSetter {
         // Using i++ because it's easier to track and not skip over values.
 
         if(gp.currentMap == gp.GAS_STATION) {
-            System.out.println(gp.currentMap);
             // Instantiate only gas station entities here
             int i = 0;
             gp.obj[i] = new OBJ_SnackShelf(gp);
             gp.obj[i].worldX = 38 * gp.tileSize;
-            gp.obj[i].worldY = (56 * gp.tileSize) - 20;
+            gp.obj[i].worldY = (59 * gp.tileSize) - 24;
             i++;
+
+            gp.obj[i] = new OBJ_FruitBox(gp);
+            gp.obj[i].worldX = 45 * gp.tileSize;
+            gp.obj[i].worldY = (62 * gp.tileSize);
+            i++;
+
+            gp.obj[i] = new OBJ_SnackSelf2(gp);
+            gp.obj[i].worldX = 38 * gp.tileSize;
+            gp.obj[i].worldY = (64 * gp.tileSize);
+            i++;
+
+            gp.obj[i] = new OBJ_Fridge(gp);
+            gp.obj[i].worldX = 38 * gp.tileSize + 5;
+            gp.obj[i].worldY = (57 * gp.tileSize)  - gp.tileSize;
+            i++;
+
+            gp.obj[i] = new OBJ_Fridge(gp);
+            gp.obj[i].worldX = 40 * gp.tileSize - 29;
+            gp.obj[i].worldY = (57 * gp.tileSize)  - gp.tileSize;
+            i++;
+
+            gp.obj[i] = new OBJ_Fridge(gp);
+            gp.obj[i].worldX = 41 * gp.tileSize - 16;
+            gp.obj[i].worldY = (57 * gp.tileSize)  - gp.tileSize;
+            i++;
+
+            gp.obj[i] = new OBJ_BackofShelf(gp);
+            gp.obj[i].worldX = 37 * gp.tileSize - 16;
+            gp.obj[i].worldY = (57 * gp.tileSize)  - gp.tileSize;
+            i++;
+
         }
         else if(gp.currentMap == gp.PINEWOOD_CAMP) {
             // insert all the below entities in here
