@@ -10,7 +10,7 @@ public class OBJ_FruitBox extends Entity {
 
     public OBJ_FruitBox(GamePanel gp) {
         super(gp);
-        name = "snackShelf1";
+        name = "fruitBox1";
         down1 = setup("/objects/fruitBox1", gp.tileSize *2 , gp.tileSize*2);
         collision = true;
         solidArea.x = 14;
@@ -20,7 +20,7 @@ public class OBJ_FruitBox extends Entity {
         solidAreaDefaultY = solidArea.y;
 
         solidArea.width = 32 * 2;
-        solidArea.height = 32 * 2;
+        solidArea.height = (24 * 2) ;
     }
 
     @Override

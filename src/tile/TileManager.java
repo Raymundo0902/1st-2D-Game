@@ -115,6 +115,13 @@ public class TileManager {
             setup(77, "retroWall2", true);
             setup(78, "retroWall3", true);
             setup(79, "retroWall4", true);
+
+            setup(80, "tLeftCarpet", false);
+            setup(81, "tRightCarpet", false);
+            setup(82, "carpet1", false);
+            setup(83, "carpet2", false);
+            setup(84, "bLeftCarpet", false);
+            setup(85, "bRightCarpet", false);
     }
 
     public void setup(int index, String imageName, boolean collision) {

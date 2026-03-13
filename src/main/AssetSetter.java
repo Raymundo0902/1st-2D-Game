@@ -22,37 +22,42 @@ public class AssetSetter {
             int i = 0;
             gp.obj[i] = new OBJ_SnackShelf(gp);
             gp.obj[i].worldX = 38 * gp.tileSize;
-            gp.obj[i].worldY = (59 * gp.tileSize) - 24;
+            gp.obj[i].worldY = (58 * gp.tileSize);
             i++;
 
             gp.obj[i] = new OBJ_FruitBox(gp);
-            gp.obj[i].worldX = 45 * gp.tileSize;
+            gp.obj[i].worldX = 44 * gp.tileSize;
             gp.obj[i].worldY = (62 * gp.tileSize);
             i++;
 
-            gp.obj[i] = new OBJ_SnackSelf2(gp);
+            gp.obj[i] = new OBJ_SnackShelf(gp);
             gp.obj[i].worldX = 38 * gp.tileSize;
-            gp.obj[i].worldY = (64 * gp.tileSize);
+            gp.obj[i].worldY = (61 * gp.tileSize) - 20;
             i++;
 
             gp.obj[i] = new OBJ_Fridge(gp);
-            gp.obj[i].worldX = 38 * gp.tileSize + 5;
-            gp.obj[i].worldY = (57 * gp.tileSize)  - gp.tileSize;
+            gp.obj[i].worldX = 39 * gp.tileSize + 5;
+            gp.obj[i].worldY = (56 * gp.tileSize)  - 20;
             i++;
 
             gp.obj[i] = new OBJ_Fridge(gp);
-            gp.obj[i].worldX = 40 * gp.tileSize - 29;
-            gp.obj[i].worldY = (57 * gp.tileSize)  - gp.tileSize;
+            gp.obj[i].worldX = 41 * gp.tileSize - 29;
+            gp.obj[i].worldY = (56 * gp.tileSize)  - 20;
             i++;
 
             gp.obj[i] = new OBJ_Fridge(gp);
-            gp.obj[i].worldX = 41 * gp.tileSize - 16;
-            gp.obj[i].worldY = (57 * gp.tileSize)  - gp.tileSize;
+            gp.obj[i].worldX = 42 * gp.tileSize - 16;
+            gp.obj[i].worldY = (56 * gp.tileSize)  - 20;
             i++;
 
             gp.obj[i] = new OBJ_BackofShelf(gp);
-            gp.obj[i].worldX = 37 * gp.tileSize - 16;
-            gp.obj[i].worldY = (57 * gp.tileSize)  - gp.tileSize;
+            gp.obj[i].worldX = 38 * gp.tileSize - 16;
+            gp.obj[i].worldY = (56 * gp.tileSize)  - 20;
+            i++;
+
+            gp.obj[i] = new OBJ_FruitBox2(gp);
+            gp.obj[i].worldX = 47 * gp.tileSize;
+            gp.obj[i].worldY = (62 * gp.tileSize) + 2;
             i++;
 
         }

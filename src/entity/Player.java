@@ -79,7 +79,7 @@ public class Player extends Entity{
     public void setDefaultPosition() {
 
         worldX = gp.tileSize * 44; // not where we draw on screen this is players starting position on world map.
-        worldY = gp.tileSize * 60;
+        worldY = gp.tileSize * 58;
         direction = "down";
     }
 

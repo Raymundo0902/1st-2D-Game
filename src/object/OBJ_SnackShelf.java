@@ -7,18 +7,16 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class OBJ_SnackShelf extends Entity {
-
     public OBJ_SnackShelf(GamePanel gp) {
         super(gp);
         name = "snackShelf1";
-        down1 = setup("/objects/snackShelf1", gp.tileSize * 4, gp.tileSize * 2);
+        down1 = setup("/objects/snackShelf2", gp.tileSize * 4, gp.tileSize * 2);
         collision = true;
-        solidArea.y = 32;
-
+        solidArea.y = gp.tileSize;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         solidArea.width = gp.tileSize * 4;
-        solidArea.height = gp.tileSize;
+        solidArea.height = 38;
     }
 
     @Override
