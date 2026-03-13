@@ -122,6 +122,7 @@ public class TileManager {
             setup(83, "carpet2", false);
             setup(84, "bLeftCarpet", false);
             setup(85, "bRightCarpet", false);
+            setup(86, "vent", false);
     }
 
     public void setup(int index, String imageName, boolean collision) {

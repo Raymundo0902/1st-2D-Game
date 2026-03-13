@@ -20,6 +20,7 @@ public class AssetSetter {
         if(gp.currentMap == gp.GAS_STATION) {
             // Instantiate only gas station entities here
             int i = 0;
+
             gp.obj[i] = new OBJ_SnackShelf(gp);
             gp.obj[i].worldX = 38 * gp.tileSize;
             gp.obj[i].worldY = (58 * gp.tileSize);
@@ -58,6 +59,16 @@ public class AssetSetter {
             gp.obj[i] = new OBJ_FruitBox2(gp);
             gp.obj[i].worldX = 47 * gp.tileSize;
             gp.obj[i].worldY = (62 * gp.tileSize) + 2;
+            i++;
+
+            gp.obj[i] = new OBJ_CheckoutCounter(gp);
+            gp.obj[i].worldX = 47 * gp.tileSize + 5;
+            gp.obj[i].worldY = (57 * gp.tileSize) - 20;
+            i++;
+
+            gp.obj[i] = new NPC_Ayden(gp);
+            gp.obj[i].worldX = 48 * gp.tileSize + 5;
+            gp.obj[i].worldY = (59 * gp.tileSize) - 10;
             i++;
 
         }

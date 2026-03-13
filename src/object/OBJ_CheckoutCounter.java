@@ -6,19 +6,17 @@ import main.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class OBJ_Fridge extends Entity {
+public class OBJ_CheckoutCounter extends Entity {
 
-    public OBJ_Fridge(GamePanel gp) {
-
+    public OBJ_CheckoutCounter(GamePanel gp) {
         super(gp);
-
-        name = "fridge1";
-        down1 = setup("/objects/fridge1", (int) (gp.tileSize * 1.3), gp.tileSize * 2);
+        name = "CheckoutCounter";
+        down1 = setup("/objects/gasStationCounter", gp.tileSize*2, gp.tileSize*5);
         collision = true;
-        solidAreaDefaultX = solidArea.x;
+        solidArea.y = gp.tileSize + 12;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = gp.tileSize + 10;
-        solidArea.height = 38 * 2;
+        solidArea.width = gp.tileSize * 2;
+        solidArea.height = gp.tileSize * 3;
     }
 
     @Override
@@ -69,4 +67,6 @@ public class OBJ_Fridge extends Entity {
         }
 
     }
+
+
 }
