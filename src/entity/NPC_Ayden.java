@@ -3,6 +3,7 @@ package entity;
 import main.GamePanel;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Random;
 
 public class NPC_Ayden extends Entity {
@@ -72,7 +73,7 @@ public class NPC_Ayden extends Entity {
 
     public void speak() {
 
-        // DO THIS CHARACTER SPECIFIC STUFF
+        // DO CHARACTER SPECIFIC STUFF
         super.speak();
 
     }

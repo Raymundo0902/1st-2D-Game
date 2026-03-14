@@ -12,11 +12,11 @@ public class OBJ_CheckoutCounter extends Entity {
         super(gp);
         name = "CheckoutCounter";
         down1 = setup("/objects/gasStationCounter", gp.tileSize*2, gp.tileSize*5);
-        collision = true;
-        solidArea.y = gp.tileSize + 12;
-        solidAreaDefaultY = solidArea.y;
-        solidArea.width = gp.tileSize * 2;
-        solidArea.height = gp.tileSize * 3;
+        collision = false;
+//        solidArea.y = gp.tileSize + 12;
+//        solidAreaDefaultY = solidArea.y;
+//        solidArea.width = gp.tileSize * 2;
+//        solidArea.height = gp.tileSize * 3;
     }
 
     @Override

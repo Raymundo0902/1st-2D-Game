@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player extends Entity{
 
@@ -125,6 +126,7 @@ public class Player extends Entity{
     }
 
     public void update() { // this method gets called 60x per second
+
 
         if(raking == true) { // bypass the else if key inputs if player is currently raking
             raking();
@@ -324,7 +326,6 @@ public class Player extends Entity{
     }
 
     public void pickUpObject(int i) {
-
         int itemIndex;
 
         if(i != 999) { // if this index is 999 then that means we didn't touch any object. Otherwise, then we did touch an object. the reason for 999 is to make sure its not used by the object array's index

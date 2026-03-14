@@ -1,6 +1,7 @@
 package main;
 
 import entity.NPC_Ayden;
+import entity.NPC_Cashier;
 import monster.MON_EVILBILL;
 import object.*;
 
@@ -64,11 +65,6 @@ public class AssetSetter {
             gp.obj[i] = new OBJ_CheckoutCounter(gp);
             gp.obj[i].worldX = 47 * gp.tileSize + 5;
             gp.obj[i].worldY = (57 * gp.tileSize) - 20;
-            i++;
-
-            gp.obj[i] = new NPC_Ayden(gp);
-            gp.obj[i].worldX = 48 * gp.tileSize + 5;
-            gp.obj[i].worldY = (59 * gp.tileSize) - 10;
             i++;
 
         }
@@ -167,6 +163,11 @@ public class AssetSetter {
 
         if(gp.currentMap == gp.GAS_STATION) {
             // Instantiate only gas station entities here
+            int i = 0;
+            gp.npc[i] = new NPC_Cashier(gp);
+            gp.npc[i].worldX = 48 * gp.tileSize + 5;
+            gp.npc[i].worldY = (59 * gp.tileSize) - 12;
+            i++;
         }
 
         if(gp.currentMap == gp.PINEWOOD_CAMP) {
