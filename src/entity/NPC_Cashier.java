@@ -17,11 +17,11 @@ public class NPC_Cashier extends Entity{
 
         solidArea = new Rectangle(); // values below are what parts of the character will be solid
         solidArea.x = -gp.tileSize;
-        solidArea.y = -gp.tileSize;
+        solidArea.y = -32;
         solidAreaDefaultX = solidArea.x; // reason we create solidAreaDefaultX,Y is so we can recall the default values of solidArea.x and y because we will change solidArea.x and y later.
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = gp.tileSize * 2;
-        solidArea.height = gp.tileSize * 3;
+        solidArea.width = gp.tileSize;
+        solidArea.height = (gp.tileSize * 2) + 30;
 
         type = TYPE_NPC;
     }
@@ -37,7 +37,7 @@ public class NPC_Cashier extends Entity{
 
         dialogues[0] = "That'll be $11.99.";
         dialogues[1] = "What are you some kinda park ranger?";
-        dialogues[2] = "I see, that camp sure is nice,\n you know, I suggest you be careful now..\nthere's been reportings of a killer on the\n loose not too far out from there.";
+        dialogues[2] = "I see, that camp sure is nice,\nyou know, I suggest you be careful now..\nthere's been reportings of a killer on the\nloose not too far out from there.";
         dialogues[3] = "Welp, have a good drive there!";
     }
 

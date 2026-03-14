@@ -12,11 +12,11 @@ public class OBJ_CheckoutCounter extends Entity {
         super(gp);
         name = "CheckoutCounter";
         down1 = setup("/objects/gasStationCounter", gp.tileSize*2, gp.tileSize*5);
-        collision = false;
-//        solidArea.y = gp.tileSize + 12;
-//        solidAreaDefaultY = solidArea.y;
-//        solidArea.width = gp.tileSize * 2;
-//        solidArea.height = gp.tileSize * 3;
+        collision = true;
+        solidArea.y = gp.tileSize + 12;
+        solidAreaDefaultY = solidArea.y;
+        solidArea.width = gp.tileSize * 2;
+        solidArea.height = gp.tileSize * 3;
     }
 
     @Override
@@ -62,8 +62,8 @@ public class OBJ_CheckoutCounter extends Entity {
             g2.drawImage(image, screenX, screenY, null);
 
             // COLLISION VISUALS (DEBUG)
-//            g2.setColor(Color.red);
-//            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            g2.setColor(Color.red);
+            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
 
     }
