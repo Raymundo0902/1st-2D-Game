@@ -103,6 +103,9 @@ public class UI {
         // PLAY STATE
         else if(gp.gameState == gp.playState) {
             drawPlayerLife();
+            if(gp.player.taskOn == true) {
+                drawCurrentTask();
+            }
         }
         // PAUSE STATE
         else if(gp.gameState == gp.pauseState) {
@@ -217,6 +220,17 @@ public class UI {
             g2.setColor(new Color(0, 0, 0));
             g2.fillRect(x*2, y / 2, gp.tileSize*3, 20);
         }
+    }
+
+    public void drawCurrentTask() {
+
+        int x = gp.tileSize * 14;
+        int y = gp.tileSize;
+
+        g2.setColor(new Color(80 ,54,0));
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRect(x, y, gp.tileSize * 5, gp.tileSize * 4);
+
     }
 
     public void drawTitleScreen(){

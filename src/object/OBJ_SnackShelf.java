@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class OBJ_SnackShelf extends Entity {
     public OBJ_SnackShelf(GamePanel gp) {
         super(gp);
-        name = "snackShelf1";
+        name = "snackShelf";
         down1 = setup("/objects/snackShelf2", gp.tileSize * 4, gp.tileSize * 2);
         collision = true;
         solidArea.y = gp.tileSize;

@@ -26,7 +26,7 @@ public class TileManager {
 
         getTileImage();
         loadMap("/maps/gasStation.txt");
-//        loadMap("/maps/world01.txt"); CALL THIS WHEN LEAVING GAS STATION AND INSTANTIATE NPCS
+//        loadMap("/maps/world01.txt"); //CALL THIS WHEN LEAVING GAS STATION AND INSTANTIATE NPCS
 
     }
 

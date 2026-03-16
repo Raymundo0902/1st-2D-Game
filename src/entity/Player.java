@@ -33,7 +33,7 @@ public class Player extends Entity{
     boolean raking = false;
     boolean throwingRock = false;
     public boolean itemDrop = false;
-    public boolean hasRake = false;
+    public boolean taskOn = false;
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -178,6 +178,7 @@ public class Player extends Entity{
             // CHECK OBJECT COLLISION
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
+            interactObject(objIndex);
 
             // CHECK NPC COLLISION
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
@@ -326,7 +327,6 @@ public class Player extends Entity{
     }
 
     public void pickUpObject(int i) {
-        int itemIndex;
 
         if(i != 999) { // if this index is 999 then that means we didn't touch any object. Otherwise, then we did touch an object. the reason for 999 is to make sure its not used by the object array's index
 
@@ -396,6 +396,34 @@ public class Player extends Entity{
                     gp.playSE(2);
                     break;
             }
+        }
+    }
+
+    public void interactObject(int i ) {
+
+        if(i != 999) {
+
+            String objName = gp.obj[i].name;
+            if(keyH.enterPressed == true) {
+                switch (objName) {
+
+                    case "snackShelf":
+                        // Prevents grabbing snack when facing back of shelf
+                        if(worldY > gp.obj[i].worldY + gp.tileSize) {
+                            System.out.println("Here");
+                            gp.playSE(18);
+                        }
+                        break;
+                    case "fruitBox2":
+                        System.out.println("bananas");
+                        gp.playSE(18);
+
+                        break;
+
+
+                }
+            }
+
         }
     }
 
