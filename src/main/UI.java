@@ -42,6 +42,7 @@ public class UI {
     // Task UI dialogue
     public String[] currentTask = new String[20];
     public int taskIndex = 0;
+    public int curTask = 0;
 
     // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
@@ -227,11 +228,11 @@ public class UI {
         int x = gp.tileSize * 14;
         int y = gp.tileSize / 2;
         int width = gp.tileSize * 5;
-        int height = gp.tileSize * 6;
+        int height = gp.tileSize * 5;
 
         drawSubWindow(x, y, width, height);
         // Draws the amount of checkboxes needed depending on what task we're currently on.
-        drawCurTaskCheckBox(x, y);
+        drawCurTaskCheckBox(x, y, curTask);
 
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 26f));
         String lines = currentTask[taskIndex];
@@ -245,9 +246,27 @@ public class UI {
 
     }
 
-    public void drawCurTaskCheckBox(int x, int y) {
+    public void drawCurTaskCheckBox(int x, int y, int curTask) {
 
-        x += gp.tileSize;
+        switch(curTask) {
+            case 0:
+                g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
+                y += 40;
+                g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
+                y += 40;
+                g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+        }
     }
 
     public void drawTitleScreen(){

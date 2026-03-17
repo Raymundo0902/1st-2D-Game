@@ -33,6 +33,9 @@ public class Player extends Entity{
     boolean raking = false;
     boolean throwingRock = false;
     public boolean itemDrop = false;
+
+    // TASK MANAGER
+    public boolean finishedTask = false;  // when true, taskOn is set to false in special cases
     public boolean taskOn = true;
 
     // GAS STATION CHECKLIST BUILDER

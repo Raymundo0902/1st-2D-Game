@@ -27,10 +27,7 @@ public class NPC_Cashier extends Entity{
     }
 
     public void getNPCImage() {
-
         left1 = setup("/npc/cashierLeft1", gp.tileSize, gp.tileSize + 5);
-//        left2 = setup("/npc/ayden_left2", gp.tileSize, gp.tileSize);
-
     }
 
     public void setDialogue() {
