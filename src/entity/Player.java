@@ -33,7 +33,12 @@ public class Player extends Entity{
     boolean raking = false;
     boolean throwingRock = false;
     public boolean itemDrop = false;
-    public boolean taskOn = false;
+    public boolean taskOn = true;
+
+    // GAS STATION CHECKLIST BUILDER
+    public boolean hasChip = false;
+    public boolean hasBanana = false;
+    public boolean hasSoda = false;
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -412,18 +417,29 @@ public class Player extends Entity{
                         if(worldY > gp.obj[i].worldY + gp.tileSize) {
                             System.out.println("Here");
                             gp.playSE(18);
+                            hasChip = true;
                         }
                         break;
                     case "fruitBox2":
                         System.out.println("bananas");
                         gp.playSE(18);
-
+                        hasBanana = true;
                         break;
-
+                    case "fridge1":
+                        System.out.println("fridge");
+                        // PLACEHOLDER -- INSERT GRABBING GLASS DRINK SE HERE
+                        gp.playSE(18);
+                        hasSoda = true;
+                        break;
+                    case "glassDoor":
+                        System.out.println("exit?");
+                        gp.playSE(12);
+                        // if taskComplete == true, let player decide to leave. then if so, call map loader to pinewood camp
+                        // disable taskon to remove the tasksheet
+                        break;
 
                 }
             }
-
         }
     }
 

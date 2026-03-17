@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class UI {
 
@@ -38,6 +39,9 @@ public class UI {
     int introDialogueY = 96;
     public boolean finishedTyping = false;
 
+    // Task UI dialogue
+    public String[] currentTask = new String[20];
+    public int taskIndex = 0;
 
     // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
@@ -74,6 +78,7 @@ public class UI {
 
         // INITIALIZE THE INTRODUCTORY DIALOGUE
         setIntroArray();
+        setTaskList();
 
         defaultYPosition = gp.tileSize * 2;
 
@@ -106,11 +111,6 @@ public class UI {
             if(gp.player.taskOn == true) {
                 drawCurrentTask();
             }
-        }
-        // PAUSE STATE
-        else if(gp.gameState == gp.pauseState) {
-            drawPlayerLife();
-            drawPauseScreen();
         }
         // DIALOGUE STATE
         else if(gp.gameState == gp.dialogueState) {
@@ -225,12 +225,29 @@ public class UI {
     public void drawCurrentTask() {
 
         int x = gp.tileSize * 14;
-        int y = gp.tileSize;
+        int y = gp.tileSize / 2;
+        int width = gp.tileSize * 5;
+        int height = gp.tileSize * 6;
 
-        g2.setColor(new Color(80 ,54,0));
-        g2.setStroke(new BasicStroke(3));
-        g2.drawRect(x, y, gp.tileSize * 5, gp.tileSize * 4);
+        drawSubWindow(x, y, width, height);
+        // Draws the amount of checkboxes needed depending on what task we're currently on.
+        drawCurTaskCheckBox(x, y);
 
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 26f));
+        String lines = currentTask[taskIndex];
+        x += gp.tileSize * 2;
+        y += gp.tileSize;
+
+        for(String line : lines.split("\n")) {
+            g2.drawString(line, x, y);
+            y += 40;
+        }
+
+    }
+
+    public void drawCurTaskCheckBox(int x, int y) {
+
+        x += gp.tileSize;
     }
 
     public void drawTitleScreen(){
@@ -533,17 +550,6 @@ public class UI {
 
         }
 
-    }
-
-    public void drawPauseScreen() {
-
-        g2.setColor(new Color(255, 255, 255));
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80F));
-        String text = "PAUSED";
-        int x = getXforCenteredText(text);
-        int y = gp.screenHeight/2;
-
-        g2.drawString(text, x, y);
     }
 
     public void drawPausedMenu() {
@@ -879,27 +885,39 @@ public class UI {
         }
     }
 
+    // HELPER METHOD
     public void drawSubWindow(int x, int y, int width, int height) {
 
         // OUTERMOST BORDER
-        Color c = new Color(43,26,23);
+        Color c = new Color(0,0,0, 180);
         g2.setColor(c);
         g2.setStroke(new BasicStroke(8)); // setStroke(new BasicStroke(int)) defines the width of outlines of graphics which are rendered with a Graphics 2D
         g2.drawRoundRect(x, y, width+1, height+1, 5, 5);
 
         // ACTUAL RECTANGLE
-        c = new Color(100,50,27);
+        c = new Color(0,0,0, 220);
         g2.setColor(c);
         g2.fillRoundRect(x, y, width, height, 5, 5);
 
         // INSIDE BORDER
-        c = new Color(43,26,23);
+        c = new Color(255,255,255);
         g2.setColor(c);
         g2.setStroke(new BasicStroke(5)); // setStroke(new BasicStroke(int)) defines the width of outlines of graphics which are rendered with a Graphics 2D
         g2.drawRoundRect(x+5, y+5, width-10, height-10, 5, 5);
 
     }
 
+    public void setTaskList() {
+        // use this to add all the tasks that will be displayed in the ui task board
+        int i = 0;
+        currentTask[i] = "Get Soda\nGet Chips\nGet bananas";
+        i++;
+
+        currentTask[i] = "Exit store";
+        i++;
+    }
+
+    // HELPER METHOD
     public int getXforCenteredText(String text) {
 
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();

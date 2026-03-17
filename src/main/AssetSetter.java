@@ -67,6 +67,11 @@ public class AssetSetter {
             gp.obj[i].worldY = (57 * gp.tileSize) - 20;
             i++;
 
+            gp.obj[i] = new OBJ_GlassDoor(gp);
+            gp.obj[i].worldX = 44 * gp.tileSize;
+            gp.obj[i].worldY = (55 * gp.tileSize);
+            i++;
+
         }
         else if(gp.currentMap == gp.PINEWOOD_CAMP) {
             // insert all the below entities in here

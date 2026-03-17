@@ -6,20 +6,17 @@ import main.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class OBJ_SnackShelf extends Entity {
-    public OBJ_SnackShelf(GamePanel gp) {
+public class OBJ_GlassDoor extends Entity {
+
+    public OBJ_GlassDoor(GamePanel gp) {
         super(gp);
-        name = "snackShelf";
-        down1 = setup("/objects/snackShelf2", gp.tileSize * 4, gp.tileSize * 2);
+        name = "glassDoor";
+        down1 = setup("/objects/glassDoor", gp.tileSize * 2, gp.tileSize * 2);
+        solidArea.width = gp.tileSize * 2;
+        solidArea.height = (int) (gp.tileSize * 1.5);
         collision = true;
-        solidArea.y = gp.tileSize;
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
-        solidArea.width = gp.tileSize * 4;
-        solidArea.height = 38;
     }
 
-    @Override
     public void update() {}
 
     // Had to declare its own draw method from entity because the image is gp.tileSize*2 long so it needs to show image from its top/bottom edge of camera view
@@ -28,8 +25,8 @@ public class OBJ_SnackShelf extends Entity {
         int screenX = worldX - gp.player.worldX + gp.player.screenX; // find out its screenX and Y and if its in the camera frame then draw it
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-        if(worldX + gp.tileSize * 3 > gp.player.worldX - gp.player.screenX && // player.worldX - player.screenX = left edge of camera.      objectRight > cameraLeft
-                worldX - gp.tileSize * 3 < gp.player.worldX + gp.player.screenX && // player.worldX + player.screenX = right edge of camera.    objectLeft < cameraRight
+        if(worldX + gp.tileSize * 2 > gp.player.worldX - gp.player.screenX && // player.worldX - player.screenX = left edge of camera.      objectRight > cameraLeft
+                worldX - gp.tileSize * 2 < gp.player.worldX + gp.player.screenX && // player.worldX + player.screenX = right edge of camera.    objectLeft < cameraRight
                 worldY + (gp.tileSize * 2) > gp.player.worldY - gp.player.screenY && // player.worldY - player.screenY = top edge of camera.      objectBottom > cameraTop
                 worldY - (gp.tileSize * 2) < gp.player.worldY + gp.player.screenY) { // player.worldY + player.screenY = bottom edge of camera.   objectTop < cameraBottom
 
@@ -42,4 +39,5 @@ public class OBJ_SnackShelf extends Entity {
         }
 
     }
+
 }
