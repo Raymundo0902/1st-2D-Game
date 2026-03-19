@@ -59,7 +59,7 @@ public class UI {
 
         // TITLE SCREEN IMAGE
         try{
-            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen3.png"));
+            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen.png"));
 
         }catch (IOException e){
             e.printStackTrace();
@@ -248,13 +248,18 @@ public class UI {
 
     public void drawCurTaskCheckBox(int x, int y, int curTask) {
 
+        g2.setStroke(new BasicStroke(2));
         switch(curTask) {
             case 0:
                 g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
+                if(gp.player.hasChip == true) {
+                    g2.drawImage("", x + gp.tileSize, y + gp.tileSize);
+                }
                 y += 40;
                 g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
                 y += 40;
                 g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
+
                 break;
             case 1:
             case 2:
@@ -492,7 +497,7 @@ public class UI {
     public void drawInventory() {
 
         // FRAME WINDOW
-        final int frameX = gp.tileSize * 9;
+        final int frameX = gp.tileSize * 14;
         final int frameY = gp.tileSize;
         final int frameWidth = gp.tileSize * 5;
         final int frameHeight = gp.tileSize * 4;
@@ -725,9 +730,9 @@ public class UI {
     public void drawDialogueScreen() {
 
         // WINDOW
-        int x = gp.tileSize*2;
-        int y = gp.tileSize/2;
-        int width = gp.screenWidth - (gp.tileSize*4);
+        int x = gp.tileSize * 3;
+        int y = gp.tileSize * 7;
+        int width = gp.screenWidth - (gp.tileSize * 6);
         int height = gp.tileSize*4;
 
         drawSubWindow(x, y, width, height);
@@ -745,7 +750,6 @@ public class UI {
     }
 
     public void setIntroArray() {
-
 
                                         // INDEX 0
         introDialogues = new String[] {"Hello. I decided it's finally time to open up\n" +
@@ -910,7 +914,7 @@ public class UI {
         // OUTERMOST BORDER
         Color c = new Color(0,0,0, 180);
         g2.setColor(c);
-        g2.setStroke(new BasicStroke(8)); // setStroke(new BasicStroke(int)) defines the width of outlines of graphics which are rendered with a Graphics 2D
+        g2.setStroke(new BasicStroke(2)); // setStroke(new BasicStroke(int)) defines the width of outlines of graphics which are rendered with a Graphics 2D
         g2.drawRoundRect(x, y, width+1, height+1, 5, 5);
 
         // ACTUAL RECTANGLE

@@ -123,6 +123,10 @@ public class TileManager {
             setup(84, "bLeftCarpet", false);
             setup(85, "bRightCarpet", false);
             setup(86, "vent", false);
+
+            setup(87, "missingperson1", true);
+            setup(88, "missingperson2", true);
+
     }
 
     public void setup(int index, String imageName, boolean collision) {

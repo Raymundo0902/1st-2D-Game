@@ -410,8 +410,8 @@ public class Player extends Entity{
     public void interactObject(int i ) {
 
         if(i != 999) {
-
             String objName = gp.obj[i].name;
+
             if(keyH.enterPressed == true) {
                 switch (objName) {
 
@@ -580,7 +580,6 @@ public class Player extends Entity{
 
         // RESET ALPHA
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-
 
         // COLLISION HITBOX VISUAL (DEBUG)
         g2.setColor(Color.red);
