@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class UI {
 
-    BufferedImage menuImage;
+    BufferedImage menuImage, checkMark;
     GamePanel gp;
     Graphics2D g2;
     Font maruMonica;
@@ -43,6 +43,7 @@ public class UI {
     public String[] currentTask = new String[20];
     public int taskIndex = 0;
     public int curTask = 0;
+
 
     // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
@@ -76,6 +77,13 @@ public class UI {
             e.printStackTrace();
         }
 
+        // Load checkmark
+        try{
+            checkMark = ImageIO.read(getClass().getResourceAsStream(  "/images/checkmark.png"));
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
         // INITIALIZE THE INTRODUCTORY DIALOGUE
         setIntroArray();
@@ -247,18 +255,25 @@ public class UI {
     }
 
     public void drawCurTaskCheckBox(int x, int y, int curTask) {
-
         g2.setStroke(new BasicStroke(2));
+
+        // The checkmarks are hardcoded. need to find way where checkmarks will be placed at the box relative to the task.
         switch(curTask) {
             case 0:
                 g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
                 if(gp.player.hasChip == true) {
-                    g2.drawImage("", x + gp.tileSize, y + gp.tileSize);
+                    g2.drawImage(checkMark, (x + gp.tileSize / 2), y + 25, 28 , 28, null);
                 }
                 y += 40;
                 g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
+                if(gp.player.hasBanana == true) {
+                    g2.drawImage(checkMark, (x + gp.tileSize / 2), y + 25, 28 , 28, null);
+                }
                 y += 40;
                 g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
+                if(gp.player.hasSoda == true) {
+                    g2.drawImage(checkMark, (x + gp.tileSize / 2), y + 25, 28 , 28, null);
+                }
 
                 break;
             case 1:
