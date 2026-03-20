@@ -41,8 +41,9 @@ public class UI {
 
     // Task UI dialogue
     public String[] currentTask = new String[20];
+    public boolean[][] taskComplete = new boolean[20][];
     public int taskIndex = 0;
-    public int curTask = 0;
+    public int completed = 0;
 
 
     // INVENTORY DESIGN
@@ -240,53 +241,32 @@ public class UI {
 
         drawSubWindow(x, y, width, height);
         // Draws the amount of checkboxes needed depending on what task we're currently on.
-        drawCurTaskCheckBox(x, y, curTask);
 
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 26f));
-        String lines = currentTask[taskIndex];
+        String[] lines = currentTask[taskIndex].split("\n");
         x += gp.tileSize * 2;
         y += gp.tileSize;
 
-        for(String line : lines.split("\n")) {
-            g2.drawString(line, x, y);
+        g2.setStroke(new BasicStroke(2));
+
+        // better solution to stop hard coding checkmarks????
+        for(int i = 0; i < lines.length; i++) {
+
+            g2.drawString(lines[i], x - 40, y);
+            g2.drawRect(x - 75 , y - 22, 28, 28);
+            if(taskComplete[taskIndex][i] == true) {
+                g2.drawImage(checkMark, x - 75 , y - 22, 28 , 28, null);
+            }
             y += 40;
         }
 
-    }
 
-    public void drawCurTaskCheckBox(int x, int y, int curTask) {
-        g2.setStroke(new BasicStroke(2));
-
-        // The checkmarks are hardcoded. need to find way where checkmarks will be placed at the box relative to the task.
-        switch(curTask) {
-            case 0:
-                g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
-                if(gp.player.hasChip == true) {
-                    g2.drawImage(checkMark, (x + gp.tileSize / 2), y + 25, 28 , 28, null);
-                }
-                y += 40;
-                g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
-                if(gp.player.hasBanana == true) {
-                    g2.drawImage(checkMark, (x + gp.tileSize / 2), y + 25, 28 , 28, null);
-                }
-                y += 40;
-                g2.drawRect(x + gp.tileSize / 2 , y + gp.tileSize / 2, 28, 28);
-                if(gp.player.hasSoda == true) {
-                    g2.drawImage(checkMark, (x + gp.tileSize / 2), y + 25, 28 , 28, null);
-                }
-
-                break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
+        if(completed == taskComplete[taskIndex].length) {
+            taskIndex++;
+            completed = 0;
+            System.out.println(completed);
         }
+
     }
 
     public void drawTitleScreen(){
@@ -748,7 +728,7 @@ public class UI {
         int x = gp.tileSize * 3;
         int y = gp.tileSize * 7;
         int width = gp.screenWidth - (gp.tileSize * 6);
-        int height = gp.tileSize*4;
+        int height = gp.tileSize * 4;
 
         drawSubWindow(x, y, width, height);
 
@@ -761,6 +741,17 @@ public class UI {
             g2.drawString(line, x, y);
             y += 40;
         }
+
+        // Player's response mechanics
+        y += 40;
+        String playerLine = gp.player.dialogues[0];
+        x = getXforCenteredText(playerLine);
+
+        for(String line : playerLine.split("\n")) {
+            g2.drawString(line, x, y);
+            y += 40;
+        }
+
 
     }
 
@@ -947,13 +938,17 @@ public class UI {
 
     public void setTaskList() {
         // use this to add all the tasks that will be displayed in the ui task board
+        // set boolean array here and since it's indexes will be alligned with the actual task it'll be less painful
         int i = 0;
         currentTask[i] = "Get Soda\nGet Chips\nGet bananas";
+        taskComplete[i] = new boolean[3]; // 3 subtasks
         i++;
 
-        currentTask[i] = "Exit store";
+        currentTask[i] = "Pay for items";
+        taskComplete[i] = new boolean[1]; // 1 task
         i++;
     }
+
 
     // HELPER METHOD
     public int getXforCenteredText(String text) {

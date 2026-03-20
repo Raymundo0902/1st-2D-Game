@@ -241,8 +241,28 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
 
     public void dialogueState(int code) {
+
+        if(code == KeyEvent.VK_W) {
+            if(gp.ui.commandNum > 0) {
+                gp.ui.commandNum--;
+            }
+            else {
+                gp.ui.commandNum = 1;
+            }
+        }
+        else if(code == KeyEvent.VK_S) {
+            if(gp.ui.commandNum < 1) {
+                gp.ui.commandNum++;
+            }
+            else {
+                gp.ui.commandNum = 0;
+            }
+        }
+
         if(code == KeyEvent.VK_ENTER) {
-            gp.gameState = gp.playState;
+//            System.out.println(gp.ui.commandNum);
+            enterPressed = true;
+//            gp.gameState = gp.playState;
         }
     }
 

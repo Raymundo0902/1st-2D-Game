@@ -18,7 +18,7 @@ public class Entity {
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48); // create a invisible or abstract rectangle and store data like x,y width and height. is the default solidArea but can be changed within the children classes
     public Rectangle rakeArea = new Rectangle(0, 0, 0, 0); // rake grass
     public int solidAreaDefaultX, solidAreaDefaultY; // the blueprint and the subclasses will have their own values
-    String dialogues[] = new String[20]; // each entity gets their own copy
+    public String dialogues[] = new String[20]; // each entity gets their own copy
     public BufferedImage image, image2, image3;
 
     // STATE - collision, location, defaults

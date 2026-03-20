@@ -2,8 +2,10 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.Task;
 import main.UtilityTool;
 import object.*;
+import tasks.Task_Chips;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -37,11 +39,11 @@ public class Player extends Entity{
     // TASK MANAGER
     public boolean finishedTask = false;  // when true, taskOn is set to false in special cases
     public boolean taskOn = true;
+    // I use these frequency variables to prevent task completion from spam
+    public int freqChip = 1;
+    public int freqDrink = 1;
+    public int freqBanana = 1;
 
-    // GAS STATION CHECKLIST BUILDER
-    public boolean hasChip = false;
-    public boolean hasBanana = false;
-    public boolean hasSoda = false;
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -68,6 +70,7 @@ public class Player extends Entity{
         getPlayerRakeImage();
         getPlayerThrowImage();
         setItems();
+        setDialogue();
     }
 
     public void setDefaultValues() {
@@ -103,6 +106,13 @@ public class Player extends Entity{
     public void setItems() {
 
         inventory.clear();
+    }
+
+    public void setDialogue() {
+        dialogues[0] = "[pay].";
+        dialogues[1] = "Yeah.\nYeah just started at Pinewood Camp.";
+        dialogues[2] = "I see, that camp sure is nice,\nyou know, I suggest you be careful now..\nthere's been reportings of a killer on the\nloose not too far out from there.";
+        dialogues[3] = "Welp, have a good drive there!";
     }
 
     public void getPlayerImage() {
@@ -407,7 +417,7 @@ public class Player extends Entity{
         }
     }
 
-    public void interactObject(int i ) {
+    public void interactObject(int i) {
 
         if(i != 999) {
             String objName = gp.obj[i].name;
@@ -420,27 +430,43 @@ public class Player extends Entity{
                         if(worldY > gp.obj[i].worldY + gp.tileSize) {
                             System.out.println("Here");
                             gp.playSE(18);
-                            hasChip = true;
+                            gp.ui.taskComplete[0][1] = true;
+                            if(freqChip == 1) {
+                                gp.ui.completed++;
+                                freqChip++;
+                            }
+                            // instead call method with for loop
+
                         }
                         break;
+
                     case "fruitBox2":
                         System.out.println("bananas");
                         gp.playSE(18);
-                        hasBanana = true;
+                        gp.ui.taskComplete[0][2] = true;
+                        if(freqBanana == 1) {
+                            gp.ui.completed++;
+                            freqBanana++;
+                        }
                         break;
+
                     case "fridge1":
                         System.out.println("fridge");
                         // PLACEHOLDER -- INSERT GRABBING GLASS DRINK SE HERE
                         gp.playSE(18);
-                        hasSoda = true;
+                        gp.ui.taskComplete[0][0] = true;
+                        if(freqDrink == 1) {
+                            gp.ui.completed++;
+                            freqDrink++;
+                        }
                         break;
+
                     case "glassDoor":
                         System.out.println("exit?");
                         gp.playSE(12);
                         // if taskComplete == true, let player decide to leave. then if so, call map loader to pinewood camp
                         // disable taskon to remove the tasksheet
                         break;
-
                 }
             }
         }
