@@ -475,6 +475,10 @@ public class Player extends Entity{
                     case "glassDoor":
                         System.out.println("exit?");
                         gp.playSE(12);
+                        gp.tileM.loadMap("/maps/world01.txt"); // demo version. make it work professionally
+                        gp.currentMap = gp.PINEWOOD_CAMP;
+                        gp.aSetter.setObject();
+                        gp.aSetter.setNPC();
                         // if taskComplete == true, let player decide to leave. then if so, call map loader to pinewood camp
                         // disable taskon to remove the tasksheet
                         break;
