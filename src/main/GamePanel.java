@@ -211,7 +211,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-
         if(gameState == initialDialogueState) {
 
             if(canTypeSound == true) {
@@ -245,7 +244,6 @@ public class GamePanel extends JPanel implements Runnable {
             }
             keyH.enterPressed = false;
         }
-
 
         if(gameState == playState) {
 
@@ -288,6 +286,22 @@ public class GamePanel extends JPanel implements Runnable {
 
 
         }
+
+        if(gameState == dialogueState) {
+
+            if(player.pDialogueIndex >= player.playerDialogues[player.pConvoIndex].length) { // player has reached end of responses for current convo
+                // go back to play state and increment pConvoIndex, reset pDialogueIndex = 0
+                player.pDialogueIndex = 0;
+                player.pConvoIndex++;
+                gameState = playState;
+            }
+            if(keyH.enterPressed == true) {
+                player.pDialogueIndex++;
+                npc[ui.npcIndex].speak();
+                keyH.enterPressed = false; // Reset back to false to prevent enterPressed always true.
+            }
+        }
+
         if(gameState == pauseState) {
             // nothing, no updating player info while paused
         }

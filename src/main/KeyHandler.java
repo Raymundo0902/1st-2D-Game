@@ -260,10 +260,13 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
 
         if(code == KeyEvent.VK_ENTER) {
-//            System.out.println(gp.ui.commandNum);
             enterPressed = true;
-//            gp.gameState = gp.playState;
         }
+
+        // Old dialogueState method code:
+//        if(code == KeyEvent.VK_ENTER) {
+//            gp.gameState = gp.playState;
+//        }
     }
 
 

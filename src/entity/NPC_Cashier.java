@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class NPC_Cashier extends Entity{
 
+
 // null pointer happens to this npc only not the other one.
     public NPC_Cashier(GamePanel gp) {
         super(gp);
@@ -32,10 +33,15 @@ public class NPC_Cashier extends Entity{
 
     public void setDialogue() {
 
+        // Dialogue
         dialogues[0] = "That'll be $11.99.";
+        dialogueSize++;
         dialogues[1] = "What are you some kinda park ranger?";
-        dialogues[2] = "I see, that camp sure is nice,\nyou know, I suggest you be careful now..\nthere's been reportings of a killer on the\nloose not too far out from there.";
-        dialogues[3] = "Welp, have a good drive there!";
+        dialogueSize++;
+        dialogues[2] = "I suggest you be careful now, there's been reportings\n of a killer on the loose not too far out from there..";
+        dialogueSize++;
+        dialogues[3] = "Im being serious! Anywho, have a good drive there!";
+        dialogueSize++;
     }
 
 

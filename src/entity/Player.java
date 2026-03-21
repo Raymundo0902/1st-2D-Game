@@ -44,6 +44,12 @@ public class Player extends Entity{
     public int freqDrink = 1;
     public int freqBanana = 1;
 
+    // PLAYER DIALOGUE SYSTEM
+    public int pDialogueIndex = 0;
+    public int pDialogueSize = 0;
+    public int pConvoIndex = 0;
+    public String[][] playerDialogues = new String[20][]; // holds 20 convos
+
 
     public Player(GamePanel gp, KeyHandler keyH) { // SAME AS (gamePanel Reference, keyH Reference)
 
@@ -109,10 +115,15 @@ public class Player extends Entity{
     }
 
     public void setDialogue() {
-        dialogues[0] = "[pay].";
-        dialogues[1] = "Yeah.\nYeah just started at Pinewood Camp.";
-        dialogues[2] = "I see, that camp sure is nice,\nyou know, I suggest you be careful now..\nthere's been reportings of a killer on the\nloose not too far out from there.";
-        dialogues[3] = "Welp, have a good drive there!";
+        // Use for internal dialogue
+        dialogues[0] = "n/a";
+        dialogues[1] = "n/a";
+        dialogues[2] = "n/a";
+        dialogues[3] = "n/a";
+
+        // Responses - 2d array
+        playerDialogues[0] = new String[]{"[pay]", "Yeah just started at Pinewood Camp", "I see..\nYou think it's cool to try to scare me??", "Thanks\n[exit]"};
+        playerDialogues[1] = new String[]{"Hello!", "n/a"};
     }
 
     public void getPlayerImage() {
@@ -478,10 +489,12 @@ public class Player extends Entity{
 
             if (i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
 
+                gp.ui.npcIndex = i;
                 rakeCanceled = true;
                 gp.gameState = gp.dialogueState;
                 gp.playSE(12);
                 gp.npc[i].speak();
+
             }
 
         }

@@ -55,6 +55,9 @@ public class Entity {
     public int curLife;
     public int speed;
 
+    // Entity dialogue's array size (the size of the array excluding empty slots)
+    public int dialogueSize = 0;
+
     // ITEM/PROJECTILE ATTRIBUTES
     public Entity currentItem; // store reference to rake, key, flashlight, etc
     public String description = "";

@@ -45,6 +45,9 @@ public class UI {
     public int taskIndex = 0;
     public int completed = 0;
 
+    // Dialogue helpers
+    public int npcIndex = 0;
+
 
     // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
@@ -78,7 +81,7 @@ public class UI {
             e.printStackTrace();
         }
 
-        // Load checkmark
+        // LOAD CHECKMARK
         try{
             checkMark = ImageIO.read(getClass().getResourceAsStream(  "/images/checkmark.png"));
 
@@ -260,7 +263,7 @@ public class UI {
             y += 40;
         }
 
-
+        // roll over to new task
         if(completed == taskComplete[taskIndex].length) {
             taskIndex++;
             completed = 0;
@@ -724,35 +727,58 @@ public class UI {
 
     public void drawDialogueScreen() {
 
-        // WINDOW
+        // Trackers
+        // keep track of the convo size and only should be displayed when pDialogueIndex < pConvoSize
+        int pConvoSize = gp.player.playerDialogues[gp.player.pConvoIndex].length;
+        int pSpeakIndex = gp.player.pDialogueIndex;
+
+        // Window & Decoration
         int x = gp.tileSize * 3;
         int y = gp.tileSize * 7;
         int width = gp.screenWidth - (gp.tileSize * 6);
         int height = gp.tileSize * 4;
-
         drawSubWindow(x, y, width, height);
-
         g2.setColor(Color.white);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32));
-        x += gp.tileSize;
-        y += gp.tileSize;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 28));
+        x += 15; // where text will start to draw
+        y += 38;
 
+        // Draw NPC's dialogue
         for(String line : currentDialogue.split("\n")) { // split method turns this string into a temporary array
             g2.drawString(line, x, y);
             y += 40;
         }
 
+
         // Player's response mechanics
-        y += 40;
-        String playerLine = gp.player.dialogues[0];
-        x = getXforCenteredText(playerLine);
+        y += 30;
 
-        for(String line : playerLine.split("\n")) {
-            g2.drawString(line, x, y);
-            y += 40;
+        // if true, draw player responses - conditional handling is in gamepanel's update method.
+        if(gp.player.pDialogueIndex < pConvoSize) {
+
+            String playerLine = gp.player.playerDialogues[gp.player.pConvoIndex][pSpeakIndex];
+            x = getXforCenteredText(playerLine);
+
+            // draw two selection arrows - next npc speak & player response logic is in gamepanel's update method.
+            if(gp.player.playerDialogues[gp.player.pConvoIndex][pSpeakIndex].contains("\n")) {
+                if (commandNum == 0) {
+                    g2.drawString(">", x - 20, y);
+                }
+                if (commandNum == 1) {
+                    g2.drawString(">", x - 20, y + 30);
+                }
+            }
+            // draw one selection arrow
+            else {
+                commandNum = 0;
+                g2.drawString(">", x - 20, y);
+            }
+            // Draw the player's response
+            for (String line : playerLine.split("\n")) {
+                g2.drawString(line, x, y);
+                y += 30;
+            }
         }
-
-
     }
 
     public void setIntroArray() {
@@ -870,7 +896,6 @@ public class UI {
                 gp.gameState = gp.titleState;
                 titleScreenState = 0;
                 gp.restart();
-
             }
         }
 
@@ -924,7 +949,7 @@ public class UI {
         g2.drawRoundRect(x, y, width+1, height+1, 5, 5);
 
         // ACTUAL RECTANGLE
-        c = new Color(0,0,0, 220);
+        c = new Color(0,0,0, 240);
         g2.setColor(c);
         g2.fillRoundRect(x, y, width, height, 5, 5);
 
