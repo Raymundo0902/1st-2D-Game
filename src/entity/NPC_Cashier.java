@@ -44,7 +44,7 @@ public class NPC_Cashier extends Entity{
         dialogueSize++;
     }
 
-
+    @Override
     public void update() {
 
     }

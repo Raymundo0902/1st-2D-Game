@@ -2,10 +2,12 @@ package main;
 
 import ai.AStarPathFinder;
 import entity.Entity;
+import entity.NPC_Melissa;
 import entity.Player;
 import entity.Projectile;
 import object.OBJ_Rock;
 import object.ObjectManager;
+import tasks.TaskState;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -60,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
     public ObjectManager objManager = new ObjectManager(this);
     public AStarPathFinder pFinder = new AStarPathFinder(this);
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
+    public TaskState currentTask = TaskState.GET_SNACKS;
 
 
     // ENTITIES AND OBJECTS
@@ -83,6 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int initialDialogueState = 5; // IMPLEMENT SOON FOR WHEN STARTING NEW GAME
     public final int optionsState = 6;
     public final int gameOverState = 7;
+    public final int transitionMapState = 8;
 
     // CONTROL VARIABLES FOR ONE TIME FUNCTIONS - LOADING SCREEN, DIALOGUE, ETC
     public boolean canTypeSound = true;
@@ -247,6 +251,14 @@ public class GamePanel extends JPanel implements Runnable {
 
         if(gameState == playState) {
 
+            // TASK UPDATE
+            if(currentTask == TaskState.TALK_TO_CASHIER) {
+                ui.taskIndex = 1;
+            }
+            if(currentTask == TaskState.EXIT_STORE) {
+                ui.taskIndex = 2;
+            }
+
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
 
             // NPC
@@ -290,12 +302,16 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == dialogueState) {
 
             if(player.pDialogueIndex >= player.playerDialogues[player.pConvoIndex].length) { // player has reached end of responses for current convo
-                // go back to play state and increment pConvoIndex, reset pDialogueIndex = 0
+                // go back to play state and reset pConvoIndex, reset pDialogueIndex = 0 | reset pConvoIndex to promote speaking with npc's as much as you want
                 player.pDialogueIndex = 0;
-                player.pConvoIndex++;
                 gameState = playState;
+                npc[ui.npcIndex].dialogueIndex = 0; // reset back to zero so npc's responses starts back at where the convo started
+                if(npc[ui.npcIndex] instanceof NPC_Melissa) { // works for first time
+                    npc[ui.npcIndex].resetPosition = true;
+                }
             }
             if(keyH.enterPressed == true) {
+
                 player.pDialogueIndex++;
                 npc[ui.npcIndex].speak();
                 keyH.enterPressed = false; // Reset back to false to prevent enterPressed always true.

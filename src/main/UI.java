@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import tasks.TaskState;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -39,14 +40,17 @@ public class UI {
     int introDialogueY = 96;
     public boolean finishedTyping = false;
 
+    // Dialogue Mechanics
+    int dialogueWordEnd = 0;
+        // Dialogue helpers
+    public int npcIndex = 0;
+
     // Task UI dialogue
     public String[] currentTask = new String[20];
-    public boolean[][] taskComplete = new boolean[20][];
+    public boolean[][] checkmarks = new boolean[20][];
     public int taskIndex = 0;
     public int completed = 0;
 
-    // Dialogue helpers
-    public int npcIndex = 0;
 
 
     // INVENTORY DESIGN
@@ -121,14 +125,13 @@ public class UI {
         // PLAY STATE
         else if(gp.gameState == gp.playState) {
             drawPlayerLife();
-            if(gp.player.taskOn == true) {
-                drawCurrentTask();
-            }
+            drawCurrentTask();
         }
         // DIALOGUE STATE
         else if(gp.gameState == gp.dialogueState) {
             drawPlayerLife();
             drawDialogueScreen();
+
         }
         // CHARACTER STATE
         else if(gp.gameState == gp.characterState) {
@@ -142,6 +145,29 @@ public class UI {
         else if(gp.gameState == gp.gameOverState) {
             drawGameOverScreen();
         }
+
+        else if(gp.gameState == gp.transitionMapState) {
+            drawExitMapScreen();
+            drawCurrentTask();
+
+        }
+
+    }
+
+    public void drawExitMapScreen() {
+
+        // Window & Decoration
+        int x = gp.tileSize * 3;
+        int y = gp.tileSize * 7;
+        int width = gp.screenWidth - (gp.tileSize * 6);
+        int height = gp.tileSize * 4;
+        drawSubWindow(x, y, width, height);
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 28));
+        // where text will start to draw
+        x += 15;
+        y += 38;
+
 
     }
 
@@ -237,39 +263,48 @@ public class UI {
 
     public void drawCurrentTask() {
 
+        // WINDOW & DECORATION
         int x = gp.tileSize * 14;
         int y = gp.tileSize / 2;
         int width = gp.tileSize * 5;
         int height = gp.tileSize * 5;
-
         drawSubWindow(x, y, width, height);
-        // Draws the amount of checkboxes needed depending on what task we're currently on.
-
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 26f));
+
+
+        // Draws the amount of checkboxes needed depending on what task we're currently on.
         String[] lines = currentTask[taskIndex].split("\n");
         x += gp.tileSize * 2;
         y += gp.tileSize;
-
         g2.setStroke(new BasicStroke(2));
 
-        // better solution to stop hard coding checkmarks????
+        // better solution to stop hard coding checkmarks
         for(int i = 0; i < lines.length; i++) {
 
             g2.drawString(lines[i], x - 40, y);
-            g2.drawRect(x - 75 , y - 22, 28, 28);
-            if(taskComplete[taskIndex][i] == true) {
+            g2.drawRect(x - 75 , y - 22, 28, 28); // draws task amount of squares. EX: 3 = 3 squares
+            if(checkmarks[taskIndex][i] == true) {
                 g2.drawImage(checkMark, x - 75 , y - 22, 28 , 28, null);
             }
             y += 40;
         }
+    }
 
-        // roll over to new task
-        if(completed == taskComplete[taskIndex].length) {
-            taskIndex++;
-            completed = 0;
-            System.out.println(completed);
-        }
+    public void setTaskList() {
+        // use this to add all the tasks that will be displayed in the ui task board
+        // set boolean array here and since it's indexes will be alligned with the actual task it'll be less painful
+        int i = 0;
+        currentTask[i] = "Get Soda\nGet Chips\nGet bananas";
+        checkmarks[i] = new boolean[3]; // 3 subtasks
+        i++;
 
+        currentTask[i] = "Pay for items";
+        checkmarks[i] = new boolean[1]; // 1 task
+        i++;
+
+        currentTask[i] = "Exit store";
+        checkmarks[i] = new boolean[1]; // 1 task
+        i++;
     }
 
     public void drawTitleScreen(){
@@ -735,6 +770,7 @@ public class UI {
         // Window & Decoration
         int x = gp.tileSize * 3;
         int y = gp.tileSize * 7;
+        int defaultYPosition = y;
         int width = gp.screenWidth - (gp.tileSize * 6);
         int height = gp.tileSize * 4;
         drawSubWindow(x, y, width, height);
@@ -743,7 +779,7 @@ public class UI {
         x += 15; // where text will start to draw
         y += 38;
 
-        // Draw NPC's dialogue
+        // Draw NPC's dialogue - static version ||||   Draw NPC's Dialogue - typewriter version soon??
         for(String line : currentDialogue.split("\n")) { // split method turns this string into a temporary array
             g2.drawString(line, x, y);
             y += 40;
@@ -752,7 +788,6 @@ public class UI {
 
         // Player's response mechanics
         y += 30;
-
         // if true, draw player responses - conditional handling is in gamepanel's update method.
         if(gp.player.pDialogueIndex < pConvoSize) {
 
@@ -949,7 +984,7 @@ public class UI {
         g2.drawRoundRect(x, y, width+1, height+1, 5, 5);
 
         // ACTUAL RECTANGLE
-        c = new Color(0,0,0, 240);
+        c = new Color(0,0,0, 250);
         g2.setColor(c);
         g2.fillRoundRect(x, y, width, height, 5, 5);
 
@@ -959,19 +994,6 @@ public class UI {
         g2.setStroke(new BasicStroke(5)); // setStroke(new BasicStroke(int)) defines the width of outlines of graphics which are rendered with a Graphics 2D
         g2.drawRoundRect(x+5, y+5, width-10, height-10, 5, 5);
 
-    }
-
-    public void setTaskList() {
-        // use this to add all the tasks that will be displayed in the ui task board
-        // set boolean array here and since it's indexes will be alligned with the actual task it'll be less painful
-        int i = 0;
-        currentTask[i] = "Get Soda\nGet Chips\nGet bananas";
-        taskComplete[i] = new boolean[3]; // 3 subtasks
-        i++;
-
-        currentTask[i] = "Pay for items";
-        taskComplete[i] = new boolean[1]; // 1 task
-        i++;
     }
 
 

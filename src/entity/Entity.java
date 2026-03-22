@@ -26,10 +26,11 @@ public class Entity {
     public boolean invincible = false;
     public int worldX, worldY;
     public int spriteNum = 1;
-    int dialogueIndex = 0;
+    public int dialogueIndex = 0;
     public String direction = "down";
     public int grassState = 3; // for grass
     public boolean path = false; // for trackingPath (pathfinding)
+    public boolean resetPosition = false; // for resetting npc position
 
     // COUNTER - sprite animations
     public int spriteCounter = 0;
@@ -77,6 +78,7 @@ public class Entity {
     public void speak() {
 
         if(dialogues[dialogueIndex] == null) { // if there's no more text, go back to first dialogue to prevent "NullPointerException"
+            System.out.println("RESET");
             dialogueIndex = 0;
         }
         gp.ui.currentDialogue = dialogues[dialogueIndex];

@@ -5,6 +5,7 @@ import main.KeyHandler;
 import main.Task;
 import main.UtilityTool;
 import object.*;
+import tasks.TaskState;
 import tasks.Task_Chips;
 
 import javax.imageio.ImageIO;
@@ -36,17 +37,29 @@ public class Player extends Entity{
     boolean throwingRock = false;
     public boolean itemDrop = false;
 
-    // TASK MANAGER
-    public boolean finishedTask = false;  // when true, taskOn is set to false in special cases
-    public boolean taskOn = true;
-    // I use these frequency variables to prevent task completion from spam
-    public int freqChip = 1;
-    public int freqDrink = 1;
-    public int freqBanana = 1;
+    // TASK MANAGER - Preventing spam, rolling over tasks
+    public boolean gotChips = false;
+    public boolean gotDrink = false;
+    public boolean gotBanana = false;
+    public int snacksCollected = 0;
+    public final int totalSnacks = 3;
+
+    // Helpers, extra conditional handling for dialogues - call setDialogue() when transitioning to different map
+        // For gas station map
+    public final int cashierIndex = 0;
+    public final int gasStationNpcIndex = 1;
+        // For Pinewood camp map
+    public final int aydenIndex = 0;
+    public final int melissaIndex = 2;
+    public final int chadIndex = 2;
+    public final int geraldIndex = 3;
+
+    // EXTRA BOOLEANS
+    public boolean exitGasStation = false;
 
     // PLAYER DIALOGUE SYSTEM
     public int pDialogueIndex = 0;
-    public int pDialogueSize = 0;
+//    public int pDialogueSize = 0;
     public int pConvoIndex = 0;
     public String[][] playerDialogues = new String[20][]; // holds 20 convos
 
@@ -121,9 +134,27 @@ public class Player extends Entity{
         dialogues[2] = "n/a";
         dialogues[3] = "n/a";
 
-        // Responses - 2d array
-        playerDialogues[0] = new String[]{"[pay]", "Yeah just started at Pinewood Camp", "I see..\nYou think it's cool to try to scare me??", "Thanks\n[exit]"};
-        playerDialogues[1] = new String[]{"Hello!", "n/a"};
+        // Helpers, extra conditional handling
+        if(gp.currentMap == gp.GAS_STATION) {
+
+            // Responses - 2d array - have it where player checks which npcIndex it is and return back the convo for that specific npc.
+            // for cashier
+            playerDialogues[cashierIndex] = new String[]{"[pay]", "Yeah just started at Pinewood Camp", "I see..\nYou think it's cool to try to scare me??", "Thanks\n[exit]"};
+            // for npc in gas station
+            playerDialogues[gasStationNpcIndex] = new String[]{"What you up to?", "Nice, I like those pants man", "When did I ask.. LOL", "[exit]"};
+
+            playerDialogues[melissaIndex] = new String[]{"What's this about?", "Do you know any useful info?", "I haven't heard much about the killer..", "Eugh, that's creepy.. Well then."};
+        }
+        else if(gp.currentMap == gp.PINEWOOD_CAMP) {
+            // set different stuff - overlap the playerDialogues indexes with a new response for convos for ex (notice aydenIndex is = 0 like cashierIndex so we're just overidding:
+            // playerDialogues[aydenIndex] = new String[] {"hey!", "where at?"}
+        }
+
+    }
+
+    // Gets the correct player response for the current npc player is interacting with.
+    public void getResponseForNpc() {
+        pConvoIndex = gp.ui.npcIndex;
     }
 
     public void getPlayerImage() {
@@ -438,49 +469,48 @@ public class Player extends Entity{
 
                     case "snackShelf":
                         // Prevents grabbing snack when facing back of shelf
-                        if(worldY > gp.obj[i].worldY + gp.tileSize) {
-                            System.out.println("Here");
-                            gp.playSE(18);
-                            gp.ui.taskComplete[0][1] = true;
-                            if(freqChip == 1) {
-                                gp.ui.completed++;
-                                freqChip++;
+                        if(gp.currentTask == TaskState.GET_SNACKS) {
+                            if (worldY > gp.obj[i].worldY + gp.tileSize) {
+                                if(gotChips == false) {
+                                    gp.playSE(18);
+                                    snacksCollected++;
+                                    gotChips = true; // stops spam
+                                    gp.ui.checkmarks[0][1] = gotChips;
+                                    checkSnackCompletion();
+                                }
                             }
-                            // instead call method with for loop
-
                         }
                         break;
 
                     case "fruitBox2":
-                        System.out.println("bananas");
-                        gp.playSE(18);
-                        gp.ui.taskComplete[0][2] = true;
-                        if(freqBanana == 1) {
-                            gp.ui.completed++;
-                            freqBanana++;
+                        if(gp.currentTask == TaskState.GET_SNACKS) {
+                            if(gotBanana == false) {
+                                gp.playSE(18);
+                                snacksCollected++;
+                                gotBanana = true;
+                                gp.ui.checkmarks[0][2] = gotBanana;
+                                checkSnackCompletion();
+                            }
                         }
                         break;
 
                     case "fridge1":
-                        System.out.println("fridge");
-                        // PLACEHOLDER -- INSERT GRABBING GLASS DRINK SE HERE
-                        gp.playSE(18);
-                        gp.ui.taskComplete[0][0] = true;
-                        if(freqDrink == 1) {
-                            gp.ui.completed++;
-                            freqDrink++;
+                        if(gp.currentTask == TaskState.GET_SNACKS) {
+                            if(gotDrink == false) {
+                                gp.playSE(18);
+                                snacksCollected++;
+                                gotDrink = true;
+                                gp.ui.checkmarks[0][0] = gotDrink;
+                                checkSnackCompletion();
+                            }
                         }
                         break;
 
                     case "glassDoor":
-                        System.out.println("exit?");
-                        gp.playSE(12);
-                        gp.tileM.loadMap("/maps/world01.txt"); // demo version. make it work professionally
-                        gp.currentMap = gp.PINEWOOD_CAMP;
-                        gp.aSetter.setObject();
-                        gp.aSetter.setNPC();
-                        // if taskComplete == true, let player decide to leave. then if so, call map loader to pinewood camp
-                        // disable taskon to remove the tasksheet
+                        if(gp.currentTask == TaskState.EXIT_STORE) {
+                            gp.playSE(12);
+                            gp.gameState = gp.transitionMapState;
+                        }
                         break;
                 }
             }
@@ -491,16 +521,60 @@ public class Player extends Entity{
 
         if(gp.keyH.enterPressed == true) {
 
+            System.out.println(gp.currentTask);
             if (i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
-
-                gp.ui.npcIndex = i;
                 rakeCanceled = true;
-                gp.gameState = gp.dialogueState;
-                gp.playSE(12);
-                gp.npc[i].speak();
 
+                if(!(gp.npc[i] instanceof NPC_Cashier)) {
+                    gp.ui.npcIndex = i;
+                    getResponseForNpc();
+                    gp.npc[i].speak();
+                    gp.playSE(12);
+                    gp.gameState = gp.dialogueState;
+
+                }
+
+                // BETTER SOLUTION??
+                else if(gp.currentTask == TaskState.TALK_TO_CASHIER) {
+                    gp.ui.npcIndex = i;
+                    getResponseForNpc();
+                    gp.npc[i].speak();
+                    gp.gameState = gp.dialogueState;
+                    gp.playSE(12);
+
+                    // move on to next task after talking only if it's the actual cashier
+                    if(gp.npc[i] instanceof NPC_Cashier) {
+                        gp.currentTask = TaskState.EXIT_STORE;
+                    }
+                }
+
+                // OLD IMPLEMENTATION -- UNCOMMENT IF ENUM IMPLEMENTATION ABOVE DOESNT WORK
+                // can still talk to npc's about normal things that don't involve a task, example: player should only talk one to cashier at gas station.
+//                if(taskOn == false) {
+//                    rakeCanceled = true;
+//                    // insert more code when you need it in game
+//
+//                }
+//
+//                if(taskOn == true) { // we should only implement code below when there's a current task.
+//
+//                    if (finishedTask == true) { // when finishing task then we can talk to npc
+//                        gp.ui.npcIndex = i;
+//                        gp.gameState = gp.dialogueState;
+//                        gp.playSE(12);
+//                        gp.npc[i].speak();
+//                        gp.ui.completed++;
+//                        finishedTask = false;
+//                    }
+//                }
             }
 
+        }
+    }
+
+    public void checkSnackCompletion() {
+        if(snacksCollected == totalSnacks) {
+            gp.currentTask = TaskState.TALK_TO_CASHIER;
         }
     }
 

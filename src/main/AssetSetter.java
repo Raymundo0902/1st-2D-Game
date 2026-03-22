@@ -2,6 +2,7 @@ package main;
 
 import entity.NPC_Ayden;
 import entity.NPC_Cashier;
+import entity.NPC_Melissa;
 import monster.MON_EVILBILL;
 import object.*;
 
@@ -172,6 +173,16 @@ public class AssetSetter {
             gp.npc[i] = new NPC_Cashier(gp);
             gp.npc[i].worldX = 48 * gp.tileSize + 5;
             gp.npc[i].worldY = (59 * gp.tileSize) - 12;
+            i++;
+
+            gp.npc[i] = new NPC_Ayden(gp);
+            gp.npc[i].worldX = 44 * gp.tileSize;
+            gp.npc[i].worldY = 61 * gp.tileSize;
+            i++;
+
+            gp.npc[i] = new NPC_Melissa(gp);
+            gp.npc[i].worldX = 47 * gp.tileSize;
+            gp.npc[i].worldY = (56 * gp.tileSize) + 30;
             i++;
         }
 

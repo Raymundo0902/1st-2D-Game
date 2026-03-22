@@ -1,6 +1,7 @@
 package main;
 
 import org.w3c.dom.ls.LSOutput;
+import tasks.TaskState;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
