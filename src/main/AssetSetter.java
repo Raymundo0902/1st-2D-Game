@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import entity.NPC_Ayden;
 import entity.NPC_Cashier;
 import entity.NPC_Melissa;
@@ -153,9 +154,11 @@ public class AssetSetter {
             gp.obj[18].worldX = 48 * gp.tileSize;
             gp.obj[18].worldY = 39 * gp.tileSize;
 
+
             gp.obj[19] = new OBJ_Rake(gp);
             gp.obj[19].worldX = 49 * gp.tileSize;
             gp.obj[19].worldY = 58 * gp.tileSize;
+            System.out.println(gp.obj[19].name);
 
             gp.obj[20] = new OBJ_Bed(gp);
             gp.obj[20].worldX = 47 * gp.tileSize;
@@ -175,6 +178,7 @@ public class AssetSetter {
             gp.npc[i].worldY = (59 * gp.tileSize) - 12;
             i++;
 
+            // a tester, use a different npc's and replace it with this one because melissa will be a npc from pinewood camp not gas station.
             gp.npc[i] = new NPC_Ayden(gp);
             gp.npc[i].worldX = 44 * gp.tileSize;
             gp.npc[i].worldY = 61 * gp.tileSize;
@@ -192,16 +196,9 @@ public class AssetSetter {
             gp.npc[0].worldX = gp.tileSize*30;
             gp.npc[0].worldY = gp.tileSize*70;
         }
-//        gp.npc[0] = new NPC_Ayden(gp);
-//        gp.npc[0].worldX = gp.tileSize*30;
-//        gp.npc[0].worldY = gp.tileSize*70;
     }
 
     public void setMonster() {
-
-        if(gp.currentMap == gp.GAS_STATION) {
-            // Instantiate only gas station entities here
-        }
 
         if(gp.currentMap == gp.PINEWOOD_CAMP) {
             // insert all the below entities in here
@@ -212,5 +209,11 @@ public class AssetSetter {
 //        gp.monster[0] = new MON_EVILBILL(gp);
 //        gp.monster[0].worldX = gp.tileSize*26;
 //        gp.monster[0].worldY = gp.tileSize*43;
+    }
+
+    public void clearArray() {
+        gp.npc = new Entity[gp.maxNpc];
+        gp.obj = new Entity[gp.maxObj];
+        gp.monster = new Entity[gp.maxMonster];
     }
 }

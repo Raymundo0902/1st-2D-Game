@@ -41,7 +41,7 @@ public class NPC_Melissa extends Entity{
 
         dialogues[0] = "Hmmm...";
         dialogues[1] = "There's a missing person that was last seen within\na 10 mile radius from here..";
-        dialogues[2] = "Nah, but I wonder if this is tied to the killer\nthat's on the loose. Hopefully not.";
+        dialogues[2] = "Nah, but I wonder if this is tied to the killer that's on\nthe loose. Hopefully not.";
         dialogues[3] = "It's a murderer who's been actively killing folks around\nthe area not too far out from here.";
 
     }

@@ -147,7 +147,7 @@ public class Player extends Entity{
         }
         else if(gp.currentMap == gp.PINEWOOD_CAMP) {
             // set different stuff - overlap the playerDialogues indexes with a new response for convos for ex (notice aydenIndex is = 0 like cashierIndex so we're just overidding:
-            // playerDialogues[aydenIndex] = new String[] {"hey!", "where at?"}
+             playerDialogues[aydenIndex] = new String[] {"hey!", "where at?"};
         }
 
     }
@@ -461,7 +461,8 @@ public class Player extends Entity{
 
     public void interactObject(int i) {
 
-        if(i != 999) {
+        if(i != 999 && gp.obj[i] != null) {
+
             String objName = gp.obj[i].name;
 
             if(keyH.enterPressed == true) {
@@ -527,20 +528,19 @@ public class Player extends Entity{
 
                 if(!(gp.npc[i] instanceof NPC_Cashier)) {
                     gp.ui.npcIndex = i;
+                    System.out.println("GET RESPONSE");
                     getResponseForNpc();
                     gp.npc[i].speak();
                     gp.playSE(12);
                     gp.gameState = gp.dialogueState;
 
                 }
-
-                // BETTER SOLUTION??
                 else if(gp.currentTask == TaskState.TALK_TO_CASHIER) {
                     gp.ui.npcIndex = i;
                     getResponseForNpc();
                     gp.npc[i].speak();
-                    gp.gameState = gp.dialogueState;
                     gp.playSE(12);
+                    gp.gameState = gp.dialogueState;
 
                     // move on to next task after talking only if it's the actual cashier
                     if(gp.npc[i] instanceof NPC_Cashier) {

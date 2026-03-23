@@ -36,7 +36,6 @@ public class UI {
     boolean skipDialogue = false;
     int defaultYPosition;
     // USING TILESIZE REAL NUMBERS SINCE IF I PUT GP'S VARIABLES HERE ITS STILL NULL AT THE TIME.
-    int introDialogueX = 48;
     int introDialogueY = 96;
     public boolean finishedTyping = false;
 
@@ -159,16 +158,41 @@ public class UI {
         // Window & Decoration
         int x = gp.tileSize * 3;
         int y = gp.tileSize * 7;
+        int x2 = 0;
+        int x3 = 0;
         int width = gp.screenWidth - (gp.tileSize * 6);
         int height = gp.tileSize * 4;
         drawSubWindow(x, y, width, height);
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 28));
         // where text will start to draw
-        x += 15;
-        y += 38;
+        String exitPrompt = "Exit store?";
+        x = getXforCenteredText(exitPrompt);
+        y += gp.tileSize;
+        x2 = getXforCenteredText("Yes");
+        x3 = getXforCenteredText("No");
 
 
+        g2.drawString(exitPrompt, x, y);
+        y += 40;
+        g2.drawString("Yes", x2, y);
+        if(commandNum == 0) {
+            g2.drawString(">", x2 - 15, y);
+            if(gp.keyH.enterPressed == true) {
+                gp.transitionMap();
+            }
+        }
+        y += 40;
+        g2.drawString("No", x3, y);
+        if(commandNum == 1) {
+            g2.drawString(">", x3 - 15, y);
+            if(gp.keyH.enterPressed == true) {
+                System.out.println("GO BACK");
+                gp.gameState = gp.playState;
+
+            }
+        }
+        gp.keyH.enterPressed = false;
     }
 
     public void drawGameOverScreen() {
@@ -430,24 +454,62 @@ public class UI {
 
     }
 
+    public void drawGlowText(Graphics2D g2, String text, int x, int y) {
+
+        Color glowColor = new Color(57, 255, 20); // neon green
+
+        // Glow layers
+        for (int i = 3; i > 0; i--) {
+            float alpha = 0.02f * i;
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+            g2.setColor(glowColor);
+
+            g2.drawString(text, x - i, y);
+            g2.drawString(text, x + i, y);
+            g2.drawString(text, x, y - i);
+            g2.drawString(text, x, y + i);
+
+            g2.drawString(text, x - i, y - i);
+            g2.drawString(text, x + i, y + i);
+            g2.drawString(text, x - i, y + i);
+            g2.drawString(text, x + i, y - i);
+        }
+
+        // Reset alpha
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
+        // Main bright text
+        g2.setColor(new Color(0, 255, 100));
+        g2.drawString(text, x, y);
+    }
+
     public void drawIntroDialogueScreen() {
 
+        // Decoration
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30f));
-
         String currentText = introDialogues[dialogueIndex];
         // lines example : ["hello"], \n ["goodbye"]
         String[] lines = currentText.split("\n");
+        int middleX = 0;
 
         int y = defaultYPosition;
 
         // Draw all completed lines so they stay on screen.
         // nextLine represents how many lines have finished typing.
         // As nextLine increases, this loop redraws more full lines each frame.
-        for(int i = 0; i < nextLine; i++) {
+        // Glow Layers:
 
-            g2.drawString(lines[i], 48, y);
+
+
+        // Main Text
+        for(int i = 0; i < nextLine; i++) {
+            middleX = getXforCenteredText(lines[i]);
+
+            drawGlowText(g2, lines[i], middleX, y);
+//            g2.drawString(lines[i], middleX, y);
             y += 40;
         }
+
 
         // Skip dialogue
         if(skipDialogue == true) {
@@ -458,12 +520,15 @@ public class UI {
             gp.drawBlackScreen = true;
             skipDialogue = false;
         }
+        // Moving text animation
         else {
             // Only do typewriter effect when nextLine(next index) is less than the length. Prevents exception errors.
             if (nextLine < lines.length) {
 
                 String curWord = lines[nextLine].substring(0, wordEnd);
-                g2.drawString(curWord, introDialogueX, introDialogueY);
+                middleX = getXforCenteredText(curWord);
+//                g2.drawString(curWord, middleX, introDialogueY);
+                drawGlowText(g2, curWord, middleX, introDialogueY);
 
                 // ONLY SHOW LONGER WORD WHEN WE ARE LESS THAN THE WORD LENGTH
                 if (wordEnd < lines[nextLine].length()) {
@@ -824,7 +889,7 @@ public class UI {
                                        "in 2003.\n\n" +
                                        "When I was 19, I had wanted to get\n" +
                                        "away from home.. and I mean far away\n\n" +
-                                       "So, I found a job as a park ranger in \n" +
+                                       "So, I found a job as a park ranger in\n" +
                                        "Pinewood Camp. This is where the story turns",
                                         // INDEX 1
                                        "The first few weeks of work was\n" +

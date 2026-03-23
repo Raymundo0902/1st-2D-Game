@@ -66,10 +66,13 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     // ENTITIES AND OBJECTS
+    public final int maxObj = 30;
+    public final int maxNpc = 10;
+    public final int maxMonster = 1;
     public Player player = new Player(this,keyH); // passes the gamepanel and keyhandler reference to objects inside the Player class. so Player class can get the things it needs from both classes.
-    public Entity obj[] = new Entity[25]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
-    public Entity npc[] = new Entity[10];
-    public Entity monster[] = new Entity[20]; // num of monsters we can display at the same time not the total monsters we can create
+    public Entity obj[] = new Entity[maxObj]; // can display 10 objects at the same time. EX: if pickup object A then it disappears from screen and another object can fill in that vacant slot
+    public Entity npc[] = new Entity[maxNpc];
+    public Entity monster[] = new Entity[maxMonster]; // num of monsters we can display at the same time not the total monsters we can create
 
     // ARRAYLISTS STORES OBJECTS ONLY, STRING OBJECTS, IN OUR CASE, ENTITY OBJECTS
     public ArrayList<Projectile> projectileList = new ArrayList<>();
@@ -108,7 +111,6 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = titleState;
         aSetter.setObject();
         aSetter.setNPC();
-        aSetter.setMonster();
         playMusic(8); // play main menu music -- VHS 80s-90s MUSIC
 
 
@@ -211,6 +213,23 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // Transition from Gas station to Pinewood Camp
+    public void transitionMap() {
+        currentMap = PINEWOOD_CAMP;
+        // call a clear array method in asset setter
+        aSetter.clearArray();
+        aSetter.setObject();
+        aSetter.setNPC();
+        aSetter.setMonster();
+        player.setDialogue();
+        gameState = playState;
+        stopMusic();
+        playMusic(6);
+        // draw a fade in fade out black transition to map to make it look less like teleportation
+        tileM.loadMap("/maps/world01.txt");
+
+    }
+
 
 
     public void update() {
@@ -252,6 +271,9 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == playState) {
 
             // TASK UPDATE
+            if(currentTask == TaskState.GET_SNACKS) {
+                ui.taskIndex = 0;
+            }
             if(currentTask == TaskState.TALK_TO_CASHIER) {
                 ui.taskIndex = 1;
             }

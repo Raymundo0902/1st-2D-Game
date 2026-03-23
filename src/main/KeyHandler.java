@@ -63,7 +63,10 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         // GAME OVER STATE
         else if(gp.gameState == gp.gameOverState) {
-            gameOverScreen(code);
+            gameOverState(code);
+        }
+        else if(gp.gameState == gp.transitionMapState) {
+            transitionMapState(code);
         }
 
     }
@@ -162,6 +165,28 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
     }
 
+    public void transitionMapState(int code) {
+
+        if(code == KeyEvent.VK_W) {
+            if(gp.ui.commandNum > 0) {
+                gp.ui.commandNum--;
+            }
+            else {
+                gp.ui.commandNum = 1;
+            }
+        }
+        else if(code == KeyEvent.VK_S) {
+            if(gp.ui.commandNum < 1) {
+                gp.ui.commandNum++;
+            }
+            else {
+                gp.ui.commandNum = 0;
+            }
+        }
+        else if(code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+    }
 
     public void playState(int code) {
 
@@ -215,7 +240,7 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
     }
 
-    public void gameOverScreen(int code) {
+    public void gameOverState(int code) {
 
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;
