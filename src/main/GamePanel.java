@@ -5,6 +5,7 @@ import entity.Entity;
 import entity.NPC_Melissa;
 import entity.Player;
 import entity.Projectile;
+import environment.EnvironmentHandler;
 import object.OBJ_Rock;
 import object.ObjectManager;
 import tasks.TaskState;
@@ -63,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AStarPathFinder pFinder = new AStarPathFinder(this);
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
     public TaskState currentTask = TaskState.GET_SNACKS;
+    EnvironmentHandler eHandler = new EnvironmentHandler(this);
 
 
     // ENTITIES AND OBJECTS
@@ -111,6 +113,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = titleState;
         aSetter.setObject();
         aSetter.setNPC();
+        eHandler.setup();
         playMusic(8); // play main menu music -- VHS 80s-90s MUSIC
 
 
@@ -420,6 +423,11 @@ public class GamePanel extends JPanel implements Runnable {
             // EMPTY ENTITY LIST - OTHERWISE THE entityArrList GETS LARGER IN EVERY LOOP.
             entityArrList.clear();
 
+            // ENVIRONMENT - Draw before UI or else darkness will apply to UI
+            // TEMP IF STATEMENT - FILL IT IN ONLY WHEN IN PINEWOOD CAMP IN SPECIFIC CASE LIKE IF YOU HEARD A STRANGE NOISE AND NEED TO CHECK AROUND THE CAMP AT 3 AM.
+            if(player.gotBanana) {
+                eHandler.draw(g2);
+            }
             // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
             ui.draw(g2);
 

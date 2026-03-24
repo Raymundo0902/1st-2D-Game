@@ -36,7 +36,7 @@ The goal of this project is to explore game systems, artificial intelligence beh
 -  **Collision Detection**
    - Prevents entities from walking through walls and    obstacles.
 
--  **Interactive Environment Objects**
+-  **Interactive environment Objects**
    - Objects such as campfires affect player movement and pathfinding.
 
 
