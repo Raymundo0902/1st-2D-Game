@@ -163,14 +163,15 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setFullScreen() {
-
+        // Get monitor's resolution ex: 1920 x 1080
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        // get width and height
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
+        // tells window to maximize to fill the screen
         Main.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         screenWidth2 = (int) width;
         screenHeight2 = (int) height;
-
     }
 
     public void startGameThread() {
@@ -349,6 +350,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void drawToTempScreen() {
+
+
 
         // we must manually clear previous frame/states by the three lines below
         g2.setColor(Color.black);
