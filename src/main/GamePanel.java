@@ -352,7 +352,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void drawToTempScreen() {
 
 
-
         // we must manually clear previous frame/states by the three lines below
         g2.setColor(Color.black);
         g2.fillRect(0, 0, screenWidth, screenHeight);
@@ -428,7 +427,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             // ENVIRONMENT - Draw before UI or else darkness will apply to UI
             // TEMP IF STATEMENT - FILL IT IN ONLY WHEN IN PINEWOOD CAMP IN SPECIFIC CASE LIKE IF YOU HEARD A STRANGE NOISE AND NEED TO CHECK AROUND THE CAMP AT 3 AM.
-            if(player.gotBanana) {
+            if(currentMap == GAS_STATION) {
                 eHandler.draw(g2);
             }
             // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
@@ -450,6 +449,7 @@ public class GamePanel extends JPanel implements Runnable {
                     drawBlackScreen = false;
                 }
             }
+
 
         }
 

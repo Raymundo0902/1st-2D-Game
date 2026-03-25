@@ -699,8 +699,8 @@ public class Player extends Entity{
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         // COLLISION HITBOX VISUAL (DEBUG)
-        g2.setColor(Color.red);
-        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//        g2.setColor(Color.red);
+//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         // INVINCIBLE COUNTER (DEBUG)
 //        g2.setFont(new Font("Arial", Font.PLAIN, 25));
 //        g2.setColor(Color.white);
