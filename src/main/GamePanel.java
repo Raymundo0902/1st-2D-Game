@@ -428,7 +428,9 @@ public class GamePanel extends JPanel implements Runnable {
             // ENVIRONMENT - Draw before UI or else darkness will apply to UI
             // TEMP IF STATEMENT - FILL IT IN ONLY WHEN IN PINEWOOD CAMP IN SPECIFIC CASE LIKE IF YOU HEARD A STRANGE NOISE AND NEED TO CHECK AROUND THE CAMP AT 3 AM.
             if(currentMap == GAS_STATION) {
-                eHandler.draw(g2);
+
+
+
             }
             // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
             ui.draw(g2);
