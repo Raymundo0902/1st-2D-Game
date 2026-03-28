@@ -88,10 +88,11 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int characterState = 4;
-    public final int initialDialogueState = 5; // IMPLEMENT SOON FOR WHEN STARTING NEW GAME
+    public final int initialDialogueState = 5;
     public final int optionsState = 6;
     public final int gameOverState = 7;
     public final int transitionMapState = 8;
+    public final int computerState = 9; // FAKE OS
 
     // CONTROL VARIABLES FOR ONE TIME FUNCTIONS - LOADING SCREEN, DIALOGUE, ETC
     public boolean canTypeSound = true;
@@ -286,6 +287,12 @@ public class GamePanel extends JPanel implements Runnable {
             }
             if(currentTask == TaskState.CHECK_IN_FRONT_OFFICE) {
                 ui.taskIndex = 3;
+            }
+            if(currentTask == TaskState.CHECK_IN_FRONT_OFFICE) {
+                ui.taskIndex = 4;
+            }
+            if(currentTask == TaskState.GO_TO_COMPUTER) {
+                ui.taskIndex = 5;
             }
 
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.

@@ -148,8 +148,39 @@ public class UI {
         else if(gp.gameState == gp.transitionMapState) {
             drawExitMapScreen();
             drawCurrentTask();
-
         }
+        else if(gp.gameState == gp.computerState) {
+            drawOS();
+            drawCurrentTask();
+        }
+
+    }
+
+    public void drawOS() {
+
+        // Main screen
+        int mainX = 0;
+        int mainY = 0;
+        int width = gp.screenWidth;
+        int height = gp.screenHeight;
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.fillRect(mainX,mainY,width,height);
+
+        // Task bar
+        int taskBarX = 0;
+        int taskBarY = gp.tileSize * 11 + 18;
+        int taskBarWidth = gp.screenWidth;
+        int taskBarHeight = 36;
+        g2.setColor(new Color(36, 93, 218));
+        g2.fillRect(taskBarX,taskBarY,taskBarWidth,taskBarHeight);
+
+        // Start button
+        int startButtonX = 0;
+        int startButtonY = gp.tileSize * 11 + 18;
+        int startButtonWidth = gp.tileSize * 2;
+        int startButtonHeight = 36;
+        g2.setColor(new Color(0, 150, 0));
+        g2.fillRect(startButtonX,startButtonY,startButtonWidth,startButtonHeight);
 
     }
 
@@ -293,7 +324,7 @@ public class UI {
         int width = (int) (gp.tileSize * 5.5);
         int height = gp.tileSize * 5;
         drawSubWindow(x, y, width, height);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 26f));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
 
 
         // Draws the amount of checkboxes needed depending on what task we're currently on.
@@ -332,6 +363,14 @@ public class UI {
 
         currentTask[i] = "Talk to front desk";
         checkmarks[i] = new boolean[1]; // 1 task
+        i++;
+
+        currentTask[i] = "Talk to officer James";
+        checkmarks[i] = new boolean[1]; // 1 task
+        i++;
+
+        currentTask[i] = "Go to computer\n Type: password\n Select Cabin: K4";
+        checkmarks[i] = new boolean[3]; // 1 task
         i++;
     }
 
@@ -844,7 +883,7 @@ public class UI {
         int height = gp.tileSize * 4;
         drawSubWindow(x, y, width, height);
         g2.setColor(Color.white);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 28));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 22));
         x += 15; // where text will start to draw
         y += 38;
 
@@ -1053,7 +1092,7 @@ public class UI {
         g2.drawRoundRect(x, y, width+1, height+1, 5, 5);
 
         // ACTUAL RECTANGLE
-        c = new Color(0,0,0, 250);
+        c = new Color(0,0,0, 200);
         g2.setColor(c);
         g2.fillRoundRect(x, y, width, height, 5, 5);
 

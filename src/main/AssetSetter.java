@@ -1,9 +1,6 @@
 package main;
 
-import entity.Entity;
-import entity.NPC_Ayden;
-import entity.NPC_Cashier;
-import entity.NPC_Melissa;
+import entity.*;
 import monster.MON_EVILBILL;
 import object.*;
 
@@ -78,9 +75,9 @@ public class AssetSetter {
         else if(gp.currentMap == gp.PINEWOOD_CAMP) {
             // insert all the below entities in here
             // add the key to the front desk area
-            gp.obj[0] = new OBJ_Key(gp);
-            gp.obj[0].worldX = 46 * gp.tileSize;
-            gp.obj[0].worldY = 62 * gp.tileSize;
+//            gp.obj[0] = new OBJ_Key(gp);
+//            gp.obj[0].worldX = 46 * gp.tileSize;
+//            gp.obj[0].worldY = 62 * gp.tileSize;
 //
 //            gp.obj[1] = new OBJ_Key(gp);
 //            gp.obj[1].worldX = 41 * gp.tileSize;
@@ -102,7 +99,7 @@ public class AssetSetter {
             gp.obj[5] = new OBJ_Door2(gp); // faces horizontally
             gp.obj[5].worldX = 36 * gp.tileSize;
             gp.obj[5].worldY = 63 * gp.tileSize;
-            gp.obj[5].collision = false;
+            gp.obj[5].collision = true;
 
             gp.obj[6] = new OBJ_Door(gp);
             gp.obj[6].worldX = 20 * gp.tileSize;
@@ -156,7 +153,6 @@ public class AssetSetter {
             gp.obj[18].worldX = 48 * gp.tileSize;
             gp.obj[18].worldY = 39 * gp.tileSize;
 
-
             // goes in tool shed near player's cabin
 //            gp.obj[19] = new OBJ_Rake(gp);
 //            gp.obj[19].worldX = 49 * gp.tileSize;
@@ -166,6 +162,14 @@ public class AssetSetter {
 //            gp.obj[20] = new OBJ_Bed(gp);
 //            gp.obj[20].worldX = 47 * gp.tileSize;
 //            gp.obj[20].worldY = 57 * gp.tileSize-40;
+
+            gp.obj[21] = new OBJ_Desk(gp);
+            gp.obj[21].worldX = 40 * gp.tileSize;
+            gp.obj[21].worldY = (59 * gp.tileSize) - 10;
+
+            gp.obj[22] = new OBJ_frontDeskCounter(gp);
+            gp.obj[22].worldX = 45 * gp.tileSize;
+            gp.obj[22].worldY = (61 * gp.tileSize);
         }
 
 
@@ -198,23 +202,21 @@ public class AssetSetter {
             gp.npc[0] = new NPC_Ayden(gp);
             gp.npc[0].worldX = gp.tileSize*30;
             gp.npc[0].worldY = gp.tileSize*70;
+
+            gp.npc[1] = new NPC_OfficerJames(gp);
+            gp.npc[1].worldX = (gp.tileSize*46) + 24;
+            gp.npc[1].worldY = gp.tileSize*62;
         }
     }
 
     public void setMonster() {
 
         if(gp.currentMap == gp.PINEWOOD_CAMP) {
-            // insert all the below entities in here
-//            gp.monster[0] = new MON_EVILBILL(gp);
-//            gp.monster[0].worldX = gp.tileSize*26;
-//            gp.monster[0].worldY = gp.tileSize*43;
             gp.monster[0] = new MON_EVILBILL(gp);
-            gp.monster[0].worldX = gp.tileSize*35;
-            gp.monster[0].worldY = gp.tileSize*60;
+            gp.monster[0].worldX = gp.tileSize*26;
+            gp.monster[0].worldY = gp.tileSize*43;
+
         }
-//        gp.monster[0] = new MON_EVILBILL(gp);
-//        gp.monster[0].worldX = gp.tileSize*26;
-//        gp.monster[0].worldY = gp.tileSize*43;
     }
 
     public void clearArray() {

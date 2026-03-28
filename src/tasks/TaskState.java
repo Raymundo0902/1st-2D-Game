@@ -5,5 +5,7 @@ public enum TaskState {
     GET_SNACKS,
     TALK_TO_CASHIER,
     EXIT_STORE,
-    CHECK_IN_FRONT_OFFICE
+    CHECK_IN_FRONT_OFFICE,
+    GO_TO_COMPUTER,
+    GET_CABIN_KEYS
 }

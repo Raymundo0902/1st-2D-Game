@@ -2,18 +2,12 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import main.Task;
-import main.UtilityTool;
 import object.*;
 import tasks.TaskState;
-import tasks.Task_Chips;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Player extends Entity{
 
@@ -48,9 +42,11 @@ public class Player extends Entity{
         // For gas station map
     public final int cashierIndex = 0;
     public final int gasStationNpcIndex = 1;
-        // For Pinewood camp map
-    public final int aydenIndex = 0;
     public final int melissaIndex = 2;
+
+    // For Pinewood camp map
+    public final int aydenIndex = 0;
+    public final int mainOfficer = 1;
     public final int chadIndex = 2;
     public final int geraldIndex = 3;
 
@@ -73,12 +69,12 @@ public class Player extends Entity{
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         solidArea = new Rectangle(); // values below are what parts of the character will be solid
-        solidArea.x = 12;
+        solidArea.x = 8;
         solidArea.y = 16;
         solidAreaDefaultX = solidArea.x; // reason we create solidAreaDefaultX,Y is so we can recall the default values of solidArea.x and y because we will change solidArea.x and y later.
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 24;
-        solidArea.height = 24;
+        solidArea.width = 32;
+        solidArea.height = 32;
 
         // rakeArea larger values = larger range of rake
         rakeArea.width = 36;
@@ -154,6 +150,8 @@ public class Player extends Entity{
         else if(gp.currentMap == gp.PINEWOOD_CAMP) {
             // set different stuff - overlap the playerDialogues indexes with a new response for convos for ex (notice aydenIndex is = 0 like cashierIndex so we're just overidding:
              playerDialogues[aydenIndex] = new String[] {"hey!", "where at?"};
+            playerDialogues[mainOfficer] = new String[] {"Im sorry...", "okay", "i see", "great", "got it"};
+
         }
 
     }
@@ -518,8 +516,10 @@ public class Player extends Entity{
                         }
                         break;
                     case "computer":
-                        if(gp.currentTask == TaskState.TALK_TO_CASHIER) {
+                        if(gp.currentTask == TaskState.GO_TO_COMPUTER) {
                             // make it where you can press enter to go into the fake OS to login as a ranger.
+                            gp.ui.checkmarks[5][0] = true; // completed going to computer
+                            gp.gameState = gp.computerState;
                         }
                 }
             }
@@ -534,9 +534,9 @@ public class Player extends Entity{
             if (i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
                 rakeCanceled = true;
 
-                if(!(gp.npc[i] instanceof NPC_Cashier)) {
+                if(!(gp.npc[i] instanceof NPC_Cashier || gp.npc[i] instanceof NPC_OfficerJames)) {
+
                     gp.ui.npcIndex = i;
-                    System.out.println("GET RESPONSE");
                     getResponseForNpc();
                     gp.npc[i].speak();
                     gp.playSE(12);
@@ -544,6 +544,7 @@ public class Player extends Entity{
 
                 }
                 else if(gp.currentTask == TaskState.TALK_TO_CASHIER) {
+
                     gp.ui.npcIndex = i;
                     getResponseForNpc();
                     gp.npc[i].speak();
@@ -555,28 +556,23 @@ public class Player extends Entity{
                         gp.currentTask = TaskState.EXIT_STORE;
                     }
                 }
+                else if(gp.currentTask == TaskState.CHECK_IN_FRONT_OFFICE) {
 
-                // OLD IMPLEMENTATION -- UNCOMMENT IF ENUM IMPLEMENTATION ABOVE DOESNT WORK
-                // can still talk to npc's about normal things that don't involve a task, example: player should only talk one to cashier at gas station.
-//                if(taskOn == false) {
-//                    rakeCanceled = true;
-//                    // insert more code when you need it in game
-//
-//                }
-//
-//                if(taskOn == true) { // we should only implement code below when there's a current task.
-//
-//                    if (finishedTask == true) { // when finishing task then we can talk to npc
-//                        gp.ui.npcIndex = i;
-//                        gp.gameState = gp.dialogueState;
-//                        gp.playSE(12);
-//                        gp.npc[i].speak();
-//                        gp.ui.completed++;
-//                        finishedTask = false;
-//                    }
-//                }
+                    gp.ui.npcIndex = i;
+                    getResponseForNpc();
+                    gp.npc[i].speak();
+                    gp.playSE(12);
+                    gp.gameState = gp.dialogueState;
+
+                    // move on to next task after talking only if it's the actual cashier
+                    if(gp.npc[i] instanceof NPC_OfficerJames) {
+                        gp.currentTask = TaskState.GO_TO_COMPUTER;
+                    }
+                }
+                else if (gp.currentTask == TaskState.GET_CABIN_KEYS) {
+                    // talk to main officer again with only the last two dialogues excluding the first convo.
+                }
             }
-
         }
     }
 
