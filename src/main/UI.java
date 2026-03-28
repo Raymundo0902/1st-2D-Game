@@ -290,7 +290,7 @@ public class UI {
         // WINDOW & DECORATION
         int x = gp.tileSize * 14;
         int y = gp.tileSize / 2;
-        int width = gp.tileSize * 5;
+        int width = (int) (gp.tileSize * 5.5);
         int height = gp.tileSize * 5;
         drawSubWindow(x, y, width, height);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 26f));
@@ -327,6 +327,10 @@ public class UI {
         i++;
 
         currentTask[i] = "Exit store";
+        checkmarks[i] = new boolean[1]; // 1 task
+        i++;
+
+        currentTask[i] = "Talk to front desk";
         checkmarks[i] = new boolean[1]; // 1 task
         i++;
     }

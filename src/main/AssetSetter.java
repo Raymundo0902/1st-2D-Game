@@ -77,30 +77,19 @@ public class AssetSetter {
         }
         else if(gp.currentMap == gp.PINEWOOD_CAMP) {
             // insert all the below entities in here
+            // add the key to the front desk area
             gp.obj[0] = new OBJ_Key(gp);
-            gp.obj[0].worldX = 26 * gp.tileSize;
-            gp.obj[0].worldY = 10 * gp.tileSize;
-
-            gp.obj[1] = new OBJ_Key(gp);
-            gp.obj[1].worldX = 41 * gp.tileSize;
-            gp.obj[1].worldY = 11 * gp.tileSize;
+            gp.obj[0].worldX = 46 * gp.tileSize;
+            gp.obj[0].worldY = 62 * gp.tileSize;
+//
+//            gp.obj[1] = new OBJ_Key(gp);
+//            gp.obj[1].worldX = 41 * gp.tileSize;
+//            gp.obj[1].worldY = 11 * gp.tileSize;
 
             // INSTANTIATED THIS DOOR AND SET ITS DEFAULT LOCATION.
             gp.obj[2] = new OBJ_Door(gp);
             gp.obj[2].worldX = 13 * gp.tileSize;
             gp.obj[2].worldY = 14 * gp.tileSize;
-
-            gp.obj[6] = new OBJ_Door(gp);
-            gp.obj[6].worldX = 20 * gp.tileSize;
-            gp.obj[6].worldY = 38 * gp.tileSize;
-
-            gp.obj[5] = new OBJ_Door2(gp); // faces horizontally
-            gp.obj[5].worldX = 36 * gp.tileSize;
-            gp.obj[5].worldY = 63 * gp.tileSize;
-
-            gp.obj[7] = new OBJ_TallGrass(gp);
-            gp.obj[7].worldX = 13 * gp.tileSize;
-            gp.obj[7].worldY = 74 * gp.tileSize;
 
             gp.obj[3] = new OBJ_TallGrass(gp);
             gp.obj[3].worldX = 14 * gp.tileSize;
@@ -109,6 +98,19 @@ public class AssetSetter {
             gp.obj[4] = new OBJ_TallGrass(gp);
             gp.obj[4].worldX = 15 * gp.tileSize;
             gp.obj[4].worldY = 74 * gp.tileSize;
+
+            gp.obj[5] = new OBJ_Door2(gp); // faces horizontally
+            gp.obj[5].worldX = 36 * gp.tileSize;
+            gp.obj[5].worldY = 63 * gp.tileSize;
+            gp.obj[5].collision = false;
+
+            gp.obj[6] = new OBJ_Door(gp);
+            gp.obj[6].worldX = 20 * gp.tileSize;
+            gp.obj[6].worldY = 38 * gp.tileSize;
+
+            gp.obj[7] = new OBJ_TallGrass(gp);
+            gp.obj[7].worldX = 13 * gp.tileSize;
+            gp.obj[7].worldY = 74 * gp.tileSize;
 
             gp.obj[8] = new OBJ_TallGrass(gp);
             gp.obj[8].worldX = 13 * gp.tileSize;
@@ -155,14 +157,15 @@ public class AssetSetter {
             gp.obj[18].worldY = 39 * gp.tileSize;
 
 
-            gp.obj[19] = new OBJ_Rake(gp);
-            gp.obj[19].worldX = 49 * gp.tileSize;
-            gp.obj[19].worldY = 58 * gp.tileSize;
-            System.out.println(gp.obj[19].name);
+            // goes in tool shed near player's cabin
+//            gp.obj[19] = new OBJ_Rake(gp);
+//            gp.obj[19].worldX = 49 * gp.tileSize;
+//            gp.obj[19].worldY = 58 * gp.tileSize;
 
-            gp.obj[20] = new OBJ_Bed(gp);
-            gp.obj[20].worldX = 47 * gp.tileSize;
-            gp.obj[20].worldY = 57 * gp.tileSize-40;
+            // add in when you have setup player's cabin
+//            gp.obj[20] = new OBJ_Bed(gp);
+//            gp.obj[20].worldX = 47 * gp.tileSize;
+//            gp.obj[20].worldY = 57 * gp.tileSize-40;
         }
 
 
@@ -202,9 +205,12 @@ public class AssetSetter {
 
         if(gp.currentMap == gp.PINEWOOD_CAMP) {
             // insert all the below entities in here
+//            gp.monster[0] = new MON_EVILBILL(gp);
+//            gp.monster[0].worldX = gp.tileSize*26;
+//            gp.monster[0].worldY = gp.tileSize*43;
             gp.monster[0] = new MON_EVILBILL(gp);
-            gp.monster[0].worldX = gp.tileSize*26;
-            gp.monster[0].worldY = gp.tileSize*43;
+            gp.monster[0].worldX = gp.tileSize*35;
+            gp.monster[0].worldY = gp.tileSize*60;
         }
 //        gp.monster[0] = new MON_EVILBILL(gp);
 //        gp.monster[0].worldX = gp.tileSize*26;

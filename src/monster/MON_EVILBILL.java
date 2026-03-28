@@ -9,6 +9,7 @@ import java.util.Random;
 public class MON_EVILBILL extends Entity {
 
     GamePanel gp;
+    int pathTimer = 0;
 
     public MON_EVILBILL(GamePanel gp) {
         super(gp);
@@ -50,7 +51,7 @@ public class MON_EVILBILL extends Entity {
 
         int xDistance = Math.abs(worldX - gp.player.worldX);
         int yDistance = Math.abs(worldY - gp.player.worldY);
-        int detectionRange = gp.tileSize * 6;
+        int detectionRange = gp.tileSize * 7;
 
         if(xDistance <= detectionRange && yDistance <= detectionRange) {
             path = true;
@@ -62,14 +63,18 @@ public class MON_EVILBILL extends Entity {
 
         // For testing, this toggles to true when player takes damage
         if(path == true) {
-
-
             // follow player
-            int goalCol = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize;
-            int goalRow = (gp.player.worldY + gp.player.solidArea.y ) / gp.tileSize;
+                int goalCol = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize;
+                int goalRow = (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize;
 
-            // gets called 60x a second
-            searchPath(goalCol, goalRow);
+                // Better?
+//            int goalCol = (gp.player.worldX + gp.player.solidArea.x + gp.player.solidArea.width/2) / gp.tileSize;
+//            int goalRow = (gp.player.worldY + gp.player.solidArea.y + gp.player.solidArea.height/2) / gp.tileSize;
+
+                // gets called 60x a second
+                System.out.println("CALL SEARCHPATH");
+                searchPath(goalCol, goalRow);
+
 
         }
         else {

@@ -128,7 +128,7 @@ public class GamePanel extends JPanel implements Runnable {
     // maybe use this for if player reaches a checkpoint in game?
     public void retry() {
 
-        player.setDefaultPosition();
+        player.setDefaultPositionPinewood();
         player.restoreLifeAndAttributes();
         aSetter.setNPC();
         aSetter.setMonster();
@@ -150,7 +150,7 @@ public class GamePanel extends JPanel implements Runnable {
         currentMap = GAS_STATION;
 
         // ENTITY DEFAULTS
-        player.setDefaultPosition();
+        player.setDefaultPositionGasStation();
         player.restoreLifeAndAttributes();
         player.setItems();
         aSetter.setObject();
@@ -220,6 +220,7 @@ public class GamePanel extends JPanel implements Runnable {
     // Transition from Gas station to Pinewood Camp
     public void transitionMap() {
         currentMap = PINEWOOD_CAMP;
+        player.setDefaultPositionPinewood();
         // call a clear array method in asset setter
         aSetter.clearArray();
         aSetter.setObject();
@@ -231,9 +232,8 @@ public class GamePanel extends JPanel implements Runnable {
         playMusic(6);
         // draw a fade in fade out black transition to map to make it look less like teleportation
         tileM.loadMap("/maps/world01.txt");
-
+        currentTask = TaskState.CHECK_IN_FRONT_OFFICE;
     }
-
 
 
     public void update() {
@@ -283,6 +283,9 @@ public class GamePanel extends JPanel implements Runnable {
             }
             if(currentTask == TaskState.EXIT_STORE) {
                 ui.taskIndex = 2;
+            }
+            if(currentTask == TaskState.CHECK_IN_FRONT_OFFICE) {
+                ui.taskIndex = 3;
             }
 
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.

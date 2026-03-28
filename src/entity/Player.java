@@ -73,12 +73,12 @@ public class Player extends Entity{
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         solidArea = new Rectangle(); // values below are what parts of the character will be solid
-        solidArea.x = 8;
+        solidArea.x = 12;
         solidArea.y = 16;
         solidAreaDefaultX = solidArea.x; // reason we create solidAreaDefaultX,Y is so we can recall the default values of solidArea.x and y because we will change solidArea.x and y later.
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 32;
-        solidArea.height = 32;
+        solidArea.width = 24;
+        solidArea.height = 24;
 
         // rakeArea larger values = larger range of rake
         rakeArea.width = 36;
@@ -94,7 +94,7 @@ public class Player extends Entity{
 
     public void setDefaultValues() {
 
-        setDefaultPosition();
+        setDefaultPositionGasStation();
         speed = 4;
         type = TYPE_PLAYER;
 
@@ -107,10 +107,16 @@ public class Player extends Entity{
     }
 
     // Helpful to use when retrying after "Game Over"
-    public void setDefaultPosition() {
+    public void setDefaultPositionGasStation() {
 
         worldX = gp.tileSize * 44; // not where we draw on screen this is players starting position on world map.
         worldY = gp.tileSize * 58;
+        direction = "down";
+    }
+
+    public void setDefaultPositionPinewood() {
+        worldX = gp.tileSize * 40; // not where we draw on screen this is players starting position on world map.
+        worldY = gp.tileSize * 62;
         direction = "down";
     }
 
@@ -437,10 +443,8 @@ public class Player extends Entity{
                     }
                     break;
                 case "Door2": // horizontal door
-                    if(gp.obj[i].worldX == gp.obj[5].worldX && gp.obj[i].worldY == gp.obj[5].worldY) {
-                        gp.obj[i].collision = false; // set to false since starting door must be open since no keys available
-                    }
-                    else if(hasKey > 0) {
+
+                    if(hasKey > 0) {
                         gp.playSE(4);
                         gp.obj[i] = null;
                         hasKey--;
@@ -513,6 +517,10 @@ public class Player extends Entity{
                             gp.gameState = gp.transitionMapState;
                         }
                         break;
+                    case "computer":
+                        if(gp.currentTask == TaskState.TALK_TO_CASHIER) {
+                            // make it where you can press enter to go into the fake OS to login as a ranger.
+                        }
                 }
             }
         }
@@ -699,8 +707,8 @@ public class Player extends Entity{
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         // COLLISION HITBOX VISUAL (DEBUG)
-//        g2.setColor(Color.red);
-//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        g2.setColor(Color.red);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         // INVINCIBLE COUNTER (DEBUG)
 //        g2.setFont(new Font("Arial", Font.PLAIN, 25));
 //        g2.setColor(Color.white);

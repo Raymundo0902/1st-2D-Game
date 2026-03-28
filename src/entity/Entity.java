@@ -21,6 +21,10 @@ public class Entity {
     public String dialogues[] = new String[20]; // each entity gets their own copy
     public BufferedImage image, image2, image3;
 
+
+
+
+
     // STATE - collision, location, defaults
     public boolean collisionOn = false;
     public boolean invincible = false;
@@ -145,7 +149,7 @@ public class Entity {
                 if(entityLeftX > nextX) {
                     direction = "left";
                 }
-                if(entityLeftX < nextX) {
+                else if(entityLeftX < nextX) {
                     direction = "right";
                 }
             }
@@ -183,6 +187,7 @@ public class Entity {
                     direction = "right";
                 }
             }
+
 
             // THIS IS ONLY FOR WHEN ENTITY PATHFINDING ISN'T TO FOLLOW YOU.
             // If entity reaches the goal, stop the search
@@ -292,8 +297,8 @@ public class Entity {
             g2.drawImage(image, screenX, screenY, null);
             // COLLISION VISUALS (DEBUG)
 //
-//            g2.setColor(Color.red);
-//            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            g2.setColor(Color.red);
+            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
         }
 
