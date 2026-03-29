@@ -101,6 +101,12 @@ public class GamePanel extends JPanel implements Runnable {
     float j = 1f;
 
 
+    // EXTRA
+    double scaleX;
+    double scaleY;
+
+
+
     public GamePanel () {
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -175,6 +181,7 @@ public class GamePanel extends JPanel implements Runnable {
         Main.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         screenWidth2 = (int) width;
         screenHeight2 = (int) height;
+
     }
 
     public void startGameThread() {
@@ -240,6 +247,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     public void update() {
+
 
         if(gameState == initialDialogueState) {
 

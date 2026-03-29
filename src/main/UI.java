@@ -73,7 +73,8 @@ public class UI {
 
         // MOUSE INTERACTIVITY - fake os
         pineWButtonBounds = new Rectangle(gp.tileSize * 2, gp.tileSize * 11 + 18, gp.tileSize * 4, 30);
-        exitButton = new Rectangle();
+        exitButton = new Rectangle(gp.tileSize * 18,  gp.tileSize * 10, gp.tileSize, gp.tileSize);
+
 
         // TITLE SCREEN IMAGE
         try{
@@ -278,11 +279,22 @@ public class UI {
         g2.setColor(Color.WHITE);
         g2.drawString("Pinewood Associates", titleBarX + gp.tileSize + 2 , titleBarY + 18);
 
+        // Exit button
+        int exitX = gp.tileSize * 18;
+        int exitY = gp.tileSize * 10;
+        g2.setColor(Color.black);
+        g2.drawRect(exitX, exitY, gp.tileSize, gp.tileSize);
+        g2.setColor(new Color(200,50,50));
+        g2.fillRect(exitX, exitY, gp.tileSize, gp.tileSize);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40f));
+        g2.setColor(Color.WHITE);
+        g2.drawString("->", exitX + 10, exitY + 34);
 
 
         // DEBUG: Mouse interactive buttons
 //        g2.setColor(Color.red);
 //        g2.fillRect(pineWButtonBounds.x, pineWButtonBounds.y, pineWButtonBounds.width, pineWButtonBounds.height);
+//        g2.fillRect(exitButton.x, exitButton.y, exitButton.width, exitButton.height);
 
         // Switch between different displays of the opened window.
         switch(osSubState) {
@@ -294,6 +306,13 @@ public class UI {
 
     private void drawLoginScreen() {
 
+        int x = gp.tileSize * 8;
+        int y = gp.tileSize * 5;
+        g2.setColor(new Color(70, 60, 180));
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20f));
+        g2.drawString("Password:", x, y);
+        g2.setStroke(new BasicStroke(2));
+        g2.drawRect(x, y + 20, gp.tileSize * 3,26);
     }
 
     private void drawSelectCabinScreen() {

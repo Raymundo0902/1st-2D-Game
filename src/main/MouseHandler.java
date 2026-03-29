@@ -8,23 +8,38 @@ public class MouseHandler implements MouseListener {
     public boolean mouseClicked, mousePressed, mouseReleased, mouseEntered;
     GamePanel gp;
 
+    // Tools
+
+
     public MouseHandler(GamePanel gp) {
         this.gp = gp;
+
     }
 
     @Override
     public void mouseClicked(MouseEvent e) { // mouse button has been clicked (pressed and released) on a component
 
-        if(gp.ui.pineWButtonBounds.contains(e.getX(), e.getY())) {
+        // Convert e coordinates to game world coordinates. e.getX() and e.getY() gives coordinates based on the world screen NOT fullscreen. Thus, why it won't work in fullscreen
+        // In a nutshell, comparing screen coords with game coords won't work.
+        double scaleX = (double) gp.screenWidth2 / gp.screenWidth;
+        double scaleY = (double) gp.screenHeight2 / gp.screenHeight;
+        int adjustedX = (int)(e.getX() / scaleX);
+        int adjustedY = (int)(e.getY() / scaleY);
+
+        if(gp.ui.pineWButtonBounds.contains(adjustedX, adjustedY)) {
             mouseClicked = true;
-            System.out.println("you clicked the pinewood asso app bar");
+            gp.playSE(14);
+        }
+        else if(gp.ui.exitButton.contains(adjustedX, adjustedY)) {
+            mouseClicked = true;
+            gp.gameState = gp.playState;
+            gp.playSE(14);
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) { // pressed on component/hold down a mouse button
         if(gp.ui.pineWButtonBounds.contains(e.getX(), e.getY())) {
-            System.out.println("you pressed the pinewood asso app bar");
         }
 
     }
@@ -33,7 +48,6 @@ public class MouseHandler implements MouseListener {
     public void mouseReleased(MouseEvent e) { // mouse button has been released
         if(gp.ui.pineWButtonBounds.contains(e.getX(), e.getY())) {
             mouseClicked = false;
-            System.out.println("you released the pinewood asso app bar");
         }
 
     }
@@ -41,7 +55,6 @@ public class MouseHandler implements MouseListener {
     @Override
     public void mouseEntered(MouseEvent e) { // invoked when mouse enters a component like the area of a box
         if(gp.ui.pineWButtonBounds.contains(e.getX(), e.getY())) {
-            System.out.println("you entered the pinewood asso app bar");
         }
 
     }
