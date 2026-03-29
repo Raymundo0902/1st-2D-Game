@@ -53,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
     // "this" as the argument is passing the reference to the exact GamePanel object thats currently running. (NOT THE OBJECT, NOT A COPY, NOT A NEW OBJECT)
     public TileManager tileM = new TileManager(this);
     public KeyHandler keyH = new KeyHandler(this);
+    public MouseHandler mouseH = new MouseHandler(this);
     Sound music = new Sound();
     Sound se = new Sound(); // sound effect
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -107,6 +108,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true); // if true, all drawings from this component will be done in an offscreen painting buffer (smoother visual updates & eliminates flickering) in short, improves rendering performance
         this.addKeyListener(keyH); // this GamePanel will recognize the key input
         this.setFocusable(true); // with this, the GamePanel can be "focused" to receive key input.
+        this.addMouseListener(mouseH);
     }
 
     public void setupGame() { // created this method so we can add other setup stuff in the future

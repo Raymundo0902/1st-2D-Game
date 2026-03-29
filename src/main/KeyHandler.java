@@ -11,8 +11,6 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, enterPressed, throwPressed;
 
-    public boolean introJustStarted = false;
-
     // DEBUG
     boolean checkDebugText = false;
 

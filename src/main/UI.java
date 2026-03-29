@@ -51,7 +51,6 @@ public class UI {
     public int completed = 0;
 
 
-
     // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
     public int slotRow = 0;
@@ -61,9 +60,20 @@ public class UI {
     // OPTIONS MENU
     int subState = 0;
 
+    // COMPUTER OS
+    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground;
+    Rectangle pineWButtonBounds, exitButton;
+
+    // OS WINDOWS STATES
+    int osSubState = 0;
+
 
     public UI (GamePanel gp) {
         this.gp = gp;
+
+        // MOUSE INTERACTIVITY - fake os
+        pineWButtonBounds = new Rectangle(gp.tileSize * 2, gp.tileSize * 11 + 18, gp.tileSize * 4, 30);
+        exitButton = new Rectangle();
 
         // TITLE SCREEN IMAGE
         try{
@@ -91,6 +101,37 @@ public class UI {
         }catch (IOException e){
             e.printStackTrace();
         }
+
+        // LOAD OS ICONS
+
+        try{
+            osBackground = ImageIO.read(getClass().getResourceAsStream("/images/windowsxp.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        try{
+            pinewoodIcon = ImageIO.read(getClass().getResourceAsStream("/images/pinewoodassociates.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            osIcon = ImageIO.read(getClass().getResourceAsStream("/images/osIcon.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            recycleIcon = ImageIO.read(getClass().getResourceAsStream("/images/recyclebin.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
 
         // INITIALIZE THE INTRODUCTORY DIALOGUE
         setIntroArray();
@@ -130,7 +171,6 @@ public class UI {
         else if(gp.gameState == gp.dialogueState) {
             drawPlayerLife();
             drawDialogueScreen();
-
         }
         // CHARACTER STATE
         else if(gp.gameState == gp.characterState) {
@@ -158,13 +198,25 @@ public class UI {
 
     public void drawOS() {
 
-        // Main screen
+
+
+        // Main OS screen
         int mainX = 0;
         int mainY = 0;
         int width = gp.screenWidth;
         int height = gp.screenHeight;
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.fillRect(mainX,mainY,width,height);
+//        g2.setColor(Color.LIGHT_GRAY);
+//        g2.fillRect(mainX,mainY,width,height);
+            // os wallpaper
+        g2.drawImage(osBackground, mainX, mainY, width, height, null);
+            // recycle icon
+        g2.drawImage(recycleIcon, mainX + 20, mainY + 30, gp.tileSize, gp.tileSize, null);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 16f));
+        g2.setColor(Color.darkGray);
+        g2.drawString("Recycle bin", mainX + 9, mainY + gp.tileSize * 2 + 1);
+        g2.setColor(Color.WHITE);
+        g2.drawString("Recycle bin", mainX + 10, mainY + gp.tileSize * 2);
+
 
         // Task bar
         int taskBarX = 0;
@@ -173,14 +225,78 @@ public class UI {
         int taskBarHeight = 36;
         g2.setColor(new Color(36, 93, 218));
         g2.fillRect(taskBarX,taskBarY,taskBarWidth,taskBarHeight);
-
-        // Start button
+            // Start button
         int startButtonX = 0;
         int startButtonY = gp.tileSize * 11 + 18;
         int startButtonWidth = gp.tileSize * 2;
         int startButtonHeight = 36;
         g2.setColor(new Color(0, 150, 0));
         g2.fillRect(startButtonX,startButtonY,startButtonWidth,startButtonHeight);
+                // Start button's text
+        g2.drawImage(osIcon, startButtonX, startButtonY, null);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 16f));
+        g2.setColor(Color.darkGray);
+        g2.drawString("Begin", startButtonX + 22, startButtonY + 20);
+        g2.setColor(Color.WHITE);
+        g2.drawString("Begin", startButtonX + 24, startButtonY + 22);
+            // Running apps icon button
+        int appsIconX = gp.tileSize * 2;
+        int appsIconY = startButtonY;
+        int appsIconWidth = gp.tileSize * 4;
+        int appsIconHeight = startButtonHeight;
+        g2.setColor(new Color(36, 110, 218));
+        g2.fillRect(appsIconX,appsIconY,appsIconWidth,appsIconHeight);
+        g2.drawImage(pinewoodIcon, appsIconX + 5, appsIconY + 5, null);
+                // Running apps icon text
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 16f));
+        g2.setColor(Color.darkGray);
+        g2.drawString("Pinewood Associates", appsIconX + 28, appsIconY + 20);
+        g2.setColor(Color.WHITE);
+        g2.drawString("Pinewood Associates", appsIconX + 30, appsIconY + 22);
+
+        // Window screen
+        int windowX = gp.tileSize * 3;
+        int windowY = gp.tileSize;
+        int windowWidth = gp.tileSize * 12;
+        int windowHeight = gp.tileSize * 9;
+        g2.setColor(Color.WHITE);
+        g2.fillRect(windowX,windowY,windowWidth,windowHeight);
+
+        // Window Title bar
+        int titleBarX = windowX;
+        int titleBarY = windowY;
+        int titleBarWidth = windowWidth;
+        int titleBarHeight = 24;
+        g2.setColor(new Color(100, 93, 218));
+        g2.fillRect(titleBarX,titleBarY,titleBarWidth,titleBarHeight);
+        g2.setStroke(new BasicStroke(2));
+        g2.drawRect(windowX,windowY,windowWidth,windowHeight);
+        g2.drawImage(pinewoodIcon, titleBarX + 5, titleBarY, null);
+            // Window Title
+        g2.setColor(Color.darkGray);
+        g2.drawString("Pinewood Associates", titleBarX + gp.tileSize, titleBarY + 19);
+        g2.setColor(Color.WHITE);
+        g2.drawString("Pinewood Associates", titleBarX + gp.tileSize + 2 , titleBarY + 18);
+
+
+
+        // DEBUG: Mouse interactive buttons
+//        g2.setColor(Color.red);
+//        g2.fillRect(pineWButtonBounds.x, pineWButtonBounds.y, pineWButtonBounds.width, pineWButtonBounds.height);
+
+        // Switch between different displays of the opened window.
+        switch(osSubState) {
+            case 0: drawLoginScreen(); break;
+            case 1: drawSelectCabinScreen(); break;
+
+        }
+    }
+
+    private void drawLoginScreen() {
+
+    }
+
+    private void drawSelectCabinScreen() {
 
     }
 
@@ -319,12 +435,12 @@ public class UI {
     public void drawCurrentTask() {
 
         // WINDOW & DECORATION
-        int x = gp.tileSize * 14;
+        int x = (gp.tileSize * 15) + 10;
         int y = gp.tileSize / 2;
-        int width = (int) (gp.tileSize * 5.5);
-        int height = gp.tileSize * 5;
+        int width = (int) (gp.tileSize * 4.5);
+        int height = gp.tileSize * 4;
         drawSubWindow(x, y, width, height);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 18f));
 
 
         // Draws the amount of checkboxes needed depending on what task we're currently on.
@@ -1092,7 +1208,7 @@ public class UI {
         g2.drawRoundRect(x, y, width+1, height+1, 5, 5);
 
         // ACTUAL RECTANGLE
-        c = new Color(0,0,0, 200);
+        c = new Color(0,0,0, 230);
         g2.setColor(c);
         g2.fillRoundRect(x, y, width, height, 5, 5);
 
