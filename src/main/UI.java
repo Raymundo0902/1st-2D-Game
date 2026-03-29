@@ -61,8 +61,8 @@ public class UI {
     int subState = 0;
 
     // COMPUTER OS
-    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground;
-    Rectangle pineWButtonBounds, exitButton;
+    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, signInIcon;
+    Rectangle pineWButtonBounds, exitButton, passwordButton, signInButton;
 
     // OS WINDOWS STATES
     int osSubState = 0;
@@ -73,7 +73,20 @@ public class UI {
 
         // MOUSE INTERACTIVITY - fake os
         pineWButtonBounds = new Rectangle(gp.tileSize * 2, gp.tileSize * 11 + 18, gp.tileSize * 4, 30);
-        exitButton = new Rectangle(gp.tileSize * 18,  gp.tileSize * 10, gp.tileSize, gp.tileSize);
+        exitButton = new Rectangle(gp.tileSize * 18,  (int)(gp.tileSize * 9.5), gp.tileSize, gp.tileSize);
+        passwordButton = new Rectangle(gp.tileSize * 7, (int) (gp.tileSize * 4.5) + 10, gp.tileSize * 3,27);
+        signInButton = new Rectangle(gp.tileSize * 7 + 24, gp.tileSize * 5 + 20, gp.tileSize * 2,27);
+
+//int x = gp.tileSize * 7;
+//         x += 24;
+//        y = gp.tileSize * 5;
+//        g2.setStroke(new BasicStroke(2));
+//        g2.drawRect(x, y + 20, gp.tileSize * 2,26);
+//        g2.setColor(Color.black);
+//        g2.drawRect(x, y + 20, gp.tileSize * 2 + 1,27);
+//        g2.setColor(Color.gray);
+//        g2.fillRect(x, y + 20, gp.tileSize * 2 + 1,27);
+
 
 
         // TITLE SCREEN IMAGE
@@ -126,6 +139,12 @@ public class UI {
 
         try{
             recycleIcon = ImageIO.read(getClass().getResourceAsStream("/images/recyclebin.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            signInIcon = ImageIO.read(getClass().getResourceAsStream("/images/signinicon.png"));
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -255,6 +274,117 @@ public class UI {
         g2.setColor(Color.WHITE);
         g2.drawString("Pinewood Associates", appsIconX + 30, appsIconY + 22);
 
+        // Exit button
+        int exitX = gp.tileSize * 18;
+        int exitY = (int) (gp.tileSize * 9.5);
+        g2.setColor(Color.black);
+        g2.drawRect(exitX -1, exitY -1, gp.tileSize + 1, gp.tileSize + 1);
+        g2.setColor(new Color(200,50,50));
+        g2.fillRect(exitX, exitY, gp.tileSize, gp.tileSize);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40f));
+        g2.setColor(Color.WHITE);
+        g2.drawString("->", exitX + 10, exitY + 34);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 16f));
+        g2.drawString("Exit", exitX + 10, exitY + 70);
+
+
+        // DEBUG: Mouse interactive buttons
+//        g2.setColor(Color.red);
+//        g2.fillRect(pineWButtonBounds.x, pineWButtonBounds.y, pineWButtonBounds.width, pineWButtonBounds.height);
+//        g2.fillRect(exitButton.x, exitButton.y, exitButton.width, exitButton.height);
+
+        // Switch between different displays of the opened window.
+        switch(osSubState) {
+            case 0: drawLoginScreen(); break;
+            case 1: drawSelectCabinScreen(); break;
+
+        }
+    }
+
+    private void drawLoginScreen() {
+
+        // Window screen
+        int windowX = gp.tileSize * 5;
+        int windowY = gp.tileSize;
+        int windowWidth = gp.tileSize * 7;
+        int windowHeight = gp.tileSize * 7;
+        g2.setColor(Color.WHITE);
+        g2.fillRect(windowX,windowY,windowWidth,windowHeight);
+
+        // Window Title bar
+        int titleBarX = windowX;
+        int titleBarY = windowY;
+        int titleBarWidth = windowWidth;
+        int titleBarHeight = 24;
+        g2.setColor(new Color(90, 61, 48));
+        g2.fillRect(titleBarX,titleBarY,titleBarWidth,titleBarHeight);
+        g2.setStroke(new BasicStroke(2));
+        g2.drawRect(windowX,windowY,windowWidth,windowHeight);
+        g2.drawImage(pinewoodIcon, titleBarX + 5, titleBarY, null);
+        // Window Title
+        g2.setColor(Color.darkGray);
+        g2.drawString("Pinewood Associates", titleBarX + gp.tileSize, titleBarY + 19);
+        g2.setColor(Color.WHITE);
+        g2.drawString("Pinewood Associates", titleBarX + gp.tileSize + 2 , titleBarY + 18);
+
+
+        // Password button
+        int x = gp.tileSize * 7;
+        int y = (int)(gp.tileSize * 4.5);
+        g2.setColor(new Color(90, 61, 48));
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 16f));
+        g2.setStroke(new BasicStroke(2));
+        g2.drawRect(x, y + 10, gp.tileSize * 3,26);
+        g2.setColor(Color.black);
+        g2.drawRect(x, y + 10, gp.tileSize * 3 + 1,27);
+        g2.drawString("Password:", x, y);
+        drawPasswordTyped();
+
+        // Sign in button
+        x += 24;
+        y = gp.tileSize * 5;
+        g2.setStroke(new BasicStroke(2));
+        g2.drawRect(x, y + 20, gp.tileSize * 2,26);
+        g2.setColor(Color.black);
+        g2.drawRect(x, y + 20, gp.tileSize * 2 + 1,27);
+        g2.setColor(Color.gray);
+        g2.fillRect(x, y + 20, gp.tileSize * 2 + 1,27);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 16f));
+        g2.setColor(Color.black);
+        g2.drawString("Sign in", x + 25, y + 40);
+        if(gp.keyH.inputText.toString().equals("password")) {
+            if(gp.mouseH.clickOnSignInBox == true) {
+
+                // go to home page
+                osSubState = 1;
+            }
+        }
+
+        // Sign in icon
+        g2.drawImage(signInIcon, x, y - gp.tileSize*3, gp.tileSize * 2, gp.tileSize * 2, null);
+
+//        DEBUG
+//        g2.setColor(Color.red);
+//        g2.fillRect(passwordButton.x, passwordButton.y, passwordButton.width, passwordButton.height);
+//        g2.setColor(Color.red);
+//        g2.fillRect(signInButton.x, signInButton.y, signInButton.width, signInButton.height);
+
+    }
+
+    private void drawPasswordTyped() {
+        int x = gp.tileSize * 7;
+        int y = gp.tileSize * 5;
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 16f));
+        g2.setColor(Color.black);
+
+        //type in box results
+        String displayText = gp.keyH.inputText.toString();
+        g2.drawString(displayText, x + 2, y + 3);
+
+    }
+
+    private void drawSelectCabinScreen() {
+
         // Window screen
         int windowX = gp.tileSize * 3;
         int windowY = gp.tileSize;
@@ -273,50 +403,11 @@ public class UI {
         g2.setStroke(new BasicStroke(2));
         g2.drawRect(windowX,windowY,windowWidth,windowHeight);
         g2.drawImage(pinewoodIcon, titleBarX + 5, titleBarY, null);
-            // Window Title
+        // Window Title
         g2.setColor(Color.darkGray);
         g2.drawString("Pinewood Associates", titleBarX + gp.tileSize, titleBarY + 19);
         g2.setColor(Color.WHITE);
         g2.drawString("Pinewood Associates", titleBarX + gp.tileSize + 2 , titleBarY + 18);
-
-        // Exit button
-        int exitX = gp.tileSize * 18;
-        int exitY = gp.tileSize * 10;
-        g2.setColor(Color.black);
-        g2.drawRect(exitX, exitY, gp.tileSize, gp.tileSize);
-        g2.setColor(new Color(200,50,50));
-        g2.fillRect(exitX, exitY, gp.tileSize, gp.tileSize);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40f));
-        g2.setColor(Color.WHITE);
-        g2.drawString("->", exitX + 10, exitY + 34);
-
-
-        // DEBUG: Mouse interactive buttons
-//        g2.setColor(Color.red);
-//        g2.fillRect(pineWButtonBounds.x, pineWButtonBounds.y, pineWButtonBounds.width, pineWButtonBounds.height);
-//        g2.fillRect(exitButton.x, exitButton.y, exitButton.width, exitButton.height);
-
-        // Switch between different displays of the opened window.
-        switch(osSubState) {
-            case 0: drawLoginScreen(); break;
-            case 1: drawSelectCabinScreen(); break;
-
-        }
-    }
-
-    private void drawLoginScreen() {
-
-        int x = gp.tileSize * 8;
-        int y = gp.tileSize * 5;
-        g2.setColor(new Color(70, 60, 180));
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20f));
-        g2.drawString("Password:", x, y);
-        g2.setStroke(new BasicStroke(2));
-        g2.drawRect(x, y + 20, gp.tileSize * 3,26);
-    }
-
-    private void drawSelectCabinScreen() {
-
     }
 
     public void drawExitMapScreen() {

@@ -35,6 +35,8 @@ public class Sound {
         soundURL[16] = getClass().getResource("/sound/typingSE.wav");
         soundURL[17] = getClass().getResource("/sound/Elevatormusic.wav");
         soundURL[18] = getClass().getResource("/sound/grabBag.wav");
+        soundURL[19] = getClass().getResource("/sound/osstartup.wav");
+
 
 
     }

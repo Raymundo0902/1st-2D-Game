@@ -519,6 +519,7 @@ public class Player extends Entity{
                         if(gp.currentTask == TaskState.GO_TO_COMPUTER) {
                             // make it where you can press enter to go into the fake OS to login as a ranger.
                             gp.ui.checkmarks[5][0] = true; // completed going to computer
+                            gp.playSE(19);
                             gp.gameState = gp.computerState;
                         }
                 }

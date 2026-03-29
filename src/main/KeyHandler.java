@@ -10,7 +10,7 @@ import java.security.Key;
 public class KeyHandler implements KeyListener { // must add the key: typed, pressed and released methods when implementing KeyListener
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, enterPressed, throwPressed;
-
+    public StringBuilder inputText;
     // DEBUG
     boolean checkDebugText = false;
 
@@ -18,10 +18,22 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
 
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
+        inputText = new StringBuilder();
     }
 
     @Override
     public void keyTyped(KeyEvent e) { // don't use this method but for the bottom two we will.
+
+        // For computer state
+        if(gp.mouseH.clickOnPasswordBox == true) {
+
+            char c = e.getKeyChar();
+
+            // only allow normal characters
+            if(Character.isLetterOrDigit(c) && inputText.length() < 17) {
+                inputText.append(c);
+            }
+        }
     }
 
     // RUNS ONCE FOR EVERY KEY INPUT
@@ -65,6 +77,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         else if(gp.gameState == gp.transitionMapState) {
             transitionMapState(code);
+        }
+        else if(gp.gameState == gp.computerState) {
+            computerState(code);
         }
 
     }
@@ -183,6 +198,19 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         else if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;
+        }
+    }
+
+    public void computerState(int code) {
+
+        // delete characters typed in password box
+        if(code == KeyEvent.VK_BACK_SPACE) {
+
+            if(gp.mouseH.clickOnPasswordBox == true) {
+                if (inputText.length() > 0) {
+                    inputText.deleteCharAt(inputText.length() - 1);
+                }
+            }
         }
     }
 
