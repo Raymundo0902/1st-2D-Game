@@ -26,61 +26,53 @@ public class MouseHandler implements MouseListener {
         int adjustedX = (int)(e.getX() / scaleX);
         int adjustedY = (int)(e.getY() / scaleY);
 
-        if(gp.ui.pineWButtonBounds.contains(adjustedX, adjustedY)) {
-            clickOnPasswordBox = false;
-            clickOnSignInBox = false;
-            mouseClicked = true;
-            gp.playSE(14);
+        if(gp.gameState == gp.computerState) {
+            if (gp.ui.pineWButtonBounds.contains(adjustedX, adjustedY)) {
+                clickOnPasswordBox = false;
+                clickOnSignInBox = false;
+                mouseClicked = true;
+                gp.playSE(14);
+            } else if (gp.ui.exitButton.contains(adjustedX, adjustedY)) {
+                clickOnPasswordBox = false;
+                clickOnSignInBox = false;
+                mouseClicked = true;
+                gp.gameState = gp.playState;
+                gp.playSE(14);
+            } else if (gp.ui.passwordButton.contains(adjustedX, adjustedY)) {
+                clickOnPasswordBox = true;
+                clickOnSignInBox = false;
+                mouseClicked = true;
+                gp.playSE(14);
+            } else if (gp.ui.signInButton.contains(adjustedX, adjustedY)) {
+                clickOnPasswordBox = false;
+                clickOnSignInBox = true;
+                mouseClicked = true;
+                gp.playSE(14);
+            }
+            System.out.println(clickOnPasswordBox);
         }
-        else if(gp.ui.exitButton.contains(adjustedX, adjustedY)) {
-            clickOnPasswordBox = false;
-            clickOnSignInBox = false;
-            mouseClicked = true;
-            gp.gameState = gp.playState;
-            gp.playSE(14);
-        }
-        else if(gp.ui.passwordButton.contains(adjustedX, adjustedY)) {
-            clickOnPasswordBox = true;
-            clickOnSignInBox = false;
-            mouseClicked = true;
-            gp.playSE(14);
-        }
-        else if(gp.ui.signInButton.contains(adjustedX, adjustedY)) {
-            clickOnPasswordBox = false;
-            clickOnSignInBox = true;
-            mouseClicked = true;
-            gp.playSE(14);
-        }
-        System.out.println(clickOnPasswordBox);
     }
 
     @Override
     public void mousePressed(MouseEvent e) { // pressed on component/hold down a mouse button
-        if(gp.ui.pineWButtonBounds.contains(e.getX(), e.getY())) {
-        }
+
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) { // mouse button has been released
-        if(gp.ui.pineWButtonBounds.contains(e.getX(), e.getY())) {
-            mouseClicked = false;
-        }
 
     }
 
     @Override
     public void mouseEntered(MouseEvent e) { // invoked when mouse enters a component like the area of a box
-        if(gp.ui.pineWButtonBounds.contains(e.getX(), e.getY())) {
-        }
+
 
     }
 
     @Override
     public void mouseExited(MouseEvent e) { // when mouse exits the area of a component
-        if(gp.ui.pineWButtonBounds.contains(e.getX(), e.getY())) {
-            System.out.println("you exited the component");
-        }
+   
 
     }
 }
