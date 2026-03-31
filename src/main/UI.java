@@ -61,7 +61,7 @@ public class UI {
     int subState = 0;
 
     // COMPUTER OS
-    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, signInIcon, pinewoodHomePage;
+    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, signInIcon, pinewoodHomePage, a1Cabin;
     Rectangle pineWButtonBounds, exitButton, passwordButton, signInButton;
 
     // OS WINDOWS STATES
@@ -139,6 +139,12 @@ public class UI {
 
         try{
             pinewoodHomePage = ImageIO.read(getClass().getResourceAsStream("/images/pinewoodhomepage.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            a1Cabin = ImageIO.read(getClass().getResourceAsStream("/images/A1cabin.png"));
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -419,6 +425,9 @@ public class UI {
             g2.fillRect((int)(gp.tileSize*2.3) + interval, gp.tileSize * 3, gp.tileSize * 4, gp.tileSize * 5);
             interval += gp.tileSize * 4 + 10;
         }
+
+        g2.drawImage(a1Cabin, (int)(gp.tileSize*3), gp.tileSize * 4, gp.tileSize * 2, gp.tileSize * 2, null);
+
 
 
 
