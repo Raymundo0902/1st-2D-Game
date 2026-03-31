@@ -379,9 +379,9 @@ public class UI {
     private void drawSelectCabinScreen() {
 
         // Window screen
-        int windowX = gp.tileSize * 3;
+        int windowX = gp.tileSize * 2;
         int windowY = gp.tileSize;
-        int windowWidth = gp.tileSize * 12;
+        int windowWidth = gp.tileSize * 13;
         int windowHeight = gp.tileSize * 9;
         g2.setColor(Color.WHITE);
         g2.fillRect(windowX,windowY,windowWidth,windowHeight);
@@ -403,6 +403,31 @@ public class UI {
         g2.drawString("Pinewood Associates", titleBarX + gp.tileSize + 2 , titleBarY + 18);
 
         g2.drawImage(pinewoodHomePage, windowX + 1, windowY + 24, windowWidth - 2, windowHeight - 25, null);
+
+        // Title of home screen
+        int titleTextX = (int)(gp.tileSize * 5);
+        int titleTextY = (int)(gp.tileSize * 2.5);
+        g2.setColor(Color.YELLOW);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30f));
+        g2.drawString("!! Available Cabin Assignments !!", titleTextX, titleTextY);
+
+        // Middle: 3 Containers containing cabin image, status, description, availability status button
+        g2.setColor(new Color(211,211, 211,180));
+        int interval = 0;
+        for(int i = 0; i < 3; i++) {
+
+            g2.fillRect((int)(gp.tileSize*2.3) + interval, gp.tileSize * 3, gp.tileSize * 4, gp.tileSize * 5);
+            interval += gp.tileSize * 4 + 10;
+        }
+
+
+
+
+
+        // Bottom text of home screen ( "warning: 19yr old missing nearby, stay safe!!")
+
+
+
     }
 
     public void drawExitMapScreen() {
