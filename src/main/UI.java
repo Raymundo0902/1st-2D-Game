@@ -61,7 +61,7 @@ public class UI {
     int subState = 0;
 
     // COMPUTER OS
-    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, signInIcon;
+    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, signInIcon, pinewoodHomePage;
     Rectangle pineWButtonBounds, exitButton, passwordButton, signInButton;
 
     // OS WINDOWS STATES
@@ -76,18 +76,6 @@ public class UI {
         exitButton = new Rectangle(gp.tileSize * 18,  (int)(gp.tileSize * 9.5), gp.tileSize, gp.tileSize);
         passwordButton = new Rectangle(gp.tileSize * 7, (int) (gp.tileSize * 4.5) + 10, gp.tileSize * 3,27);
         signInButton = new Rectangle(gp.tileSize * 7 + 24, gp.tileSize * 5 + 20, gp.tileSize * 2,27);
-
-//int x = gp.tileSize * 7;
-//         x += 24;
-//        y = gp.tileSize * 5;
-//        g2.setStroke(new BasicStroke(2));
-//        g2.drawRect(x, y + 20, gp.tileSize * 2,26);
-//        g2.setColor(Color.black);
-//        g2.drawRect(x, y + 20, gp.tileSize * 2 + 1,27);
-//        g2.setColor(Color.gray);
-//        g2.fillRect(x, y + 20, gp.tileSize * 2 + 1,27);
-
-
 
         // TITLE SCREEN IMAGE
         try{
@@ -145,6 +133,12 @@ public class UI {
 
         try{
             signInIcon = ImageIO.read(getClass().getResourceAsStream("/images/signinicon.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            pinewoodHomePage = ImageIO.read(getClass().getResourceAsStream("/images/pinewoodhomepage.png"));
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -297,7 +291,6 @@ public class UI {
         switch(osSubState) {
             case 0: drawLoginScreen(); break;
             case 1: drawSelectCabinScreen(); break;
-
         }
     }
 
@@ -398,7 +391,7 @@ public class UI {
         int titleBarY = windowY;
         int titleBarWidth = windowWidth;
         int titleBarHeight = 24;
-        g2.setColor(new Color(100, 93, 218));
+        g2.setColor(new Color(90, 61, 48));
         g2.fillRect(titleBarX,titleBarY,titleBarWidth,titleBarHeight);
         g2.setStroke(new BasicStroke(2));
         g2.drawRect(windowX,windowY,windowWidth,windowHeight);
@@ -408,6 +401,8 @@ public class UI {
         g2.drawString("Pinewood Associates", titleBarX + gp.tileSize, titleBarY + 19);
         g2.setColor(Color.WHITE);
         g2.drawString("Pinewood Associates", titleBarX + gp.tileSize + 2 , titleBarY + 18);
+
+        g2.drawImage(pinewoodHomePage, windowX + 1, windowY + 24, windowWidth - 2, windowHeight - 25, null);
     }
 
     public void drawExitMapScreen() {
