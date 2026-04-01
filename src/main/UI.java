@@ -61,8 +61,8 @@ public class UI {
     int subState = 0;
 
     // COMPUTER OS
-    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, signInIcon, pinewoodHomePage, a1Cabin;
-    Rectangle pineWButtonBounds, exitButton, passwordButton, signInButton;
+    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, signInIcon, pinewoodHomePage, a1Cabin, j1Cabin, k4Cabin;
+    Rectangle pineWButtonBounds, exitButton, passwordButton, signInButton, assignButton;
 
     // OS WINDOWS STATES
     int osSubState = 0;
@@ -76,6 +76,13 @@ public class UI {
         exitButton = new Rectangle(gp.tileSize * 18,  (int)(gp.tileSize * 9.5), gp.tileSize, gp.tileSize);
         passwordButton = new Rectangle(gp.tileSize * 7, (int) (gp.tileSize * 4.5) + 10, gp.tileSize * 3,27);
         signInButton = new Rectangle(gp.tileSize * 7 + 24, gp.tileSize * 5 + 20, gp.tileSize * 2,27);
+        assignButton = new Rectangle(gp.tileSize* 11 + 30, gp.tileSize * 6 + 30, gp.tileSize * 2, 27);
+
+//        // available # 1
+//        g2.setColor(Color.GREEN);
+//        g2.fillRect((gp.tileSize*11) + 30, gp.tileSize*6 + 30, gp.tileSize * 2,27);
+//        g2.setColor(Color.WHITE);
+//        g2.drawString("Assign", gp.tileSize*11 + 50, gp.tileSize*7 + 3);
 
         // TITLE SCREEN IMAGE
         try{
@@ -145,6 +152,18 @@ public class UI {
 
         try{
             a1Cabin = ImageIO.read(getClass().getResourceAsStream("/images/A1cabin.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            j1Cabin = ImageIO.read(getClass().getResourceAsStream("/images/J1cabin.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            k4Cabin = ImageIO.read(getClass().getResourceAsStream("/images/K4cabin.png"));
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -396,12 +415,19 @@ public class UI {
         int titleBarX = windowX;
         int titleBarY = windowY;
         int titleBarWidth = windowWidth;
-        int titleBarHeight = 24;
+        int titleBarHeight = 26;
         g2.setColor(new Color(90, 61, 48));
         g2.fillRect(titleBarX,titleBarY,titleBarWidth,titleBarHeight);
         g2.setStroke(new BasicStroke(2));
         g2.drawRect(windowX,windowY,windowWidth,windowHeight);
         g2.drawImage(pinewoodIcon, titleBarX + 5, titleBarY, null);
+            // Window minimize, maximize, close buttons
+        g2.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(1));
+        g2.drawRoundRect(gp.tileSize * 13 + 20, titleBarY + 2, 20, 20, 2, 2);
+        g2.drawRoundRect(gp.tileSize * 13 + 44, titleBarY+ 2, 20, 20, 2, 2);
+        g2.drawRoundRect(gp.tileSize * 13 + 68, titleBarY+ 2, 20, 20, 2, 2);
+
         // Window Title
         g2.setColor(Color.darkGray);
         g2.drawString("Pinewood Associates", titleBarX + gp.tileSize, titleBarY + 19);
@@ -411,32 +437,65 @@ public class UI {
         g2.drawImage(pinewoodHomePage, windowX + 1, windowY + 24, windowWidth - 2, windowHeight - 25, null);
 
         // Title of home screen
-        int titleTextX = (int)(gp.tileSize * 5);
+        int titleTextX = gp.tileSize * 5;
         int titleTextY = (int)(gp.tileSize * 2.5);
         g2.setColor(Color.YELLOW);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30f));
         g2.drawString("!! Available Cabin Assignments !!", titleTextX, titleTextY);
 
         // Middle: 3 Containers containing cabin image, status, description, availability status button
-        g2.setColor(new Color(211,211, 211,180));
+        g2.setColor(new Color(90, 61, 48,50));
         int interval = 0;
         for(int i = 0; i < 3; i++) {
-
             g2.fillRect((int)(gp.tileSize*2.3) + interval, gp.tileSize * 3, gp.tileSize * 4, gp.tileSize * 5);
             interval += gp.tileSize * 4 + 10;
         }
+        // cabin images
+        g2.drawImage(a1Cabin, (gp.tileSize*3) + 10, gp.tileSize * 4 - 15, gp.tileSize * 2, gp.tileSize * 2, null);
+        g2.drawImage(j1Cabin, (gp.tileSize*7) + 20, gp.tileSize * 4 - 15, gp.tileSize * 2, gp.tileSize * 2, null);
+        g2.drawImage(k4Cabin, (gp.tileSize*11) + 30, gp.tileSize * 4 - 15, gp.tileSize * 2, gp.tileSize * 2, null);
+        // cabin names
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
+        g2.setColor(Color.YELLOW);
+        g2.drawString("Cabin A1", gp.tileSize*3 + 25, (int)(gp.tileSize * 3.5));
+        g2.drawString("Cabin J1", gp.tileSize*7 + 35, (int)(gp.tileSize * 3.5));
+        g2.drawString("Cabin K4", gp.tileSize*11 + 45, (int)(gp.tileSize * 3.5));
+        // cabin description
+        g2.drawString(" surrounded with flowers.",(int)(gp.tileSize*2.3), gp.tileSize * 6 + 10);
+        g2.drawString(" next to fish pond.",(int)(gp.tileSize*2.3) + gp.tileSize * 4 + 10, gp.tileSize * 6+ 10);
+        g2.drawString(" rangers love this one.",(int)(gp.tileSize*2.3) + ((gp.tileSize * 4 + 10) + (gp.tileSize * 4 + 10)), gp.tileSize * 6+ 10);
+        // check in buttons
+        g2.setStroke(new BasicStroke(2));
+        // unavailable #1
+        g2.setColor(Color.red);
+        g2.fillRect(gp.tileSize*3 + 10, gp.tileSize*6 + 30, gp.tileSize * 2,27);
+        g2.setColor(Color.WHITE);
+        g2.drawString("Unavailable", gp.tileSize*3 + 11, gp.tileSize*7 + 3);
+        // unavailable # 2
+        g2.setColor(Color.red);
+        g2.fillRect((gp.tileSize*7) + 20, gp.tileSize*6 + 30, gp.tileSize * 2,27);
+        g2.setColor(Color.WHITE);
+        g2.drawString("Unavailable", gp.tileSize*7 + 21, gp.tileSize*7 + 3);
 
-        g2.drawImage(a1Cabin, (int)(gp.tileSize*3), gp.tileSize * 4, gp.tileSize * 2, gp.tileSize * 2, null);
+        // available # 1
+        if(gp.mouseH.clickOnAssignButton == false) {
+            g2.setColor(Color.GREEN);
+            g2.fillRect((gp.tileSize * 11) + 30, gp.tileSize * 6 + 30, gp.tileSize * 2, 27);
+            g2.setColor(Color.WHITE);
+            g2.drawString("Assign", gp.tileSize * 11 + 50, gp.tileSize * 7 + 3);
+        } else {
+            g2.setColor(Color.lightGray);
+            g2.fillRect((gp.tileSize * 11) + 30, gp.tileSize * 6 + 30, gp.tileSize * 2, 27);
+            g2.setColor(Color.WHITE);
+            g2.drawString("Success!", gp.tileSize * 11 + 50, gp.tileSize * 7 + 3);
+        }
+        // Warning message
+        g2.setColor(Color.red);
+        g2.drawString("WARNING: MISSING 19YR OLD NEARBY. REPORT SUSPICIOUS ACTIVITY & STAY SAFE!", gp.tileSize * 2 + 30, gp.tileSize * 9);
 
-
-
-
-
-
-        // Bottom text of home screen ( "warning: 19yr old missing nearby, stay safe!!")
-
-
-
+        // DEBUG
+//        g2.setColor(Color.red);
+//        g2.fillRect(assignButton.x, assignButton.y, assignButton.width, assignButton.height);
     }
 
     public void drawExitMapScreen() {
