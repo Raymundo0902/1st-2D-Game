@@ -40,7 +40,8 @@ public class NPC_OfficerJames extends Entity{
         dialogueSize++;
         dialogues[4] = "Once you login, you'll select the cabin you're\ndesignated to be at for the summer.";
         dialogueSize++;
-        // ENDS HERE AND THEN PLAYER SIGNS IN. GOES BACK TO OFFICER AND GETS KEY
+        // ENDS HERE AND THEN PLAYER SIGNS IN. GOES BACK TO OFFICER AND GETS KEY -- CLEAR OUT DIALOGUES ARRAY ABOVE AND SET THE BELOW AS THE NEW STUFF.
+        // ONLY ONCE PLAYER IS DONE WITH COMPUTER TASKS AND NEEDS TO GET KEYS
         dialogues[5] = "Alright ma'am, you're all set--\nhere's your keys.";
         dialogueSize++;
         dialogues[6] = "And remember, you may not make it out alive....";

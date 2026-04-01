@@ -16,10 +16,8 @@ public class UI {
     GamePanel gp;
     Graphics2D g2;
     Font maruMonica;
-    BufferedImage heart_full, heart_half, heart_blank;
     public boolean messageOn = false;
     public String message = "";
-    int messageTime = 0;
     public boolean gameFinished = false;
     public String currentDialogue = "";
     public int commandNum = 0; // arrow pointer of selection in main menu
@@ -40,31 +38,27 @@ public class UI {
     public boolean finishedTyping = false;
 
     // Dialogue Mechanics
-    int dialogueWordEnd = 0;
-        // Dialogue helpers
     public int npcIndex = 0;
 
     // Task UI dialogue
     public String[] currentTask = new String[20];
     public boolean[][] checkmarks = new boolean[20][];
     public int taskIndex = 0;
-    public int completed = 0;
 
 
     // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
     public int slotRow = 0;
     final int MAX_COL = 4;
-    final int MAX_ROW = 3;
 
     // OPTIONS MENU
     int subState = 0;
 
     // COMPUTER OS
-    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, signInIcon, pinewoodHomePage, a1Cabin, j1Cabin, k4Cabin;
+    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, speakerIcon, signInIcon, pinewoodHomePage, a1Cabin, j1Cabin, k4Cabin, folderIcon;
     Rectangle pineWButtonBounds, exitButton, passwordButton, signInButton, assignButton;
 
-    // OS WINDOWS STATES
+    // OS WINDOWS STATE - goes from 0 to 1
     int osSubState = 0;
 
 
@@ -77,12 +71,6 @@ public class UI {
         passwordButton = new Rectangle(gp.tileSize * 7, (int) (gp.tileSize * 4.5) + 10, gp.tileSize * 3,27);
         signInButton = new Rectangle(gp.tileSize * 7 + 24, gp.tileSize * 5 + 20, gp.tileSize * 2,27);
         assignButton = new Rectangle(gp.tileSize* 11 + 30, gp.tileSize * 6 + 30, gp.tileSize * 2, 27);
-
-//        // available # 1
-//        g2.setColor(Color.GREEN);
-//        g2.fillRect((gp.tileSize*11) + 30, gp.tileSize*6 + 30, gp.tileSize * 2,27);
-//        g2.setColor(Color.WHITE);
-//        g2.drawString("Assign", gp.tileSize*11 + 50, gp.tileSize*7 + 3);
 
         // TITLE SCREEN IMAGE
         try{
@@ -168,8 +156,17 @@ public class UI {
             e.printStackTrace();
         }
 
+        try{
+            folderIcon = ImageIO.read(getClass().getResourceAsStream("/images/foldericon.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
+        try{
+            speakerIcon = ImageIO.read(getClass().getResourceAsStream("/images/speakerIcon.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         // INITIALIZE THE INTRODUCTORY DIALOGUE
@@ -237,15 +234,12 @@ public class UI {
 
     public void drawOS() {
 
-
-
         // Main OS screen
         int mainX = 0;
         int mainY = 0;
         int width = gp.screenWidth;
         int height = gp.screenHeight;
-//        g2.setColor(Color.LIGHT_GRAY);
-//        g2.fillRect(mainX,mainY,width,height);
+
             // os wallpaper
         g2.drawImage(osBackground, mainX, mainY, width, height, null);
             // recycle icon
@@ -255,7 +249,22 @@ public class UI {
         g2.drawString("Recycle bin", mainX + 9, mainY + gp.tileSize * 2 + 1);
         g2.setColor(Color.WHITE);
         g2.drawString("Recycle bin", mainX + 10, mainY + gp.tileSize * 2);
+        g2.drawImage(folderIcon, gp.tileSize *  17, gp.tileSize * 6, gp.tileSize, gp.tileSize, null);
+        g2.setColor(Color.darkGray);
+        g2.drawString("reports", gp.tileSize * 17 + 5, gp.tileSize * 7 + 9);
+        g2.setColor(Color.WHITE);
+        g2.drawString("reports", gp.tileSize * 17 + 4, gp.tileSize * 7 + 10);
+        g2.drawImage(folderIcon, gp.tileSize * 16, gp.tileSize * 8, gp.tileSize, gp.tileSize, null);
+        g2.setColor(Color.darkGray);
+        g2.drawString("missing items", gp.tileSize * 15 + 30, gp.tileSize * 9 + 9);
+        g2.setColor(Color.WHITE);
+        g2.drawString("missing items", gp.tileSize * 15 + 29, gp.tileSize * 9 + 10);
 
+        g2.drawImage(folderIcon, gp.tileSize, gp.tileSize * 6, gp.tileSize, gp.tileSize, null);
+        g2.setColor(Color.darkGray);
+        g2.drawString("cam vids", gp.tileSize + 1, gp.tileSize * 7 + 9);
+        g2.setColor(Color.WHITE);
+        g2.drawString("cam vids", gp.tileSize, gp.tileSize * 7 + 10);
 
         // Task bar
         int taskBarX = 0;
@@ -293,6 +302,17 @@ public class UI {
         g2.setColor(Color.WHITE);
         g2.drawString("Pinewood Associates", appsIconX + 30, appsIconY + 22);
 
+        // Right sidebar
+        g2.setColor(new Color(36, 110, 218));
+        g2.fillRect(gp.tileSize * 17 , appsIconY,gp.tileSize * 3, appsIconHeight);
+        g2.setColor(Color.WHITE);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 40f));
+        g2.drawString("<", gp.tileSize * 17 + 3, appsIconY+ 25);
+        g2.drawImage(speakerIcon, gp.tileSize * 17 + 20, appsIconY - 8, null);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 16f));
+        g2.drawString("10/13/2000", gp.tileSize * 18 + 28, appsIconY + 20);
+
+
         // Exit button
         int exitX = gp.tileSize * 18;
         int exitY = (int) (gp.tileSize * 9.5);
@@ -327,7 +347,7 @@ public class UI {
         int windowWidth = gp.tileSize * 7;
         int windowHeight = gp.tileSize * 7;
         g2.setColor(Color.WHITE);
-        g2.fillRect(windowX,windowY,windowWidth,windowHeight);
+        g2.fillRoundRect(windowX,windowY,windowWidth,windowHeight, 2, 2);
 
         // Window Title bar
         int titleBarX = windowX;
@@ -335,16 +355,37 @@ public class UI {
         int titleBarWidth = windowWidth;
         int titleBarHeight = 24;
         g2.setColor(new Color(90, 61, 48));
-        g2.fillRect(titleBarX,titleBarY,titleBarWidth,titleBarHeight);
+        g2.fillRoundRect(titleBarX,titleBarY,titleBarWidth,titleBarHeight, 2, 2);
         g2.setStroke(new BasicStroke(2));
-        g2.drawRect(windowX,windowY,windowWidth,windowHeight);
+        g2.drawRoundRect(windowX,windowY,windowWidth,windowHeight, 2, 2);
         g2.drawImage(pinewoodIcon, titleBarX + 5, titleBarY, null);
         // Window Title
         g2.setColor(Color.darkGray);
-        g2.drawString("Pinewood Associates", titleBarX + gp.tileSize, titleBarY + 19);
+        g2.drawString("Pinewood Associates", titleBarX + 35, titleBarY + 19);
         g2.setColor(Color.WHITE);
-        g2.drawString("Pinewood Associates", titleBarX + gp.tileSize + 2 , titleBarY + 18);
+        g2.drawString("Pinewood Associates", titleBarX + 37, titleBarY + 18);
+        // forgot password text
+        g2.setColor(Color.BLACK);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,16f));
+        g2.drawString("forgot password?", titleBarX + 35, (int)(gp.tileSize * 6.5));
+        g2.drawString("need help signing in?", titleBarX + 35, gp.tileSize * 7 - 5);
 
+        // Window minimize, maximize, close buttons
+        g2.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(1));
+        g2.drawRoundRect(gp.tileSize * 10 + 24, titleBarY + 2, 20, 20, 2, 2);
+        g2.drawRoundRect(gp.tileSize * 10 + 48, titleBarY + 2, 20, 20, 2, 2);
+        g2.drawRoundRect(gp.tileSize * 10 + 72, titleBarY + 2, 20, 20, 2, 2);
+        g2.setColor(new Color(200, 60,0));
+        g2.fillRoundRect(gp.tileSize * 10 + 73, titleBarY + 3, 19, 19, 2, 2);
+        g2.setColor(Color.WHITE);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 16f));
+        g2.drawString("X", gp.tileSize * 10 + 78, titleBarY + 20);
+        g2.drawString("_", gp.tileSize * 10 + 28, titleBarY + 16);
+        g2.drawString("_", gp.tileSize * 10 + 52, titleBarY + 7);
+        g2.drawString("_", gp.tileSize * 10 + 56, titleBarY + 7);
+
+        g2.drawRect(gp.tileSize * 10 + 53, titleBarY + 7, 10,10);
 
         // Password button
         int x = gp.tileSize * 7;
@@ -380,6 +421,7 @@ public class UI {
 
         // Sign in icon
         g2.drawImage(signInIcon, x, y - gp.tileSize*3, gp.tileSize * 2, gp.tileSize * 2, null);
+
 
 //        DEBUG
 //        g2.setColor(Color.red);
@@ -419,14 +461,23 @@ public class UI {
         g2.setColor(new Color(90, 61, 48));
         g2.fillRect(titleBarX,titleBarY,titleBarWidth,titleBarHeight);
         g2.setStroke(new BasicStroke(2));
-        g2.drawRect(windowX,windowY,windowWidth,windowHeight);
+        g2.drawRoundRect(windowX,windowY,windowWidth,windowHeight, 2, 2);
         g2.drawImage(pinewoodIcon, titleBarX + 5, titleBarY, null);
             // Window minimize, maximize, close buttons
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(1));
-        g2.drawRoundRect(gp.tileSize * 13 + 20, titleBarY + 2, 20, 20, 2, 2);
-        g2.drawRoundRect(gp.tileSize * 13 + 44, titleBarY+ 2, 20, 20, 2, 2);
-        g2.drawRoundRect(gp.tileSize * 13 + 68, titleBarY+ 2, 20, 20, 2, 2);
+        g2.drawRoundRect(gp.tileSize * 13 + 24, titleBarY + 2, 20, 20, 2, 2);
+        g2.drawRoundRect(gp.tileSize * 13 + 48, titleBarY+ 2, 20, 20, 2, 2);
+        g2.drawRoundRect(gp.tileSize * 13 + 72, titleBarY+ 2, 20, 20, 2, 2);
+        g2.setColor(new Color(200, 60,0));
+        g2.fillRoundRect(gp.tileSize * 13 + 73, titleBarY+ 3, 19, 19, 2, 2);
+        g2.setColor(Color.WHITE);
+        g2.drawString("X", gp.tileSize * 13 + 78, titleBarY + 20);
+        g2.drawString("_", gp.tileSize * 13 + 27, titleBarY + 16);
+        g2.drawString("_", gp.tileSize * 13 + 53, titleBarY + 7);
+        g2.drawString("_", gp.tileSize * 13 + 57, titleBarY + 7);
+        g2.drawRect(gp.tileSize * 13 + 53, titleBarY + 7, 10,10);
+
 
         // Window Title
         g2.setColor(Color.darkGray);
@@ -685,6 +736,14 @@ public class UI {
 
         currentTask[i] = "Go to computer\n Type: password\n Select Cabin: K4";
         checkmarks[i] = new boolean[3]; // 1 task
+        i++;
+
+        currentTask[i] = "Get cabin keys";
+        checkmarks[i] = new boolean[1]; // 1 task
+        i++;
+
+        currentTask[i] = "Find cabin";
+        checkmarks[i] = new boolean[1]; // 1 task
         i++;
     }
 

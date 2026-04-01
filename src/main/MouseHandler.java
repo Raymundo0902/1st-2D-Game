@@ -51,7 +51,7 @@ public class MouseHandler implements MouseListener {
                 clickOnAssignButton = true;
             }
             // DEBUG
-            System.out.println(clickOnAssignButton);
+//            System.out.println(clickOnAssignButton);
         }
     }
 

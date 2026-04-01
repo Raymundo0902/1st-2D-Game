@@ -158,6 +158,7 @@ public class GamePanel extends JPanel implements Runnable {
         // World
         currentMap = GAS_STATION;
 
+
         // ENTITY DEFAULTS
         player.setDefaultPositionGasStation();
         player.restoreLifeAndAttributes();
@@ -304,6 +305,9 @@ public class GamePanel extends JPanel implements Runnable {
             if(currentTask == TaskState.GO_TO_COMPUTER) {
                 ui.taskIndex = 5;
             }
+            if(currentTask == TaskState.GET_CABIN_KEYS) {
+                ui.taskIndex = 6;
+            }
 
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
 
@@ -343,6 +347,16 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
 
+        }
+        if(gameState == computerState) {
+            if(ui.osSubState == 1) {
+                ui.checkmarks[5][1] = true;
+            }
+            if(mouseH.clickOnAssignButton == true) { // last possible task for computer task
+                ui.checkmarks[5][2] = true;
+                currentTask = TaskState.GET_CABIN_KEYS;
+
+            }
         }
 
         if(gameState == dialogueState) {
