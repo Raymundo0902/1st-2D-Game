@@ -45,6 +45,10 @@ public class UI {
     public boolean[][] checkmarks = new boolean[20][];
     public int taskIndex = 0;
 
+    // Transition screen
+    float j = 0f;
+    boolean fadingOut = false;
+    int blackScreenPause  = 0;
 
     // INVENTORY DESIGN
     public int slotCol = 0; // indicates the cursors current position on inventory window
@@ -229,7 +233,44 @@ public class UI {
             drawOS();
             drawCurrentTask();
         }
+        else if(gp.gameState == gp.transitionState) {
+            transitionScreen();
+        }
 
+    }
+
+    public void transitionScreen() {
+
+        if(fadingOut == false) {
+            g2.setColor(Color.black);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, j));
+            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+            g2.setComposite(AlphaComposite.SrcOver);   // switch back to normal mode - prevents other things to get blended
+            j += 0.01f;
+            if(j >= 1f) {
+                j = 1f;
+                blackScreenPause++;
+                if(gp.currentMap == gp.GAS_STATION){ // for the first transition in the game
+                    gp.transitionMap();
+                }
+                if(blackScreenPause >= 60) {
+                    fadingOut = true;
+                }
+            }
+        }
+        else if(fadingOut == true) {
+
+            g2.setColor(Color.black);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, j));
+            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+            g2.setComposite(AlphaComposite.SrcOver);   // switch back to normal mode - prevents other things to get blended
+            j -= 0.01f;
+            if(j <= 0f) {
+                j = 0f;
+                fadingOut = false; // ready for next transition
+                gp.gameState = gp.playState;
+            }
+        }
     }
 
     public void drawOS() {
@@ -575,7 +616,8 @@ public class UI {
         if(commandNum == 0) {
             g2.drawString(">", x2 - 15, y);
             if(gp.keyH.enterPressed == true) {
-                gp.transitionMap();
+//                gp.transitionMap();
+                gp.gameState = gp.transitionState;
             }
         }
         y += 40;

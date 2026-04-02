@@ -142,7 +142,7 @@ public class Player extends Entity{
             // Responses - 2d array - have it where player checks which npcIndex it is and return back the convo for that specific npc.
             // for cashier
             playerDialogues[cashierIndex] = new String[]{"[pay]", "Yeah just started at Pinewood Camp", "I see..\nYou think it's cool to try to scare me??", "Thanks\n[exit]"};
-            // for npc in gas station
+            // for npc in gas station - replace gasStationNpcIndex npc with a different npc. its currently using ayden which is only for pinewood camp.
             playerDialogues[gasStationNpcIndex] = new String[]{"What you up to?", "Nice, I like those pants man", "When did I ask.. LOL", "[exit]"};
 
             playerDialogues[melissaIndex] = new String[]{"What's this about?", "Do you know any useful info?", "I haven't heard much about the killer..", "Eugh, that's creepy.. Well then."};
@@ -150,10 +150,9 @@ public class Player extends Entity{
         else if(gp.currentMap == gp.PINEWOOD_CAMP) {
             // set different stuff - overlap the playerDialogues indexes with a new response for convos for ex (notice aydenIndex is = 0 like cashierIndex so we're just overidding:
              playerDialogues[aydenIndex] = new String[] {"hey!", "where at?"};
-            playerDialogues[mainOfficer] = new String[] {"Im sorry...", "okay", "i see", "great", "got it"};
+            playerDialogues[mainOfficer] = new String[] {"Im sorry...", "okay", "i see", "great", "got it",};
 
         }
-
     }
 
     // Gets the correct player response for the current npc player is interacting with.
@@ -484,7 +483,6 @@ public class Player extends Entity{
                             }
                         }
                         break;
-
                     case "fruitBox2":
                         if(gp.currentTask == TaskState.GET_SNACKS) {
                             if(gotBanana == false) {
@@ -496,7 +494,6 @@ public class Player extends Entity{
                             }
                         }
                         break;
-
                     case "fridge1":
                         if(gp.currentTask == TaskState.GET_SNACKS) {
                             if(gotDrink == false) {
@@ -508,7 +505,6 @@ public class Player extends Entity{
                             }
                         }
                         break;
-
                     case "glassDoor":
                         if(gp.currentTask == TaskState.EXIT_STORE) {
                             gp.playSE(12);
@@ -571,11 +567,40 @@ public class Player extends Entity{
                     }
                 }
                 else if (gp.currentTask == TaskState.GET_CABIN_KEYS) {
-                    // talk to main officer again with only the last two dialogues excluding the first convo.
+
+                    if(gp.npc[i] instanceof NPC_OfficerJames) {
+                        // clear the player and officer james dialogue slot for officer james and add the ones for the convo when getting keys.
+                        updateDialogue(i);
+
+                        gp.ui.npcIndex = i;
+                        getResponseForNpc();
+                        gp.npc[i].speak();
+                        gp.playSE(12);
+                        gp.gameState = gp.dialogueState;
+                        gp.currentTask = TaskState.GO_TO_CABIN;
+                        hasKey++;
+                        if(inventory.size() != maxInventorySize) {
+                            inventory.add(new OBJ_Key(gp));
+                        }
+                    }
+                    else {
+                        gp.ui.npcIndex = i;
+                        getResponseForNpc();
+                        gp.npc[i].speak();
+                        gp.playSE(12);
+                        gp.gameState = gp.dialogueState;
+                    }
                 }
             }
         }
     }
+
+    // used to update player's 2d dialogue array & npc's dialogue. makes it memory efficient
+    private void updateDialogue(int i) {
+        playerDialogues[mainOfficer] = new String[] {"alright cool", "where at", "sounds easy"};
+        gp.npc[i].dialogues = new String[] {"Alright ma'am, you're all set-- here's your keys.", "And remember, you may not make it out alive....", "HAHAHA THE LOOK ON YOUR FACE! it's just a joke...", " "};
+    }
+
 
     public void checkSnackCompletion() {
         if(snacksCollected == totalSnacks) {

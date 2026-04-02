@@ -37,7 +37,7 @@ public class Sound {
         soundURL[18] = getClass().getResource("/sound/grabBag.wav");
         soundURL[19] = getClass().getResource("/sound/osstartup.wav");
         soundURL[20] = getClass().getResource("/sound/err.wav");
-
+        soundURL[21] = getClass().getResource("/sound/grabkeys.wav");
     }
 
     public void setFile(int i) {

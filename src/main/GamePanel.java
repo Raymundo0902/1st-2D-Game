@@ -1,10 +1,7 @@
 package main;
 
 import ai.AStarPathFinder;
-import entity.Entity;
-import entity.NPC_Melissa;
-import entity.Player;
-import entity.Projectile;
+import entity.*;
 import environment.EnvironmentHandler;
 import object.OBJ_Rock;
 import object.ObjectManager;
@@ -94,6 +91,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int gameOverState = 7;
     public final int transitionMapState = 8;
     public final int computerState = 9; // FAKE OS
+    public final int transitionState = 10;
 
     // CONTROL VARIABLES FOR ONE TIME FUNCTIONS - LOADING SCREEN, DIALOGUE, ETC
     public boolean canTypeSound = true;
@@ -230,20 +228,37 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Transition from Gas station to Pinewood Camp
     public void transitionMap() {
-        currentMap = PINEWOOD_CAMP;
-        player.setDefaultPositionPinewood();
-        // call a clear array method in asset setter
-        aSetter.clearArray();
-        aSetter.setObject();
-        aSetter.setNPC();
-        aSetter.setMonster();
-        player.setDialogue();
-        gameState = playState;
-        stopMusic();
-        playMusic(6);
-        // draw a fade in fade out black transition to map to make it look less like teleportation
-        tileM.loadMap("/maps/world01.txt");
-        currentTask = TaskState.CHECK_IN_FRONT_OFFICE;
+        if(currentMap != GAS_STATION) {
+            currentMap = PINEWOOD_CAMP;
+            player.setDefaultPositionPinewood();
+            // call a clear array method in asset setter
+            aSetter.clearArray();
+            aSetter.setObject();
+            aSetter.setNPC();
+            aSetter.setMonster();
+            player.setDialogue();
+            gameState = playState;
+            stopMusic();
+            playMusic(6);
+            // draw a fade in fade out black transition to map to make it look less like teleportation
+            tileM.loadMap("/maps/world01.txt");
+            currentTask = TaskState.CHECK_IN_FRONT_OFFICE;
+        }
+        else {
+            currentMap = PINEWOOD_CAMP;
+            player.setDefaultPositionPinewood();
+            // call a clear array method in asset setter
+            aSetter.clearArray();
+            aSetter.setObject();
+            aSetter.setNPC();
+            aSetter.setMonster();
+            player.setDialogue();
+            stopMusic();
+            playMusic(6);
+            // draw a fade in fade out black transition to map to make it look less like teleportation
+            tileM.loadMap("/maps/world01.txt");
+            currentTask = TaskState.CHECK_IN_FRONT_OFFICE;
+        }
     }
 
 
@@ -308,6 +323,9 @@ public class GamePanel extends JPanel implements Runnable {
             if(currentTask == TaskState.GET_CABIN_KEYS) {
                 ui.taskIndex = 6;
             }
+            if(currentTask == TaskState.GO_TO_CABIN) {
+                ui.taskIndex = 7;
+            }
 
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
 
@@ -338,15 +356,12 @@ public class GamePanel extends JPanel implements Runnable {
                 else cursor.remove(); // IF IT ISN'T ALIVE, REMOVE IT FROM THE CURRENT INDEX CURSOR IS IN
             }
 
-
             // OBJECTS - arranged code so the obj doesnt change animations like players and npcs.
             for(int i = 0; i < obj.length; i++) {
                 if(obj[i] != null) {
                     obj[i].update();
                 }
             }
-
-
         }
         if(gameState == computerState) {
             if(ui.osSubState == 1) {
@@ -364,8 +379,13 @@ public class GamePanel extends JPanel implements Runnable {
             if(player.pDialogueIndex >= player.playerDialogues[player.pConvoIndex].length) { // player has reached end of responses for current convo
                 // go back to play state and reset pConvoIndex, reset pDialogueIndex = 0 | reset pConvoIndex to promote speaking with npc's as much as you want
                 player.pDialogueIndex = 0;
-                gameState = playState;
                 npc[ui.npcIndex].dialogueIndex = 0; // reset back to zero so npc's responses starts back at where the convo started
+                gameState = playState;
+                if(npc[ui.npcIndex] instanceof NPC_OfficerJames && currentTask == TaskState.GO_TO_CABIN) {
+
+                    // insert grabbing key SE here
+                    playSE(21);
+                }
                 if(npc[ui.npcIndex] instanceof NPC_Melissa) { // works for first time
                     npc[ui.npcIndex].resetPosition = true;
                 }
@@ -377,7 +397,6 @@ public class GamePanel extends JPanel implements Runnable {
                 keyH.enterPressed = false; // Reset back to false to prevent enterPressed always true.
             }
         }
-
         if(gameState == pauseState) {
             // nothing, no updating player info while paused
         }
@@ -385,19 +404,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void drawToTempScreen() {
 
-
         // we must manually clear previous frame/states by the three lines below
         g2.setColor(Color.black);
         g2.fillRect(0, 0, screenWidth, screenHeight);
         g2.setStroke(new BasicStroke(1));
-
-
 
         // DEBUG
         long drawStart = 0;
         if(keyH.checkDebugText == true) {
             drawStart = System.nanoTime();
         }
+
         // TITLE SCREEN
         if(gameState == titleState) {
             ui.draw(g2);
@@ -462,8 +479,6 @@ public class GamePanel extends JPanel implements Runnable {
             // ENVIRONMENT - Draw before UI or else darkness will apply to UI
             // TEMP IF STATEMENT - FILL IT IN ONLY WHEN IN PINEWOOD CAMP IN SPECIFIC CASE LIKE IF YOU HEARD A STRANGE NOISE AND NEED TO CHECK AROUND THE CAMP AT 3 AM.
             if(currentMap == GAS_STATION) {
-
-
 
             }
             // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
