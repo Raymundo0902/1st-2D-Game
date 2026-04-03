@@ -26,50 +26,49 @@ public class TileManager {
 
         getTileImage();
         loadMap("/maps/gasStation.txt");
-//        loadMap("/maps/world01.txt"); //CALL THIS WHEN LEAVING GAS STATION AND INSTANTIATE NPCS
-
     }
 
     public void getTileImage() {
 
-            // PLACEHOLDERS, JUST SO WE CAN AVOID USING 1 DIGIT NUMS ON MAP SO ITS NOT UNBALANCED
-            setup(0, "darkgrass1", false); // change to index 10
-            setup(1, "darkgrass1", false); // change to index 10
-            setup(2, "darkgrass1", false); // change to index 10
-            setup(3, "darkgrass1", false); // change to index 10
-            setup(4, "darkgrass1", false); // change to index 10
-            setup(5, "darkgrass1", false); // change to index 10
-            setup(6, "darkgrass1", false); // change to index 10
-            setup(7, "darkgrass1", false); // change to index 10
-            setup(8, "darkgrass1", false); // change to index 10
-            setup(9, "darkgrass1", false); // change to index 10
+            // PLACEHOLDERS, JUST SO WE CAN AVOID USING 1 DIGIT NUMS ON MAP SO IT'S NOT UNBALANCED
+            setup(0, "darkgrass1", false);
+            setup(1, "darkgrass1", false);
+            setup(2, "darkgrass1", false);
+            setup(3, "darkgrass1", false);
+            setup(4, "darkgrass1", false);
+            setup(5, "darkgrass1", false);
+            setup(6, "darkgrass1", false);
+            setup(7, "darkgrass1", false);
+            setup(8, "darkgrass1", false);
+            setup(9, "darkgrass1", false);
 
-            // MINUS 10 OUT OF ALL TO RETURN THE ORIGINAL INDEX OF SINGLE DIGIT
-            setup(10, "darkgrass1", false); // change to index 10
-            setup(11, "horizontalWall", true); // change to index 11
-            setup(12, "water", true); // change to index 12
+
+
+            setup(10, "darkgrass1", false);
+            setup(11, "horizontalWall", true);
+            setup(12, "water", true);
             setup(13, "retroWall1", true);
-            setup(14, "darkTree", true); // change to index 14
-            setup(15, "gravelRoad1", false); // change to index 15
-            setup(16, "48x48ConcreteTile", false); // change to index 16 // col 47-48 one of those are having issues for this tile index. gives AWT-EventQueue-0 Exception
-            setup(17, "16xTile", false); // change to index 17
-            setup(18, "leftMainWall", true); // change to index 18
-            setup(19, "rightMainWall", true); // change to index 19
-            setup(20, "bottomMainWall", true); // change to index 20
-            setup(21, "verticalTwoWalls", true); // change to index 21
-            setup(22, "shelf1", true);
-            setup(23, "bLeftCornerWall", true); // change to index 23
-            setup(24, "bRightCornerWall", true); // change to index 24
-            setup(25, "tLeftCornerWall", true); // change to index 25
-            setup(26, "tRightCornerWall", true); // change to index 26
-            setup(27, "bLeftCornerWall2", true); // change to index 27
-            setup(28, "tRightCornerWall2", true); // change to index 28
-            setup(29, "LHorizontalTwoWalls2", true); // change to index 29
-            setup(30, "RHorizontalTwoWalls2", true); // change to index 30
-            setup(31, "rDoubleCornerWall", true); // change to index 31
-            setup(32, "gasStationWall", true); // change to index 32
-            setup(33, "helpMeWall", true); // change to index 33
-            setup(34, "wall", true); // change to index 34
+            setup(14, "darkTree", true);
+            setup(15, "gravelRoad1", false);
+            setup(16, "48x48ConcreteTile", false);
+            setup(17, "16xTile", false);
+            setup(18, "leftMainWall", true);
+            setup(19, "rightMainWall", true);
+            setup(20, "bottomMainWall", true);
+            setup(21, "verticalTwoWalls", true);
+            setup(22, "k4door", true); // CHANGE SO AN ACTUAL TILE NEEDED REPLACES THIS
+            setup(23, "bLeftCornerWall", true);
+            setup(24, "bRightCornerWall", true);
+            setup(25, "tLeftCornerWall", true);
+            setup(26, "tRightCornerWall", true);
+            setup(27, "bLeftCornerWall2", true);
+            setup(28, "tRightCornerWall2", true);
+            setup(29, "LHorizontalTwoWalls2", true); // CHANGE SO AN ACTUAL TILE NEEDED REPLACES THIS
+            setup(30, "RHorizontalTwoWalls2", true); // CHANGE SO AN ACTUAL TILE NEEDED REPLACES THIS
+            setup(31, "rDoubleCornerWall", true);
+            setup(32, "gasStationWall", true);
+            setup(33, "helpMeWall", true); // CHANGE SO AN ACTUAL TILE NEEDED REPLACES THIS
+            setup(34, "wall", true); // CHANGE SO AN ACTUAL TILE NEEDED REPLACES THIS
             setup(35, "darkgrass2", false);
             setup(36, "leftGravelRoad", false);
             setup(37, "rightGravelRoad", false);

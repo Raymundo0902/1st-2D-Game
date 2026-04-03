@@ -255,6 +255,7 @@ public class UI {
                 }
                 if(blackScreenPause >= 60) {
                     fadingOut = true;
+                    blackScreenPause = 0;
                 }
             }
         }

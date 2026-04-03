@@ -246,6 +246,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(code == KeyEvent.VK_ESCAPE) {
             gp.gameState = gp.optionsState;
         }
+        if(code == KeyEvent.VK_L) {
+            gp.gameState = gp.transitionState;
+        }
 
         // DEBUG
         if(code == KeyEvent.VK_T) {
