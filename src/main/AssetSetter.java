@@ -84,9 +84,9 @@ public class AssetSetter {
 //            gp.obj[1].worldY = 11 * gp.tileSize;
 
             // INSTANTIATED THIS DOOR AND SET ITS DEFAULT LOCATION.
-            gp.obj[2] = new OBJ_Door(gp);
-            gp.obj[2].worldX = 13 * gp.tileSize;
-            gp.obj[2].worldY = 14 * gp.tileSize;
+            gp.obj[2] = new OBJ_K4Door(gp);
+            gp.obj[2].worldX = 14 * gp.tileSize;
+            gp.obj[2].worldY = 15 * gp.tileSize;
 
             gp.obj[3] = new OBJ_TallGrass(gp);
             gp.obj[3].worldX = 14 * gp.tileSize;

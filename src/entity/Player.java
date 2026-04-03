@@ -99,6 +99,7 @@ public class Player extends Entity{
         curLife = maxLife; // players current life
         currentItem = new OBJ_Hands(gp);
         defaultCurrentItem = currentItem;
+        hasKey++;
 
     }
 

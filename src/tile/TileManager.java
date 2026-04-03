@@ -50,25 +50,25 @@ public class TileManager {
             setup(13, "retroWall1", true);
             setup(14, "darkTree", true);
             setup(15, "gravelRoad1", false);
-            setup(16, "48x48ConcreteTile", false);
+            setup(16, "k4cabin12", false);
             setup(17, "16xTile", false);
-            setup(18, "leftMainWall", true);
-            setup(19, "rightMainWall", true);
+            setup(18, "k4cabin7", true);
+            setup(19, "k4cabin10", true);
             setup(20, "bottomMainWall", true);
             setup(21, "verticalTwoWalls", true);
-            setup(22, "k4door", true); // CHANGE SO AN ACTUAL TILE NEEDED REPLACES THIS
+            setup(22, "k4cabin1", true);
             setup(23, "bLeftCornerWall", true);
             setup(24, "bRightCornerWall", true);
             setup(25, "tLeftCornerWall", true);
             setup(26, "tRightCornerWall", true);
-            setup(27, "bLeftCornerWall2", true);
-            setup(28, "tRightCornerWall2", true);
-            setup(29, "LHorizontalTwoWalls2", true); // CHANGE SO AN ACTUAL TILE NEEDED REPLACES THIS
-            setup(30, "RHorizontalTwoWalls2", true); // CHANGE SO AN ACTUAL TILE NEEDED REPLACES THIS
-            setup(31, "rDoubleCornerWall", true);
+            setup(27, "k4cabin8", true);
+            setup(28, "k4cabin10", true);
+            setup(29, "k4cabin2", true);
+            setup(30, "k4cabin3", true);
+            setup(31, "k4cabin9", true);
             setup(32, "gasStationWall", true);
-            setup(33, "helpMeWall", true); // CHANGE SO AN ACTUAL TILE NEEDED REPLACES THIS
-            setup(34, "wall", true); // CHANGE SO AN ACTUAL TILE NEEDED REPLACES THIS
+            setup(33, "k4cabin4", true);
+            setup(34, "k4cabin5", true);
             setup(35, "darkgrass2", false);
             setup(36, "leftGravelRoad", false);
             setup(37, "rightGravelRoad", false);
@@ -80,7 +80,7 @@ public class TileManager {
             setup(43, "tLeftCornerGravelRoad", false);
             setup(44, "tRightCornerGravelRoad", false);
             setup(45, "bottomMainWall", true);
-            setup(46, "deadNPC", false);
+            setup(46, "k4cabin6", true);
             setup(47, "topWater", true);
             setup(48, "bottomWater", true);
             setup(49, "bLeftWaterCorner", true);
@@ -114,7 +114,6 @@ public class TileManager {
             setup(77, "retroWall2", true);
             setup(78, "retroWall3", true);
             setup(79, "retroWall4", true);
-
             setup(80, "tLeftCarpet", false);
             setup(81, "tRightCarpet", false);
             setup(82, "carpet1", false);
@@ -122,9 +121,11 @@ public class TileManager {
             setup(84, "bLeftCarpet", false);
             setup(85, "bRightCarpet", false);
             setup(86, "vent", false);
-
             setup(87, "missingperson1", true);
             setup(88, "missingperson2", true);
+            setup(89, "k4cabin11", true);
+            setup(90, "k4cabin13", true);
+
 
     }
 
