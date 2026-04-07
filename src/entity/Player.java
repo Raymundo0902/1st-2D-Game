@@ -30,6 +30,7 @@ public class Player extends Entity{
     boolean raking = false;
     boolean throwingRock = false;
     public boolean itemDrop = false;
+    public boolean lockOfficeDoor = false;
 
     // TASK MANAGER - Preventing spam, rolling over tasks
     public boolean gotChips = false;
@@ -115,6 +116,24 @@ public class Player extends Entity{
         worldX = gp.tileSize * 40; // not where we draw on screen this is players starting position on world map.
         worldY = gp.tileSize * 62;
         direction = "down";
+    }
+
+    public void setPosAfterOffice() {
+        worldX = gp.tileSize * 32; // not where we draw on screen this is players starting position on world map.
+        worldY = gp.tileSize * 62;
+        direction = "down";
+    }
+
+    public void setPosAfterCabin() {
+        worldX = gp.tileSize * 32; // not where we draw on screen this is players starting position on world map.
+        worldY = gp.tileSize * 62;
+        direction = "down";
+    }
+
+    public void setPosInCabin() {
+        worldX = gp.tileSize * 18;
+        worldY = gp.tileSize * 16;
+
     }
 
     public void restoreLifeAndAttributes() {
@@ -422,10 +441,9 @@ public class Player extends Entity{
                     if(inventory.size() != maxInventorySize) {
                         inventory.add(new OBJ_Key(gp));
                     }
-                    gp.ui.showMessage("You got a key!");
                     break;
-                case "Door":
 
+                case "Door":
                     if(hasKey > 0 && currentItem.type == TYPE_KEY) { // MUST HAVE SELECTED KEY TO OPEN FROM INVENTORY
 
                         inventory.remove(currentItem); // GOES THROUGH FOR LOOP AND CHECKS IF THIS REFERENCE POINTS TO SAME OBJECT
@@ -440,23 +458,29 @@ public class Player extends Entity{
                         gp.ui.showMessage("You need a key!");
                     }
                     break;
-                case "Door2": // horizontal door
 
-                    if(hasKey > 0) {
-                        gp.playSE(4);
-                        gp.obj[i] = null;
-                        hasKey--;
-                        gp.ui.showMessage("You opened door!");
-                    }
-                    else {
-                        gp.ui.showMessage("You need a key!");
+                case "Door2": // horizontal door
+                    // only can leave door and never go back in.
+                    if(gp.currentTask == TaskState.GO_TO_CABIN) {
+                        if (lockOfficeDoor == false) {
+                            if (hasKey > 0) {
+                                gp.gameState = gp.transitionState;
+                                gp.playSE(4);
+                            }
+                        }
                     }
                     break;
+
                 case "Chest":
                     gp.ui.gameFinished = true;
                     gp.stopMusic();
                     gp.playSE(2);
                     break;
+
+                case "k4door":
+                    // enter player's cabin
+                    gp.gameState = gp.transitionState;
+                    gp.playSE(20);
             }
         }
     }
@@ -519,6 +543,7 @@ public class Player extends Entity{
                             gp.playSE(19);
                             gp.gameState = gp.computerState;
                         }
+                        break;
                 }
             }
         }

@@ -50,7 +50,7 @@ public class TileManager {
             setup(13, "retroWall1", true);
             setup(14, "darkTree", true);
             setup(15, "gravelRoad1", false);
-            setup(16, "k4cabin12", false);
+            setup(16, "k4cabin12", true);
             setup(17, "16xTile", false);
             setup(18, "k4cabin7", true);
             setup(19, "k4cabin10", true);
@@ -125,6 +125,7 @@ public class TileManager {
             setup(88, "missingperson2", true);
             setup(89, "k4cabin11", true);
             setup(90, "k4cabin13", true);
+            setup(91, "blackTile", true);
 
 
     }

@@ -250,9 +250,18 @@ public class UI {
             if(j >= 1f) {
                 j = 1f;
                 blackScreenPause++;
-                if(gp.currentMap == gp.GAS_STATION){ // for the first transition in the game
+                // if statements are redundant
+                if(gp.oneTime == false) {
                     gp.transitionMap();
+                    gp.oneTime = true;
                 }
+
+//                if(gp.currentMap == gp.GAS_STATION){ // for the first transition in the game
+//                    gp.transitionMap();
+//                }
+//                if(gp.currentMap == gp.PINEWOOD_CAMP) { // the only transitions possible is the player's cabin after leaving gas station
+//                    gp.transitionMap();
+//                }
                 if(blackScreenPause >= 60) {
                     fadingOut = true;
                     blackScreenPause = 0;
@@ -270,6 +279,7 @@ public class UI {
                 j = 0f;
                 fadingOut = false; // ready for next transition
                 gp.gameState = gp.playState;
+                gp.oneTime = false; // can safely put it here that triggers only once
             }
         }
     }

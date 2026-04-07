@@ -34,6 +34,12 @@ public class GamePanel extends JPanel implements Runnable {
     public int currentMap; // Current map player is in
     public final int GAS_STATION = 0;
     public final int PINEWOOD_CAMP = 1;
+    // sub maps
+    public final int SUB_GAS_STATION = 0;
+    public final int SUB_FRONT_OFFICE = 1;
+    public final int SUB_PLAYER_CABIN = 2;
+    public final int SUB_MAIN_WORLD = 3;
+    public int subMap = SUB_GAS_STATION; // DIFFERENT SUB MAPS INSIDE PINEWOOD
 
 
     // FULL SCREEN
@@ -97,11 +103,11 @@ public class GamePanel extends JPanel implements Runnable {
     public boolean canTypeSound = true;
     public boolean drawBlackScreen = false;
     float j = 1f;
+    public boolean oneTime = false;
+
 
 
     // EXTRA
-    double scaleX;
-    double scaleY;
 
 
 
@@ -226,9 +232,31 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    // Transition from Gas station to Pinewood Camp
+    // Transition to maps
     public void transitionMap() {
-        if(currentMap != GAS_STATION) {
+
+        System.out.println("PREV SUBMAP:" + subMap);
+
+        // for transitioning out of front office
+        if (currentMap == PINEWOOD_CAMP && subMap == SUB_PLAYER_CABIN || subMap == SUB_FRONT_OFFICE) { // if transitioning map inside pinewood camp
+            if(subMap == SUB_PLAYER_CABIN) {
+                player.setPosAfterCabin();
+            } else if(subMap == SUB_FRONT_OFFICE) {
+                player.setPosAfterOffice();
+            }
+            tileM.loadMap("/maps/world01.txt"); // load into main map
+            subMap = SUB_MAIN_WORLD;
+            player.lockOfficeDoor = true; // restricts coming back to office
+        }
+        // for transitioning into cabin
+        else if (currentMap == PINEWOOD_CAMP && subMap == SUB_MAIN_WORLD) { // if transitioning map inside pinewood camp
+            System.out.println("CABIN");
+            player.setPosInCabin();
+            tileM.loadMap("/maps/playercabin.txt"); // load into player cabin
+            subMap = SUB_PLAYER_CABIN;
+        }
+        // this else is executed when it's leaving the gas station - SHOULD BE THE FIRST EVER ONE TO BE EXECUTED
+        else if (currentMap == GAS_STATION && subMap == SUB_GAS_STATION) {
             currentMap = PINEWOOD_CAMP;
             player.setDefaultPositionPinewood();
             // call a clear array method in asset setter
@@ -237,28 +265,14 @@ public class GamePanel extends JPanel implements Runnable {
             aSetter.setNPC();
             aSetter.setMonster();
             player.setDialogue();
-            gameState = playState;
             stopMusic();
             playMusic(6);
-            // draw a fade in fade out black transition to map to make it look less like teleportation
-            tileM.loadMap("/maps/world01.txt");
+            tileM.loadMap("/maps/frontoffice.txt");
             currentTask = TaskState.CHECK_IN_FRONT_OFFICE;
+            subMap = SUB_FRONT_OFFICE;
         }
-        else {
-            currentMap = PINEWOOD_CAMP;
-            player.setDefaultPositionPinewood();
-            // call a clear array method in asset setter
-            aSetter.clearArray();
-            aSetter.setObject();
-            aSetter.setNPC();
-            aSetter.setMonster();
-            player.setDialogue();
-            stopMusic();
-            playMusic(6);
-            // draw a fade in fade out black transition to map to make it look less like teleportation
-            tileM.loadMap("/maps/world01.txt");
-            currentTask = TaskState.CHECK_IN_FRONT_OFFICE;
-        }
+
+        System.out.println("AFTER SUBMAP:" + subMap);
     }
 
 
