@@ -73,17 +73,7 @@ public class AssetSetter {
 
         }
         else if(gp.currentMap == gp.PINEWOOD_CAMP) {
-            // insert all the below entities in here
-            // add the key to the front desk area
-//            gp.obj[0] = new OBJ_Key(gp);
-//            gp.obj[0].worldX = 46 * gp.tileSize;
-//            gp.obj[0].worldY = 62 * gp.tileSize;
-//
-//            gp.obj[1] = new OBJ_Key(gp);
-//            gp.obj[1].worldX = 41 * gp.tileSize;
-//            gp.obj[1].worldY = 11 * gp.tileSize;
 
-            // INSTANTIATED THIS DOOR AND SET ITS DEFAULT LOCATION.
             gp.obj[2] = new OBJ_K4Door(gp);
             gp.obj[2].worldX = 14 * gp.tileSize;
             gp.obj[2].worldY = 15 * gp.tileSize;
@@ -155,13 +145,9 @@ public class AssetSetter {
 
             // goes in tool shed near player's cabin
 //            gp.obj[19] = new OBJ_Rake(gp);
-//            gp.obj[19].worldX = 49 * gp.tileSize;
-//            gp.obj[19].worldY = 58 * gp.tileSize;
+//            gp.obj[19].worldX = 20 * gp.tileSize;
+//            gp.obj[19].worldY = 12 * gp.tileSize;
 
-            // add in when you have setup player's cabin
-//            gp.obj[20] = new OBJ_Bed(gp);
-//            gp.obj[20].worldX = 47 * gp.tileSize;
-//            gp.obj[20].worldY = 57 * gp.tileSize-40;
 
             gp.obj[21] = new OBJ_Desk(gp);
             gp.obj[21].worldX = 40 * gp.tileSize;
@@ -217,6 +203,13 @@ public class AssetSetter {
             gp.monster[0].worldY = gp.tileSize*43;
 
         }
+    }
+
+    public void setSpecificObj() {
+        // Call when transitioning maps to remove obj's that shouldn't show in specific maps.
+//        gp.obj[20] = new OBJ_Bed(gp);
+//        gp.obj[20].worldX = 20 * gp.tileSize;
+//        gp.obj[20].worldY = 12 * gp.tileSize;
     }
 
     public void clearArray() {

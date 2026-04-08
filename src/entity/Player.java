@@ -479,6 +479,11 @@ public class Player extends Entity{
 
                 case "k4door":
                     // enter player's cabin
+                    if(gp.currentTask == TaskState.GO_TO_CABIN) {
+                        hasKey--;
+                        inventory.remove(0);
+                        gp.currentTask = TaskState.PLACE_BAGS_IN_CHEST;
+                    }
                     gp.gameState = gp.transitionState;
                     gp.playSE(20);
             }
