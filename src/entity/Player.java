@@ -90,7 +90,6 @@ public class Player extends Entity{
     }
 
     public void setDefaultValues() {
-
         setDefaultPositionGasStation();
         speed = 4;
         type = TYPE_PLAYER;
@@ -101,45 +100,38 @@ public class Player extends Entity{
         currentItem = new OBJ_Hands(gp);
         defaultCurrentItem = currentItem;
         hasKey++;
-
     }
 
     // Helpful to use when retrying after "Game Over"
     public void setDefaultPositionGasStation() {
-
-        worldX = gp.tileSize * 44; // not where we draw on screen this is players starting position on world map.
+        worldX = gp.tileSize * 44;
         worldY = gp.tileSize * 58;
         direction = "down";
     }
-
     public void setDefaultPositionPinewood() {
-        worldX = gp.tileSize * 40; // not where we draw on screen this is players starting position on world map.
+        worldX = gp.tileSize * 40;
         worldY = gp.tileSize * 62;
         direction = "down";
     }
-
     public void setPosAfterOffice() {
-        worldX = gp.tileSize * 32; // not where we draw on screen this is players starting position on world map.
+        worldX = gp.tileSize * 32;
         worldY = gp.tileSize * 62;
         direction = "down";
     }
-
     public void setPosAfterCabin() {
-        worldX = gp.tileSize * 32; // not where we draw on screen this is players starting position on world map.
-        worldY = gp.tileSize * 62;
+        worldX = gp.tileSize * 14;
+        worldY = gp.tileSize * 16;
         direction = "down";
     }
-
     public void setPosInCabin() {
         worldX = gp.tileSize * 18;
         worldY = gp.tileSize * 16;
-
     }
 
     public void restoreLifeAndAttributes() {
 
         curLife = maxLife;
-        currentItem = defaultCurrentItem; //
+        currentItem = defaultCurrentItem;
         invincible = false;
     }
 
@@ -156,7 +148,6 @@ public class Player extends Entity{
         dialogues[2] = "n/a";
         dialogues[3] = "n/a";
 
-        // Helpers, extra conditional handling
         if(gp.currentMap == gp.GAS_STATION) {
 
             // Responses - 2d array - have it where player checks which npcIndex it is and return back the convo for that specific npc.
@@ -481,8 +472,8 @@ public class Player extends Entity{
                     // enter player's cabin
                     if(gp.currentTask == TaskState.GO_TO_CABIN) {
                         hasKey--;
-                        inventory.remove(0);
-                        gp.currentTask = TaskState.PLACE_BAGS_IN_CHEST;
+                        inventory.remove(0); // key is always the first in the inventory
+                        gp.currentTask = TaskState.INSPECT_CABIN;
                     }
                     gp.gameState = gp.transitionState;
                     gp.playSE(20);

@@ -205,11 +205,16 @@ public class AssetSetter {
         }
     }
 
-    public void setSpecificObj() {
+    public void reseatAssets() {
+        // Call when transitioning maps to reseat obj's that should only show when in a specific map
+        gp.obj[20] = new OBJ_Bed(gp);
+        gp.obj[20].worldX = 20 * gp.tileSize;
+        gp.obj[20].worldY = 12 * gp.tileSize;
+    }
+
+    public void removeAssets() {
         // Call when transitioning maps to remove obj's that shouldn't show in specific maps.
-//        gp.obj[20] = new OBJ_Bed(gp);
-//        gp.obj[20].worldX = 20 * gp.tileSize;
-//        gp.obj[20].worldY = 12 * gp.tileSize;
+        gp.obj[20] = null;
     }
 
     public void clearArray() {

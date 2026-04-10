@@ -237,8 +237,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         System.out.println("PREV SUBMAP:" + subMap);
 
-        // for transitioning out of front office
+        // for transitioning out of front office & cabin
         if (currentMap == PINEWOOD_CAMP && subMap == SUB_PLAYER_CABIN || subMap == SUB_FRONT_OFFICE) { // if transitioning map inside pinewood camp
+            // remove cabin/office objects
+            aSetter.removeAssets();
             if(subMap == SUB_PLAYER_CABIN) {
                 player.setPosAfterCabin();
             } else if(subMap == SUB_FRONT_OFFICE) {
@@ -251,6 +253,8 @@ public class GamePanel extends JPanel implements Runnable {
         // for transitioning into cabin
         else if (currentMap == PINEWOOD_CAMP && subMap == SUB_MAIN_WORLD) { // if transitioning map inside pinewood camp
             System.out.println("CABIN");
+            // load in cabin objects
+            aSetter.reseatAssets();
             player.setPosInCabin();
             tileM.loadMap("/maps/playercabin.txt"); // load into player cabin
             subMap = SUB_PLAYER_CABIN;
@@ -339,6 +343,12 @@ public class GamePanel extends JPanel implements Runnable {
             }
             if(currentTask == TaskState.GO_TO_CABIN) {
                 ui.taskIndex = 7;
+            }
+            if(currentTask == TaskState.INSPECT_CABIN) {
+                ui.taskIndex = 8;
+            }
+            if(currentTask == TaskState.GO_TO_SLEEP) {
+                ui.taskIndex = 9;
             }
 
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.

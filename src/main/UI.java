@@ -776,27 +776,35 @@ public class UI {
         i++;
 
         currentTask[i] = "Exit store";
-        checkmarks[i] = new boolean[1]; // 1 task
+        checkmarks[i] = new boolean[1];
         i++;
 
         currentTask[i] = "Talk to front desk";
-        checkmarks[i] = new boolean[1]; // 1 task
+        checkmarks[i] = new boolean[1];
         i++;
 
         currentTask[i] = "Talk to officer James";
-        checkmarks[i] = new boolean[1]; // 1 task
+        checkmarks[i] = new boolean[1];
         i++;
 
         currentTask[i] = "Go to computer\n Type: password\n Select Cabin: K4";
-        checkmarks[i] = new boolean[3]; // 1 task
+        checkmarks[i] = new boolean[3];
         i++;
 
         currentTask[i] = "Get cabin keys";
-        checkmarks[i] = new boolean[1]; // 1 task
+        checkmarks[i] = new boolean[1];
         i++;
 
         currentTask[i] = "Find cabin";
-        checkmarks[i] = new boolean[1]; // 1 task
+        checkmarks[i] = new boolean[1];
+        i++;
+
+        currentTask[i] = "Read log book";
+        checkmarks[i] = new boolean[1];
+        i++;
+
+        currentTask[i] = "Go to sleep";
+        checkmarks[i] = new boolean[1];
         i++;
     }
 
