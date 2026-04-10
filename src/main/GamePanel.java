@@ -21,7 +21,6 @@ public class GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16 tile
     final int scale = 3;
-
     public final int tileSize = originalTileSize * scale; // 48x48 tile true tile size that will be displayed on screen. public so any other packages can access it
     public final int maxScreenCol = 20; // 16 tiles horizontally
     public final int maxScreenRow = 12; // 12 tiles vertically
@@ -34,13 +33,12 @@ public class GamePanel extends JPanel implements Runnable {
     public int currentMap; // Current map player is in
     public final int GAS_STATION = 0;
     public final int PINEWOOD_CAMP = 1;
-    // sub maps
+        // sub maps
     public final int SUB_GAS_STATION = 0;
     public final int SUB_FRONT_OFFICE = 1;
     public final int SUB_PLAYER_CABIN = 2;
     public final int SUB_MAIN_WORLD = 3;
     public int subMap = SUB_GAS_STATION; // DIFFERENT SUB MAPS INSIDE PINEWOOD
-
 
     // FULL SCREEN
     int screenWidth2 = screenWidth;
@@ -51,7 +49,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     // FPS
     int FPS = 60;
-
 
     // "this" as the argument is passing the reference to the exact GamePanel object thats currently running. (NOT THE OBJECT, NOT A COPY, NOT A NEW OBJECT)
     public TileManager tileM = new TileManager(this);
@@ -70,7 +67,6 @@ public class GamePanel extends JPanel implements Runnable {
     public TaskState currentTask = TaskState.GET_SNACKS;
     EnvironmentHandler eHandler = new EnvironmentHandler(this);
 
-
     // ENTITIES AND OBJECTS
     public final int maxObj = 30;
     public final int maxNpc = 10;
@@ -83,7 +79,6 @@ public class GamePanel extends JPanel implements Runnable {
     // ARRAYLISTS STORES OBJECTS ONLY, STRING OBJECTS, IN OUR CASE, ENTITY OBJECTS
     public ArrayList<Projectile> projectileList = new ArrayList<>();
     ArrayList<Entity> entityArrList = new ArrayList<>(); // store all entities: players, npc's, obj in this list.
-
 
     // GAME STATES
     public int gameState; // game state is like a title screen state, play, pause, etc
@@ -106,11 +101,6 @@ public class GamePanel extends JPanel implements Runnable {
     public boolean oneTime = false;
 
 
-
-    // EXTRA
-
-
-
     public GamePanel () {
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -128,7 +118,7 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setNPC();
         eHandler.setup();
         playMusic(8); // play main menu music -- VHS 80s-90s MUSIC
-
+        eHandler.setup();
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
@@ -386,6 +376,8 @@ public class GamePanel extends JPanel implements Runnable {
                     obj[i].update();
                 }
             }
+
+            eHandler.update();
         }
         if(gameState == computerState) {
             if(ui.osSubState == 1) {
@@ -421,6 +413,9 @@ public class GamePanel extends JPanel implements Runnable {
                 keyH.enterPressed = false; // Reset back to false to prevent enterPressed always true.
             }
         }
+
+
+
         if(gameState == pauseState) {
             // nothing, no updating player info while paused
         }
@@ -502,8 +497,8 @@ public class GamePanel extends JPanel implements Runnable {
 
             // ENVIRONMENT - Draw before UI or else darkness will apply to UI
             // TEMP IF STATEMENT - FILL IT IN ONLY WHEN IN PINEWOOD CAMP IN SPECIFIC CASE LIKE IF YOU HEARD A STRANGE NOISE AND NEED TO CHECK AROUND THE CAMP AT 3 AM.
-            if(currentMap == GAS_STATION) {
-
+            if(currentMap == PINEWOOD_CAMP) {
+                eHandler.draw(g2);
             }
             // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
             ui.draw(g2);

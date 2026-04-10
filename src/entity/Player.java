@@ -52,7 +52,7 @@ public class Player extends Entity{
     public final int geraldIndex = 3;
 
     // EXTRA BOOLEANS
-    public boolean exitGasStation = false;
+    public boolean lightUpdated = false;
 
     // PLAYER DIALOGUE SYSTEM
     public int pDialogueIndex = 0;
@@ -603,6 +603,7 @@ public class Player extends Entity{
                         hasKey++;
                         if(inventory.size() != maxInventorySize) {
                             inventory.add(new OBJ_Key(gp));
+                            inventory.add(new OBJ_Lantern(gp)); // update dialogue to "also giving you a lantern since its dark out."
                         }
                     }
                     else {
@@ -669,6 +670,17 @@ public class Player extends Entity{
             if(selectedItem.type == TYPE_KEY || selectedItem.type == TYPE_ROCK) currentItem = selectedItem;
 
             if(selectedItem.type == TYPE_RAKE) currentItem = selectedItem;
+
+            if(selectedItem.type == TYPE_LIGHT) {
+                if(currentLight == selectedItem) {
+                    currentLight = null;
+                }
+                else{
+                    currentLight = selectedItem;
+                }
+                lightUpdated = true;
+            }
+
         }
 
     }

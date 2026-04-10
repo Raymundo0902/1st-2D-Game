@@ -148,7 +148,6 @@ public class AssetSetter {
 //            gp.obj[19].worldX = 20 * gp.tileSize;
 //            gp.obj[19].worldY = 12 * gp.tileSize;
 
-
             gp.obj[21] = new OBJ_Desk(gp);
             gp.obj[21].worldX = 40 * gp.tileSize;
             gp.obj[21].worldY = (59 * gp.tileSize) - 10;
@@ -156,9 +155,8 @@ public class AssetSetter {
             gp.obj[22] = new OBJ_frontDeskCounter(gp);
             gp.obj[22].worldX = 45 * gp.tileSize;
             gp.obj[22].worldY = (61 * gp.tileSize);
+
         }
-
-
     }
 
     public void setNPC() {

@@ -1096,7 +1096,7 @@ public class UI {
             }
 
             // DRAW SLOT BOX
-            Color c = new Color(75, 47, 31);
+            Color c = new Color(255, 255, 255);
             g2.setColor(c);
             g2.setStroke(new BasicStroke(8)); // setStroke(new BasicStroke(int)) defines the width of outlines of graphics which are rendered with a Graphics 2D
             g2.fillRoundRect(slotX, slotY, slotSize - 5, slotSize -2, 10, 10);

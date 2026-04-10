@@ -21,10 +21,6 @@ public class Entity {
     public String dialogues[] = new String[20]; // each entity gets their own copy
     public BufferedImage image, image2, image3;
 
-
-
-
-
     // STATE - collision, location, defaults
     public boolean collisionOn = false;
     public boolean invincible = false;
@@ -53,12 +49,14 @@ public class Entity {
     public final int TYPE_KEY = 4;
     public final int TYPE_HANDS = 5;
     public final int TYPE_ROCK = 6;
+    public final int TYPE_LIGHT = 7;
 
     // CHARACTER ATTRIBUTES
     public String name;
     public int maxLife;
     public int curLife;
     public int speed;
+    public Entity currentLight;
 
     // Entity dialogue's array size (the size of the array excluding empty slots)
     public int dialogueSize = 0;
@@ -68,6 +66,7 @@ public class Entity {
     public String description = "";
     public Projectile projectile;
     public boolean alive = false;
+    public int lightRadius;
 
 
     public Entity(GamePanel gp) {
