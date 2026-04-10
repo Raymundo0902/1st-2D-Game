@@ -19,6 +19,10 @@ The goal of this project is to explore game systems, artificial intelligence beh
 
 ![2026-03-0707-49-47-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/4d7703ea-250e-45e9-a3fb-f165bb93132a)
 
+<img width="953" height="601" alt="Screenshot 2026-04-10 114622" src="https://github.com/user-attachments/assets/3bb9de8f-59c4-4109-84d1-6c3d670d0a21" />
+<img width="957" height="603" alt="Screenshot 2026-04-10 114539" src="https://github.com/user-attachments/assets/8c7e28ed-37a0-40a2-a658-2fc7baf3fc2c" />
+
+
 
 ## Current Features
 
