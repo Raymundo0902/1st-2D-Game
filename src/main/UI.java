@@ -250,18 +250,15 @@ public class UI {
             if(j >= 1f) {
                 j = 1f;
                 blackScreenPause++;
-                // if statements are redundant
-                if(gp.oneTime == false) {
-                    gp.transitionMap();
-                    gp.oneTime = true;
+                // Only transition map when exiting a map. Otherwise, just a normal transition screen
+                if(gp.player.exitMap == true) {
+                    if (gp.oneTime == false) {
+                        gp.transitionMap();
+                        gp.oneTime = true;
+                    }
+                    gp.player.exitMap = false;
                 }
 
-//                if(gp.currentMap == gp.GAS_STATION){ // for the first transition in the game
-//                    gp.transitionMap();
-//                }
-//                if(gp.currentMap == gp.PINEWOOD_CAMP) { // the only transitions possible is the player's cabin after leaving gas station
-//                    gp.transitionMap();
-//                }
                 if(blackScreenPause >= 60) {
                     fadingOut = true;
                     blackScreenPause = 0;
@@ -799,11 +796,11 @@ public class UI {
         checkmarks[i] = new boolean[1];
         i++;
 
-        currentTask[i] = "Read log book";
+        currentTask[i] = "Go to sleep";
         checkmarks[i] = new boolean[1];
         i++;
 
-        currentTask[i] = "Go to sleep";
+        currentTask[i] = "Read ranger log book";
         checkmarks[i] = new boolean[1];
         i++;
     }
@@ -975,8 +972,6 @@ public class UI {
         // nextLine represents how many lines have finished typing.
         // As nextLine increases, this loop redraws more full lines each frame.
         // Glow Layers:
-
-
 
         // Main Text
         for(int i = 0; i < nextLine; i++) {

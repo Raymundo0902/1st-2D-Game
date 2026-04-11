@@ -9,6 +9,7 @@ public enum TaskState {
     GO_TO_COMPUTER,
     GET_CABIN_KEYS,
     GO_TO_CABIN,
-    INSPECT_CABIN,
-    GO_TO_SLEEP
+    GO_TO_SLEEP,
+    READ_LOG_BOOK
+
 }

@@ -334,12 +334,13 @@ public class GamePanel extends JPanel implements Runnable {
             if(currentTask == TaskState.GO_TO_CABIN) {
                 ui.taskIndex = 7;
             }
-            if(currentTask == TaskState.INSPECT_CABIN) {
+            if(currentTask == TaskState.GO_TO_SLEEP) {
                 ui.taskIndex = 8;
             }
-            if(currentTask == TaskState.GO_TO_SLEEP) {
+            if(currentTask == TaskState.READ_LOG_BOOK) {
                 ui.taskIndex = 9;
             }
+
 
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
 

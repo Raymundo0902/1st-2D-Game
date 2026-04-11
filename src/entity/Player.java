@@ -53,10 +53,10 @@ public class Player extends Entity{
 
     // EXTRA BOOLEANS
     public boolean lightUpdated = false;
+    public boolean exitMap = false;
 
     // PLAYER DIALOGUE SYSTEM
     public int pDialogueIndex = 0;
-//    public int pDialogueSize = 0;
     public int pConvoIndex = 0;
     public String[][] playerDialogues = new String[20][]; // holds 20 convos
 
@@ -455,6 +455,7 @@ public class Player extends Entity{
                     if(gp.currentTask == TaskState.GO_TO_CABIN) {
                         if (lockOfficeDoor == false) {
                             if (hasKey > 0) {
+                                exitMap = true;
                                 gp.gameState = gp.transitionState;
                                 gp.playSE(4);
                             }
@@ -462,19 +463,14 @@ public class Player extends Entity{
                     }
                     break;
 
-                case "Chest":
-                    gp.ui.gameFinished = true;
-                    gp.stopMusic();
-                    gp.playSE(2);
-                    break;
-
                 case "k4door":
                     // enter player's cabin
                     if(gp.currentTask == TaskState.GO_TO_CABIN) {
                         hasKey--;
                         inventory.remove(0); // key is always the first in the inventory
-                        gp.currentTask = TaskState.INSPECT_CABIN;
+                        gp.currentTask = TaskState.GO_TO_SLEEP;
                     }
+                    exitMap = true;
                     gp.gameState = gp.transitionState;
                     gp.playSE(20);
             }
@@ -529,6 +525,7 @@ public class Player extends Entity{
                     case "glassDoor":
                         if(gp.currentTask == TaskState.EXIT_STORE) {
                             gp.playSE(12);
+                            exitMap = true;
                             gp.gameState = gp.transitionMapState;
                         }
                         break;
@@ -540,6 +537,12 @@ public class Player extends Entity{
                             gp.gameState = gp.computerState;
                         }
                         break;
+                    case "bed":
+                        if(gp.currentTask == TaskState.GO_TO_SLEEP) {
+                            gp.ui.checkmarks[6][0] = true;
+                            gp.gameState = gp.transitionState;
+                            gp.currentTask = TaskState.READ_LOG_BOOK;
+                        }
                 }
             }
         }
