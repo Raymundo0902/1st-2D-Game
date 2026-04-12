@@ -65,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AStarPathFinder pFinder = new AStarPathFinder(this);
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
     public TaskState currentTask = TaskState.GET_SNACKS;
-    EnvironmentHandler eHandler = new EnvironmentHandler(this);
+    public EnvironmentHandler eHandler = new EnvironmentHandler(this);
 
     // ENTITIES AND OBJECTS
     public final int maxObj = 30;
@@ -99,6 +99,7 @@ public class GamePanel extends JPanel implements Runnable {
     public boolean drawBlackScreen = false;
     float j = 1f;
     public boolean oneTime = false;
+    public boolean startDayCycle = false;
 
 
     public GamePanel () {
@@ -415,7 +416,23 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
-
+        if(gameState == transitionState) {
+            // Only transition map when exiting a map. Otherwise, just a normal transition screen - handle this when screen is totally black
+            if(ui.j >= 1f) {
+                if (player.exitMap == true) {
+                    if (oneTime == false) {
+                        transitionMap();
+                        oneTime = true;
+                    }
+                    player.exitMap = false;
+                }
+                if (player.slept == true) {
+                    startDayCycle = true;
+                    ui.setToDay = true;
+                    player.slept = false;
+                }
+            }
+        }
 
         if(gameState == pauseState) {
             // nothing, no updating player info while paused

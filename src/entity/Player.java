@@ -53,7 +53,8 @@ public class Player extends Entity{
 
     // EXTRA BOOLEANS
     public boolean lightUpdated = false;
-    public boolean exitMap = false;
+    public boolean exitMap = true; // true for testing but final should be default as false
+    public boolean slept = false;
 
     // PLAYER DIALOGUE SYSTEM
     public int pDialogueIndex = 0;
@@ -539,6 +540,7 @@ public class Player extends Entity{
                         break;
                     case "bed":
                         if(gp.currentTask == TaskState.GO_TO_SLEEP) {
+                            slept = true;
                             gp.ui.checkmarks[6][0] = true;
                             gp.gameState = gp.transitionState;
                             gp.currentTask = TaskState.READ_LOG_BOOK;

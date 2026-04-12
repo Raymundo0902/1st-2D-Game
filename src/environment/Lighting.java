@@ -12,6 +12,15 @@ public class Lighting {
 
     GamePanel gp;
     BufferedImage darknessFilter;
+    int dayCounter;
+    float filterAlpha = 1f;
+
+    // day states
+    final int day = 0;
+    final int sunset = 1;
+    final int night = 2;
+    final int sunrise = 3;
+    int dayState = night; // default start
 
     public Lighting(GamePanel gp) {
         this.gp = gp;
@@ -25,7 +34,7 @@ public class Lighting {
         Graphics2D g2 = (Graphics2D)darknessFilter.getGraphics(); // everything g2 draws will be recorded on darkness filter - its like the pen that draws on darknessFilter
 
         if(gp.player.currentLight == null) {
-            g2.setColor(new Color(0,0,0,0.80f));
+            g2.setColor(new Color(0,0,0,0.95f));
         }
         else {
             // Get center x,y of the light circle
@@ -38,17 +47,17 @@ public class Lighting {
             float fraction[] = new float[12];
 
             color[0] = new Color(0,0,0,0.1f);
-            color[1] = new Color(0,0,0,0.48f);
-            color[2] = new Color(0,0,0,0.50f);
+            color[1] = new Color(0,0,0,0.38f);
+            color[2] = new Color(0,0,0,0.41f);
             color[3] = new Color(0,0,0,0.52f);
-            color[4] = new Color(0,0,0,0.57f);
-            color[5] = new Color(0,0,0,0.60f);
-            color[6] = new Color(0,0,0,0.63f);
-            color[7] = new Color(0,0,0,0.65f);
-            color[8] = new Color(0,0,0,0.69f);
-            color[9] = new Color(0,0,0,0.72f);
-            color[10] = new Color(0,0,0,0.76f);
-            color[11] = new Color(0,0,0,0.80f);
+            color[4] = new Color(0,0,0,0.61f);
+            color[5] = new Color(0,0,0,0.68f);
+            color[6] = new Color(0,0,0,0.76f);
+            color[7] = new Color(0,0,0,0.83f);
+            color[8] = new Color(0,0,0,0.88f);
+            color[9] = new Color(0,0,0,0.90f);
+            color[10] = new Color(0,0,0,0.92f);
+            color[11] = new Color(0,0,0,0.95f);
 
             // 0f means middle, 1f means the edge of circle
             fraction[0] = 0f;
@@ -79,14 +88,78 @@ public class Lighting {
 
     public void update() {
 
+        System.out.println(dayCounter);
+
         if(gp.player.lightUpdated == true) {
             setLightSource();
             gp.player.lightUpdated = false;
         }
+
+        if(gp.ui.setToDay == true) {
+            dayCounter = 0;
+            filterAlpha = 0f;
+            dayState = day;
+            gp.ui.setToDay = false;
+        }
+
+        // day cycle only starts when player first sleeps after arriving to cabin
+        if(gp.startDayCycle == true) {
+            if (gp.subMap == gp.SUB_MAIN_WORLD) {
+                // Check for different state of the day
+                if (dayState == night) {
+
+                    dayCounter++;
+
+                    if (dayCounter > 600) {
+                        dayState = sunrise;
+                        dayCounter = 0;
+                    }
+                } else if (dayState == sunrise) { // transition to day
+                    // filterAlpha -= 0.0005f; default one
+                    filterAlpha -= 0.001f; // for quick tests
+
+                    if (filterAlpha < 0f) {
+                        filterAlpha = 0f;
+                        dayState = day;
+                    }
+                } else if (dayState == day) {
+
+                    dayCounter++;
+
+                    if (dayCounter > 600) {
+                        dayState = sunset;
+                        dayCounter = 0;
+                    }
+                } else if (dayState == sunset) { // transition to night
+//                filterAlpha += 0.0005f; default one
+                    filterAlpha += 0.001f; // for quick tests
+                    if (filterAlpha > 1f) {
+                        filterAlpha = 1f;
+                        dayState = night;
+                    }
+                }
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, filterAlpha));
         g2.drawImage(darknessFilter, 0, 0, null);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
+        // DEBUG INFO
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40f));
+        g2.setColor(Color.WHITE);
+        String dayText = "";
+        switch(dayState) {
+            case night: dayText = "night"; break;
+            case day: dayText = "day"; break;
+            case sunset: dayText = "sunset"; break;
+            case sunrise: dayText = "sunrise"; break;
+        }
+        g2.drawString(dayText, gp.tileSize, gp.tileSize * 7);
+
     }
 
 }

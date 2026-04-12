@@ -13,6 +13,6 @@ public class OBJ_Lantern extends Entity {
         // change the image to the actual lantern image right now its using a rock image for quick testing.
         down1 = setup("/objects/lantern", gp.tileSize, gp.tileSize);
         description = "Reveal the darkness";
-        lightRadius = 250;
+        lightRadius = 200;
     }
 }

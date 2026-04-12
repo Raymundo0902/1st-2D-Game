@@ -58,6 +58,10 @@ public class UI {
     // OPTIONS MENU
     int subState = 0;
 
+    // EXTRA BOOLEANS/CONDITIONALS
+    public boolean setToDay = false;
+
+
     // COMPUTER OS
     BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, speakerIcon, signInIcon, pinewoodHomePage, a1Cabin, j1Cabin, k4Cabin, folderIcon;
     Rectangle pineWButtonBounds, exitButton, passwordButton, signInButton, assignButton;
@@ -250,15 +254,6 @@ public class UI {
             if(j >= 1f) {
                 j = 1f;
                 blackScreenPause++;
-                // Only transition map when exiting a map. Otherwise, just a normal transition screen
-                if(gp.player.exitMap == true) {
-                    if (gp.oneTime == false) {
-                        gp.transitionMap();
-                        gp.oneTime = true;
-                    }
-                    gp.player.exitMap = false;
-                }
-
                 if(blackScreenPause >= 60) {
                     fadingOut = true;
                     blackScreenPause = 0;
