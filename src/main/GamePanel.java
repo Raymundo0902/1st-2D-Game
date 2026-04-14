@@ -6,6 +6,7 @@ import environment.EnvironmentHandler;
 import object.OBJ_Rock;
 import object.ObjectManager;
 import tasks.TaskState;
+import tile.Map;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -65,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AStarPathFinder pFinder = new AStarPathFinder(this);
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
     public TaskState currentTask = TaskState.GET_SNACKS;
+    Map map = new Map(this);
     public EnvironmentHandler eHandler = new EnvironmentHandler(this);
 
     // ENTITIES AND OBJECTS
@@ -93,6 +95,9 @@ public class GamePanel extends JPanel implements Runnable {
     public final int transitionMapState = 8;
     public final int computerState = 9; // FAKE OS
     public final int transitionState = 10;
+    public final int mapState = 11;
+
+    // CUTSCENE TRIGGER
 
     // CONTROL VARIABLES FOR ONE TIME FUNCTIONS - LOADING SCREEN, DIALOGUE, ETC
     public boolean canTypeSound = true;
@@ -453,11 +458,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         // TITLE SCREEN
-        if(gameState == titleState) {
+        if(gameState == titleState || gameState == initialDialogueState ) {
             ui.draw(g2);
         }
-        else if(gameState == initialDialogueState) {
-            ui.draw(g2);
+        else if(gameState == mapState) {
+            map.drawMap(g2);
         }
         // OTHER GAME STATES. START THE MAIN DIALOGUE HERE:
         else{

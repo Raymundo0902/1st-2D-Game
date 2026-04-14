@@ -81,6 +81,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         else if(gp.gameState == gp.computerState) {
             computerState(code);
         }
+        else if(gp.gameState == gp.mapState) {
+            mapState(code);
+        }
 
     }
 
@@ -250,6 +253,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(code == KeyEvent.VK_L) {
             gp.gameState = gp.transitionState;
         }
+        if(code == KeyEvent.VK_M) {
+            gp.gameState = gp.mapState;
+        }
 
         // DEBUG
         if(code == KeyEvent.VK_T) {
@@ -267,6 +273,13 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 case 0: gp.tileM.loadMap("/maps/gasStation.txt"); break;
                 case 1: gp.tileM.loadMap("/maps/world01.txt"); break;
             }
+        }
+    }
+
+    public void mapState(int code) {
+
+        if(code == KeyEvent.VK_M) {
+            gp.gameState = gp.playState;
         }
     }
 

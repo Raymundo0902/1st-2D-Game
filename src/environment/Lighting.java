@@ -88,7 +88,8 @@ public class Lighting {
 
     public void update() {
 
-        System.out.println(dayCounter);
+        // DEBUG
+//        System.out.println(dayCounter);
 
         if(gp.player.lightUpdated == true) {
             setLightSource();
