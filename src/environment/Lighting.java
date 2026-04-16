@@ -13,7 +13,7 @@ public class Lighting {
     GamePanel gp;
     BufferedImage darknessFilter;
     int dayCounter;
-    float filterAlpha = 1f;
+    float filterAlpha = 0.90f;
 
     // day states
     final int day = 0;
@@ -53,11 +53,11 @@ public class Lighting {
             color[4] = new Color(0,0,0,0.61f);
             color[5] = new Color(0,0,0,0.68f);
             color[6] = new Color(0,0,0,0.76f);
-            color[7] = new Color(0,0,0,0.83f);
-            color[8] = new Color(0,0,0,0.88f);
-            color[9] = new Color(0,0,0,0.90f);
-            color[10] = new Color(0,0,0,0.92f);
-            color[11] = new Color(0,0,0,0.95f);
+            color[7] = new Color(0,0,0,0.80f);
+            color[8] = new Color(0,0,0,0.82f);
+            color[9] = new Color(0,0,0,0.86f);
+            color[10] = new Color(0,0,0,0.88f);
+            color[11] = new Color(0,0,0,0.90f);
 
             // 0f means middle, 1f means the edge of circle
             fraction[0] = 0f;
@@ -134,8 +134,8 @@ public class Lighting {
                 } else if (dayState == sunset) { // transition to night
 //                filterAlpha += 0.0005f; default one
                     filterAlpha += 0.001f; // for quick tests
-                    if (filterAlpha > 1f) {
-                        filterAlpha = 1f;
+                    if (filterAlpha > 0.90f) {
+                        filterAlpha = 0.90f;
                         dayState = night;
                     }
                 }
@@ -149,17 +149,16 @@ public class Lighting {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         // DEBUG INFO
-
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40f));
-        g2.setColor(Color.WHITE);
-        String dayText = "";
-        switch(dayState) {
-            case night: dayText = "night"; break;
-            case day: dayText = "day"; break;
-            case sunset: dayText = "sunset"; break;
-            case sunrise: dayText = "sunrise"; break;
-        }
-        g2.drawString(dayText, gp.tileSize, gp.tileSize * 7);
+//        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40f));
+//        g2.setColor(Color.WHITE);
+//        String dayText = "";
+//        switch(dayState) {
+//            case night: dayText = "night"; break;
+//            case day: dayText = "day"; break;
+//            case sunset: dayText = "sunset"; break;
+//            case sunrise: dayText = "sunrise"; break;
+//        }
+//        g2.drawString(dayText, gp.tileSize, gp.tileSize * 7);
 
     }
 

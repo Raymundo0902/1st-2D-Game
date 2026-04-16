@@ -81,10 +81,6 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         else if(gp.gameState == gp.computerState) {
             computerState(code);
         }
-        else if(gp.gameState == gp.mapState) {
-            mapState(code);
-        }
-
     }
 
     public void titleState(int code) {
@@ -249,12 +245,13 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         if(code == KeyEvent.VK_ESCAPE) {
             gp.gameState = gp.optionsState;
         }
-        // for testing
-        if(code == KeyEvent.VK_L) {
-            gp.gameState = gp.transitionState;
-        }
         if(code == KeyEvent.VK_M) {
-            gp.gameState = gp.mapState;
+
+            if (gp.mapOn == false) {
+                gp.mapOn = true;
+            } else {
+                gp.mapOn = false;
+            }
         }
 
         // DEBUG
@@ -266,6 +263,10 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 checkDebugText = false;
             }
         }
+        // for testing
+        if(code == KeyEvent.VK_L) {
+            gp.gameState = gp.transitionState;
+        }
         // FAST REAL-TIME MAP EDIT
         if(code == KeyEvent.VK_B) {
 
@@ -273,13 +274,6 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 case 0: gp.tileM.loadMap("/maps/gasStation.txt"); break;
                 case 1: gp.tileM.loadMap("/maps/world01.txt"); break;
             }
-        }
-    }
-
-    public void mapState(int code) {
-
-        if(code == KeyEvent.VK_M) {
-            gp.gameState = gp.playState;
         }
     }
 

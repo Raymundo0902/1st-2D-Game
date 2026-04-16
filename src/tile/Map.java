@@ -9,17 +9,18 @@ public class Map extends TileManager{
 
     GamePanel gp;
     BufferedImage gameMap[];
-    public boolean miniMapOn = false;
+
 
     public Map(GamePanel gp) {
         super(gp);
         this.gp = gp;
 
+        loadMap("/maps/world01.txt"); // only shows the main world map
         createWorldMap();
     }
 
     public void createWorldMap(){
-
+        System.out.println("CREATE NEW MAP?"); // does run when leaving to main world
         gameMap = new BufferedImage[1];
         int gameMapWidth = gp.tileSize * gp.maxWorldCol;
         int gameMapHeight = gp.tileSize * gp.maxWorldRow;

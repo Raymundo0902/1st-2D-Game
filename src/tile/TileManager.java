@@ -132,6 +132,8 @@ public class TileManager {
 
     public void setup(int index, String imageName, boolean collision) {
 
+        System.out.println("SETTING UP NEW TILES"); // does run when leaving to main world
+
         UtilityTool uTool = new UtilityTool();
 
         try{

@@ -55,6 +55,7 @@ public class Player extends Entity{
     public boolean lightUpdated = false;
     public boolean exitMap = true; // true for testing but final should be default as false
     public boolean slept = false;
+    public boolean freezePlayer = false;
 
     // PLAYER DIALOGUE SYSTEM
     public int pDialogueIndex = 0;
@@ -138,8 +139,7 @@ public class Player extends Entity{
 
     // ITEMS THAT SHOULD ALREADY BE IN INVENTORY AT START OF GAME GOES HERE
     public void setItems() {
-
-        inventory.clear();
+        inventory.add(new OBJ_Map(gp));
     }
 
     public void setDialogue() {
@@ -201,7 +201,6 @@ public class Player extends Entity{
     }
 
     public void update() { // this method gets called 60x per second
-
 
         if(raking == true) { // bypass the else if key inputs if player is currently raking
             raking();
@@ -268,7 +267,7 @@ public class Player extends Entity{
 
 
             // IF COLLISON IS FALSE, PLAYER CAN MOVE AND WITHOUT THE ENTERPRESSED HERE, PLAYER CAN MOVE WHEN PRESSING ENTER.
-            if(collisionOn == false && keyH.enterPressed == false) {
+            if(collisionOn == false && keyH.enterPressed == false && freezePlayer == false) {
                 switch(direction) {
                     case "up": worldY -= speed; break;
                     case "down": worldY += speed; break;

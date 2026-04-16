@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AStarPathFinder pFinder = new AStarPathFinder(this);
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
     public TaskState currentTask = TaskState.GET_SNACKS;
-    Map map = new Map(this);
+    Map map = new Map(this);;
     public EnvironmentHandler eHandler = new EnvironmentHandler(this);
 
     // ENTITIES AND OBJECTS
@@ -95,9 +95,11 @@ public class GamePanel extends JPanel implements Runnable {
     public final int transitionMapState = 8;
     public final int computerState = 9; // FAKE OS
     public final int transitionState = 10;
-    public final int mapState = 11;
+    public final int logBookState = 11;
+
 
     // CUTSCENE TRIGGER
+    public boolean mapOn = false;
 
     // CONTROL VARIABLES FOR ONE TIME FUNCTIONS - LOADING SCREEN, DIALOGUE, ETC
     public boolean canTypeSound = true;
@@ -105,6 +107,9 @@ public class GamePanel extends JPanel implements Runnable {
     float j = 1f;
     public boolean oneTime = false;
     public boolean startDayCycle = false;
+    boolean firstTime = false;
+
+    // EXTRA
 
 
     public GamePanel () {
@@ -231,24 +236,26 @@ public class GamePanel extends JPanel implements Runnable {
     // Transition to maps
     public void transitionMap() {
 
-        System.out.println("PREV SUBMAP:" + subMap);
-
         // for transitioning out of front office & cabin
         if (currentMap == PINEWOOD_CAMP && subMap == SUB_PLAYER_CABIN || subMap == SUB_FRONT_OFFICE) { // if transitioning map inside pinewood camp
             // remove cabin/office objects
             aSetter.removeAssets();
+
+            // setting positions
             if(subMap == SUB_PLAYER_CABIN) {
                 player.setPosAfterCabin();
             } else if(subMap == SUB_FRONT_OFFICE) {
                 player.setPosAfterOffice();
             }
-            tileM.loadMap("/maps/world01.txt"); // load into main map
+
+            // load into main map
+            tileM.loadMap("/maps/world01.txt");
+
             subMap = SUB_MAIN_WORLD;
             player.lockOfficeDoor = true; // restricts coming back to office
         }
         // for transitioning into cabin
         else if (currentMap == PINEWOOD_CAMP && subMap == SUB_MAIN_WORLD) { // if transitioning map inside pinewood camp
-            System.out.println("CABIN");
             // load in cabin objects
             aSetter.reseatAssets();
             player.setPosInCabin();
@@ -271,8 +278,6 @@ public class GamePanel extends JPanel implements Runnable {
             currentTask = TaskState.CHECK_IN_FRONT_OFFICE;
             subMap = SUB_FRONT_OFFICE;
         }
-
-        System.out.println("AFTER SUBMAP:" + subMap);
     }
 
 
@@ -346,6 +351,9 @@ public class GamePanel extends JPanel implements Runnable {
             if(currentTask == TaskState.READ_LOG_BOOK) {
                 ui.taskIndex = 9;
             }
+
+            if(mapOn == true) {player.freezePlayer = true;}
+            else {player.freezePlayer = false;}
 
 
             player.update(); // it's like a nested updates, when this main update method is called it calls the player update method so the player can be updated thus more organized clean code.
@@ -461,9 +469,7 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == titleState || gameState == initialDialogueState ) {
             ui.draw(g2);
         }
-        else if(gameState == mapState) {
-            map.drawMap(g2);
-        }
+
         // OTHER GAME STATES. START THE MAIN DIALOGUE HERE:
         else{
 
@@ -525,6 +531,12 @@ public class GamePanel extends JPanel implements Runnable {
             }
             // UI - SET IT BELOW tiles and player draw methods so it doesn't get covered
             ui.draw(g2);
+
+           // show map
+            if (mapOn == true) {
+                map.drawMap(g2);
+            }
+
 
             // Intro dialogue transition to game.
             if(drawBlackScreen == true) {
