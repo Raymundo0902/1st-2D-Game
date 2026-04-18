@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class UI {
 
-    BufferedImage menuImage, checkMark;
+    BufferedImage menuImage, checkMark, logBook;
     GamePanel gp;
     Graphics2D g2;
     Font maruMonica;
@@ -61,14 +61,12 @@ public class UI {
     // EXTRA BOOLEANS/CONDITIONALS
     public boolean setToDay = false;
 
-
     // COMPUTER OS
-    BufferedImage pinewoodIcon, osIcon, fileIcon, recycleIcon, osBackground, speakerIcon, signInIcon, pinewoodHomePage, a1Cabin, j1Cabin, k4Cabin, folderIcon;
+    BufferedImage pinewoodIcon, osIcon, recycleIcon, osBackground, speakerIcon, signInIcon, pinewoodHomePage, a1Cabin, j1Cabin, k4Cabin, folderIcon;
     Rectangle pineWButtonBounds, exitButton, passwordButton, signInButton, assignButton;
 
     // OS WINDOWS STATE - goes from 0 to 1
     int osSubState = 0;
-
 
     public UI (GamePanel gp) {
         this.gp = gp;
@@ -80,113 +78,16 @@ public class UI {
         signInButton = new Rectangle(gp.tileSize * 7 + 24, gp.tileSize * 5 + 20, gp.tileSize * 2,27);
         assignButton = new Rectangle(gp.tileSize* 11 + 30, gp.tileSize * 6 + 30, gp.tileSize * 2, 27);
 
-        // TITLE SCREEN IMAGE
-        try{
-            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen.png"));
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
-        // FONT
-        try {
-            InputStream is = getClass().getResourceAsStream("/font/x12y16pxMaruMonica.ttf");
-            maruMonica = Font.createFont(Font.TRUETYPE_FONT, is);
-
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // LOAD CHECKMARK
-        try{
-            checkMark = ImageIO.read(getClass().getResourceAsStream(  "/images/checkmark.png"));
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
-        // LOAD OS ICONS
-
-        try{
-            osBackground = ImageIO.read(getClass().getResourceAsStream("/images/windowsxp.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        try{
-            pinewoodIcon = ImageIO.read(getClass().getResourceAsStream("/images/pinewoodassociates.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            osIcon = ImageIO.read(getClass().getResourceAsStream("/images/osIcon.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            recycleIcon = ImageIO.read(getClass().getResourceAsStream("/images/recyclebin.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            signInIcon = ImageIO.read(getClass().getResourceAsStream("/images/signinicon.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            pinewoodHomePage = ImageIO.read(getClass().getResourceAsStream("/images/pinewoodhomepage.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            a1Cabin = ImageIO.read(getClass().getResourceAsStream("/images/A1cabin.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            j1Cabin = ImageIO.read(getClass().getResourceAsStream("/images/J1cabin.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            k4Cabin = ImageIO.read(getClass().getResourceAsStream("/images/K4cabin.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            folderIcon = ImageIO.read(getClass().getResourceAsStream("/images/foldericon.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            speakerIcon = ImageIO.read(getClass().getResourceAsStream("/images/speakerIcon.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        loadBufferedImage();
 
         // INITIALIZE THE INTRODUCTORY DIALOGUE
         setIntroArray();
         setTaskList();
 
         defaultYPosition = gp.tileSize * 2;
-
     }
 
     public void showMessage(String text) {
-
         message = text;
         messageOn = true;
     }
@@ -194,7 +95,6 @@ public class UI {
     public void draw(Graphics2D g2) {
 
         this.g2 = g2;
-
         g2.setFont(maruMonica);
         g2.setColor(Color.white);
 
@@ -209,7 +109,9 @@ public class UI {
         // PLAY STATE
         else if(gp.gameState == gp.playState) {
             drawPlayerLife();
-            drawCurrentTask();
+            if(gp.closeTaskList == false) {
+                drawCurrentTask();
+            }
         }
         // DIALOGUE STATE
         else if(gp.gameState == gp.dialogueState) {
@@ -219,6 +121,7 @@ public class UI {
         // CHARACTER STATE
         else if(gp.gameState == gp.characterState) {
             drawInventory();
+            drawLogBook();
         }
         // OPTIONS/PAUSE STATE
         else if(gp.gameState == gp.optionsState){
@@ -228,19 +131,22 @@ public class UI {
         else if(gp.gameState == gp.gameOverState) {
             drawGameOverScreen();
         }
-
         else if(gp.gameState == gp.transitionMapState) {
             drawExitMapScreen();
             drawCurrentTask();
         }
         else if(gp.gameState == gp.computerState) {
             drawOS();
-            drawCurrentTask();
+            if(gp.closeTaskList == false) {
+                drawCurrentTask();
+            }
         }
         else if(gp.gameState == gp.transitionState) {
             transitionScreen();
         }
-
+        else if(gp.gameState == gp.logBookState) {
+            drawLogBook();
+        }
     }
 
     public void transitionScreen() {
@@ -591,6 +497,25 @@ public class UI {
         // DEBUG
 //        g2.setColor(Color.red);
 //        g2.fillRect(assignButton.x, assignButton.y, assignButton.width, assignButton.height);
+    }
+
+    private void drawLogBook() {
+
+        // Coordinates
+        int x = gp.tileSize * 4;
+        int y = gp.tileSize;
+
+        g2.drawImage(logBook, x, y, gp.tileSize * 12, gp.tileSize * 10, null);
+
+        // Text styles
+        g2.setColor(Color.black);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 40f));
+
+        // Text - header
+        g2.drawString("Guide:", x + gp.tileSize * 2, y + gp.tileSize + 10);
+        // Horizontal line
+        g2.fillRect(x + (int)(gp.tileSize * 1.5), y + gp.tileSize + 20, gp.tileSize * 3, 2);
+         
     }
 
     public void drawExitMapScreen() {
@@ -1528,7 +1453,6 @@ public class UI {
 
     }
 
-
     // HELPER METHOD
     public int getXforCenteredText(String text) {
 
@@ -1536,4 +1460,111 @@ public class UI {
         int x = gp.screenWidth / 2 - length / 2;
         return x;
     }
+
+    private void loadBufferedImage() {
+
+        // TITLE SCREEN IMAGE
+        try{
+            menuImage = ImageIO.read(getClass().getResourceAsStream(  "/titleScreenImage/titleScreen.png"));
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        // FONT
+        try {
+            InputStream is = getClass().getResourceAsStream("/font/x12y16pxMaruMonica.ttf");
+            maruMonica = Font.createFont(Font.TRUETYPE_FONT, is);
+
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // LOAD CHECKMARK
+        try{
+            checkMark = ImageIO.read(getClass().getResourceAsStream(  "/images/checkmark.png"));
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        // LOAD OS ICONS
+
+        try{
+            osBackground = ImageIO.read(getClass().getResourceAsStream("/images/windowsxp.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        try{
+            pinewoodIcon = ImageIO.read(getClass().getResourceAsStream("/images/pinewoodassociates.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            osIcon = ImageIO.read(getClass().getResourceAsStream("/images/osIcon.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            recycleIcon = ImageIO.read(getClass().getResourceAsStream("/images/recyclebin.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            signInIcon = ImageIO.read(getClass().getResourceAsStream("/images/signinicon.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            pinewoodHomePage = ImageIO.read(getClass().getResourceAsStream("/images/pinewoodhomepage.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            a1Cabin = ImageIO.read(getClass().getResourceAsStream("/images/A1cabin.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            j1Cabin = ImageIO.read(getClass().getResourceAsStream("/images/J1cabin.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            k4Cabin = ImageIO.read(getClass().getResourceAsStream("/images/K4cabin.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            folderIcon = ImageIO.read(getClass().getResourceAsStream("/images/foldericon.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            speakerIcon = ImageIO.read(getClass().getResourceAsStream("/images/speakerIcon.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            logBook = ImageIO.read(getClass().getResourceAsStream("/images/rangerlogbook.png"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

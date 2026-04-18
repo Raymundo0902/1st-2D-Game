@@ -5,23 +5,26 @@ import main.GamePanel;
 
 import java.awt.*;
 
-public class OBJ_Desk extends Entity {
+public class OBJ_CabinDesk extends Entity {
 
-    public OBJ_Desk(GamePanel gp) {
+
+    public OBJ_CabinDesk(GamePanel gp) {
         super(gp);
-        name = "computer";
-        down1 = setup("/objects/desk1", gp.tileSize * 2, gp.tileSize * 2);
+        name = "logbook";
+        down1 = setup("/objects/cabindesk", gp.tileSize * 2, (int)(gp.tileSize * 1.5));
         collision = true;
-        solidArea.x = 0;
-        solidArea.y = 24;
+        solidArea.x = 8;
+        solidArea.y = 8;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = gp.tileSize * 2;
+        solidArea.width = (int) (gp.tileSize * 1.5);
         solidArea.height = gp.tileSize;
     }
 
     @Override
-    public void update() {}
+    public void update() {
+
+    }
 
     // Had to declare its own draw method from entity because the image is gp.tileSize*2 long so it needs to show image from its top/bottom edge of camera view
     public void draw(Graphics2D g2) {
@@ -41,6 +44,6 @@ public class OBJ_Desk extends Entity {
             g2.setColor(Color.red);
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
-
     }
 }
+

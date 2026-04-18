@@ -97,7 +97,6 @@ public class GamePanel extends JPanel implements Runnable {
     public final int transitionState = 10;
     public final int logBookState = 11;
 
-
     // CUTSCENE TRIGGER
     public boolean mapOn = false;
 
@@ -107,9 +106,9 @@ public class GamePanel extends JPanel implements Runnable {
     float j = 1f;
     public boolean oneTime = false;
     public boolean startDayCycle = false;
-    boolean firstTime = false;
 
     // EXTRA
+    public boolean closeTaskList;
 
 
     public GamePanel () {
@@ -146,7 +145,6 @@ public class GamePanel extends JPanel implements Runnable {
         player.restoreLifeAndAttributes();
         aSetter.setNPC();
         aSetter.setMonster();
-
     }
 
     // NEW GAME AGAIN
@@ -187,7 +185,6 @@ public class GamePanel extends JPanel implements Runnable {
         Main.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         screenWidth2 = (int) width;
         screenHeight2 = (int) height;
-
     }
 
     public void startGameThread() {
@@ -252,7 +249,6 @@ public class GamePanel extends JPanel implements Runnable {
             tileM.loadMap("/maps/world01.txt");
 
             subMap = SUB_MAIN_WORLD;
-            player.lockOfficeDoor = true; // restricts coming back to office
         }
         // for transitioning into cabin
         else if (currentMap == PINEWOOD_CAMP && subMap == SUB_MAIN_WORLD) { // if transitioning map inside pinewood camp
@@ -537,7 +533,6 @@ public class GamePanel extends JPanel implements Runnable {
                 map.drawMap(g2);
             }
 
-
             // Intro dialogue transition to game.
             if(drawBlackScreen == true) {
                 if(j > 0) {
@@ -554,8 +549,6 @@ public class GamePanel extends JPanel implements Runnable {
                     drawBlackScreen = false;
                 }
             }
-
-
         }
 
         // DEBUG
@@ -580,7 +573,6 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void drawToScreen() {
-
         Graphics g = getGraphics();
         g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
         g.dispose();
@@ -588,7 +580,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     public void playMusic(int i) { // for music we use loop because it is obviously a continuous sound
-
         music.setFile(i);
         music.play();
         music.loop();

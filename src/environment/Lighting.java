@@ -144,9 +144,13 @@ public class Lighting {
     }
 
     public void draw(Graphics2D g2) {
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, filterAlpha));
-        g2.drawImage(darknessFilter, 0, 0, null);
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
+        // Helps give illusion that there's light inside cabin and other buildings
+        if(gp.subMap == gp.SUB_MAIN_WORLD) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, filterAlpha));
+            g2.drawImage(darknessFilter, 0, 0, null);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        }
 
         // DEBUG INFO
 //        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40f));

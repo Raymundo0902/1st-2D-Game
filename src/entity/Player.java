@@ -454,11 +454,10 @@ public class Player extends Entity{
                     // only can leave door and never go back in.
                     if(gp.currentTask == TaskState.GO_TO_CABIN) {
                         if (lockOfficeDoor == false) {
-                            if (hasKey > 0) {
                                 exitMap = true;
                                 gp.gameState = gp.transitionState;
+                                lockOfficeDoor = true; // prevents going back in ranger office
                                 gp.playSE(4);
-                            }
                         }
                     }
                     break;
@@ -467,12 +466,14 @@ public class Player extends Entity{
                     // enter player's cabin
                     if(gp.currentTask == TaskState.GO_TO_CABIN) {
                         hasKey--;
-                        inventory.remove(0); // key is always the first in the inventory
+                        // remove key
+                        removeFromInventory(OBJ_Key.class);
                         gp.currentTask = TaskState.GO_TO_SLEEP;
                     }
                     exitMap = true;
                     gp.gameState = gp.transitionState;
                     gp.playSE(20);
+                    break;
             }
         }
     }
@@ -544,6 +545,11 @@ public class Player extends Entity{
                             gp.gameState = gp.transitionState;
                             gp.currentTask = TaskState.READ_LOG_BOOK;
                         }
+                        break;
+                    case "logbook":
+                        gp.gameState = gp.logBookState;
+                        gp.currentTask = TaskState.GET_TOOLS;
+                        break;
                 }
             }
         }
@@ -618,6 +624,16 @@ public class Player extends Entity{
                         gp.gameState = gp.dialogueState;
                     }
                 }
+            }
+        }
+    }
+
+    // Use when you cannot use inventory.remove(currentItem)
+    private void removeFromInventory(Class<?> itemClass) {
+        for(int x = 0; x < inventory.size(); x++) {
+            if(itemClass.isInstance(inventory.get(x))){
+                inventory.remove(x);
+                break;
             }
         }
     }

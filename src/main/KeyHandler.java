@@ -211,6 +211,14 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 }
             }
         }
+        if(code == KeyEvent.VK_G) {
+
+            if(gp.closeTaskList == false) {
+                gp.closeTaskList = true;
+            } else {
+                gp.closeTaskList = false;
+            }
+        }
     }
 
     public void playState(int code) {
@@ -251,6 +259,14 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
                 gp.mapOn = true;
             } else {
                 gp.mapOn = false;
+            }
+        }
+        if(code == KeyEvent.VK_G) {
+
+            if(gp.closeTaskList == false) {
+                gp.closeTaskList = true;
+            } else {
+                gp.closeTaskList = false;
             }
         }
 
