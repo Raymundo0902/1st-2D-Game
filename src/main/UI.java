@@ -109,6 +109,9 @@ public class UI {
         // PLAY STATE
         else if(gp.gameState == gp.playState) {
             drawPlayerLife();
+            if(gp.player.interactableCollision == true) {
+                drawInteractButton();
+            }
             if(gp.closeTaskList == false) {
                 drawCurrentTask();
             }
@@ -121,7 +124,6 @@ public class UI {
         // CHARACTER STATE
         else if(gp.gameState == gp.characterState) {
             drawInventory();
-            drawLogBook();
         }
         // OPTIONS/PAUSE STATE
         else if(gp.gameState == gp.optionsState){
@@ -180,6 +182,19 @@ public class UI {
                 gp.oneTime = false; // can safely put it here that triggers only once
             }
         }
+    }
+
+    public void drawInteractButton() {
+
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
+        // outline
+        g2.setColor(Color.black);
+        g2.drawString("Press ' E ' to interact", gp.player.screenX + 42, gp.player.screenY + 29);
+        g2.drawString("Press ' E ' to interact", gp.player.screenX + 44, gp.player.screenY + 31);
+
+        g2.setColor(Color.WHITE);
+        g2.drawString("Press ' E ' to interact", gp.player.screenX + 43, gp.player.screenY + 30);
     }
 
     public void drawOS() {
@@ -511,11 +526,39 @@ public class UI {
         g2.setColor(Color.black);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 40f));
 
-        // Text - header
+        // Text - headers
         g2.drawString("Guide:", x + gp.tileSize * 2, y + gp.tileSize + 10);
+        g2.drawString("Extra:", x + gp.tileSize * 8, y + gp.tileSize + 10);
         // Horizontal line
         g2.fillRect(x + (int)(gp.tileSize * 1.5), y + gp.tileSize + 20, gp.tileSize * 3, 2);
-         
+        g2.fillRect(x + (int)(gp.tileSize * 7.5), y + gp.tileSize + 20, gp.tileSize * 3, 2);
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20f));
+        // Guide page
+        y += 70;
+        g2.drawString("1. Tools in toolshed left of cabin", x + gp.tileSize, y + gp.tileSize);
+        y += 40;
+        g2.drawString("2. Assist & interact with campers", x + gp.tileSize, y + gp.tileSize);
+        y += 40;
+        g2.drawString("3. Lock entry at 8:30pm", x + gp.tileSize, y + gp.tileSize);
+        y += 40;
+        g2.drawString("4. Protect wildlife", x + gp.tileSize, y + gp.tileSize);
+        y += 40;
+        g2.drawString("5. Resupply firewood every friday", x + gp.tileSize, y + gp.tileSize);
+        y += 40;
+        g2.drawString("6. Do daily check-ins of campsites", x + gp.tileSize, y + gp.tileSize);
+        y += 40;
+        g2.drawString("7. Have fun!", x + gp.tileSize, y + gp.tileSize);
+        // Extra page
+        y = gp.tileSize * 3 + 20;
+        x += gp.tileSize * 5 + 53;
+        g2.drawString("- If you're hungry, there's a cozy pizza", x, y);
+        g2.drawString("  spot 8 min out. Officer James knows.", x, y + 15);
+        y += 55;
+        g2.drawString("- Btw, don't piss off Lead officer James..", x, y);
+        y += 40;
+        g2.drawString("- Always carry a light source cause it", x, y);
+        g2.drawString("  gets very dark at night", x, y + 15);
     }
 
     public void drawExitMapScreen() {
@@ -723,6 +766,10 @@ public class UI {
         currentTask[i] = "Read ranger log book";
         checkmarks[i] = new boolean[1];
         i++;
+
+        currentTask[i] = "Get tools from shed\nhelp camper with problem";
+        checkmarks[i] = new boolean[2];
+        i++;
     }
 
     public void drawTitleScreen(){
@@ -898,7 +945,6 @@ public class UI {
             middleX = getXforCenteredText(lines[i]);
 
             drawGlowText(g2, lines[i], middleX, y);
-//            g2.drawString(lines[i], middleX, y);
             y += 40;
         }
 

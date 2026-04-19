@@ -56,6 +56,7 @@ public class Player extends Entity{
     public boolean exitMap = true; // true for testing but final should be default as false
     public boolean slept = false;
     public boolean freezePlayer = false;
+    public boolean interactableCollision = false;
 
     // PLAYER DIALOGUE SYSTEM
     public int pDialogueIndex = 0;
@@ -208,7 +209,7 @@ public class Player extends Entity{
 
         // without this, player will move without stopping && enterPressed here is for the purpose of checking npc collision when we just press enter key for dialogue without having to simultaneously move to npc and press enter.
         else if (keyH.upPressed == true || keyH.downPressed == true ||
-                keyH.leftPressed == true || keyH.rightPressed == true || keyH.enterPressed == true ){
+                keyH.leftPressed == true || keyH.rightPressed == true || keyH.ePressed == true ){
 
             if(keyH.upPressed == true) {
                 direction = "up";
@@ -251,6 +252,7 @@ public class Player extends Entity{
             // THE VARIABLES THAT HAVE "Index" IN THEIR NAME ARE TO RETRIEVE THE ENTITIES/OBJECT INDEX SO WE CAN USE TO INTERACT, RECEIVE DAMAGE, DO A SPECIFIC EVENT, ETC
             // CHECK OBJECT COLLISION
             int objIndex = gp.cChecker.checkObject(this, true);
+            objectInteractable(objIndex);
             pickUpObject(objIndex);
             interactObject(objIndex);
 
@@ -266,8 +268,8 @@ public class Player extends Entity{
             gp.eventH.checkEvent();
 
 
-            // IF COLLISON IS FALSE, PLAYER CAN MOVE AND WITHOUT THE ENTERPRESSED HERE, PLAYER CAN MOVE WHEN PRESSING ENTER.
-            if(collisionOn == false && keyH.enterPressed == false && freezePlayer == false) {
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE AND WITHOUT THE ENTERPRESSED HERE, PLAYER CAN MOVE WHEN PRESSING ENTER.
+            if(collisionOn == false && keyH.ePressed == false && freezePlayer == false) {
                 switch(direction) {
                     case "up": worldY -= speed; break;
                     case "down": worldY += speed; break;
@@ -278,7 +280,7 @@ public class Player extends Entity{
 
             // statement 1
             if(currentItem.type == TYPE_RAKE) {
-                if (keyH.enterPressed == true && rakeCanceled == false) {
+                if (keyH.ePressed == true && rakeCanceled == false) {
                     gp.playSE(9); // swinging rake SE
                     raking = true;
                 }
@@ -286,7 +288,7 @@ public class Player extends Entity{
 
             rakeCanceled = false;
 
-            if(gp.keyH.enterPressed == false) { // stops player to animate when holding down enter key
+            if(gp.keyH.ePressed == false) { // stops player to animate when holding down enter key
                 spriteCounter++;
                 if (spriteCounter > 12) { // this means player image changes every 12 frames
                     if (spriteNum == 1) spriteNum = 2;
@@ -295,7 +297,7 @@ public class Player extends Entity{
                 }
             }
             // RESET IT TO FALSE OR ELSE PLAYER WILL FREEZE BECAUSE IF ENTER WAS PRESSED, THE IF STATEMENT "1" WON'T EVER PASS AGAIN CAUSING PLAYER TO FREEZE.
-            gp.keyH.enterPressed = false;
+            gp.keyH.ePressed = false;
 
         }
 
@@ -345,12 +347,6 @@ public class Player extends Entity{
         if(curLife <= 0) {
             gp.gameState = gp.gameOverState;
         }
-
-
-    }
-
-    public void itemDrop() {
-
     }
 
     public void raking() {
@@ -396,6 +392,21 @@ public class Player extends Entity{
             spriteNum = 1;
             spriteCounter = 0;
             raking = false;
+        }
+
+    }
+
+    // return a boolean
+    public void objectInteractable(int i) {
+
+        if(i != 999) {
+            if (gp.obj[i] instanceof OBJ_Fridge || gp.obj[i] instanceof OBJ_CabinDesk ||
+                    gp.obj[i] instanceof OBJ_SnackShelf) {
+                interactableCollision = true;
+            }
+        }
+        else {
+            interactableCollision = false;
         }
 
     }
@@ -484,7 +495,7 @@ public class Player extends Entity{
 
             String objName = gp.obj[i].name;
 
-            if(keyH.enterPressed == true) {
+            if(keyH.ePressed == true) {
                 switch (objName) {
 
                     case "snackShelf":
@@ -532,11 +543,10 @@ public class Player extends Entity{
                         break;
                     case "computer":
                         if(gp.currentTask == TaskState.GO_TO_COMPUTER) {
-                            // make it where you can press enter to go into the fake OS to login as a ranger.
                             gp.ui.checkmarks[5][0] = true; // completed going to computer
-                            gp.playSE(19);
-                            gp.gameState = gp.computerState;
                         }
+                        gp.playSE(19);
+                        gp.gameState = gp.computerState;
                         break;
                     case "bed":
                         if(gp.currentTask == TaskState.GO_TO_SLEEP) {
@@ -548,7 +558,9 @@ public class Player extends Entity{
                         break;
                     case "logbook":
                         gp.gameState = gp.logBookState;
-                        gp.currentTask = TaskState.GET_TOOLS;
+                        if(gp.currentTask == TaskState.READ_LOG_BOOK) {
+                            gp.currentTask = TaskState.GET_TOOLS;
+                        }
                         break;
                 }
             }
@@ -557,73 +569,118 @@ public class Player extends Entity{
 
     public void interactNPC(int i) {
 
-        if(gp.keyH.enterPressed == true) {
+        if(gp.keyH.ePressed == true) {
 
             System.out.println(gp.currentTask);
             if (i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
                 rakeCanceled = true;
+                String name = gp.npc[i].name;
 
-                if(!(gp.npc[i] instanceof NPC_Cashier || gp.npc[i] instanceof NPC_OfficerJames)) {
+                switch(name) {
 
-                    gp.ui.npcIndex = i;
-                    getResponseForNpc();
-                    gp.npc[i].speak();
-                    gp.playSE(12);
-                    gp.gameState = gp.dialogueState;
-
-                }
-                else if(gp.currentTask == TaskState.TALK_TO_CASHIER) {
-
-                    gp.ui.npcIndex = i;
-                    getResponseForNpc();
-                    gp.npc[i].speak();
-                    gp.playSE(12);
-                    gp.gameState = gp.dialogueState;
-
-                    // move on to next task after talking only if it's the actual cashier
-                    if(gp.npc[i] instanceof NPC_Cashier) {
-                        gp.currentTask = TaskState.EXIT_STORE;
-                    }
-                }
-                else if(gp.currentTask == TaskState.CHECK_IN_FRONT_OFFICE) {
-
-                    gp.ui.npcIndex = i;
-                    getResponseForNpc();
-                    gp.npc[i].speak();
-                    gp.playSE(12);
-                    gp.gameState = gp.dialogueState;
-
-                    // move on to next task after talking only if it's the actual cashier
-                    if(gp.npc[i] instanceof NPC_OfficerJames) {
-                        gp.currentTask = TaskState.GO_TO_COMPUTER;
-                    }
-                }
-                else if (gp.currentTask == TaskState.GET_CABIN_KEYS) {
-
-                    if(gp.npc[i] instanceof NPC_OfficerJames) {
-                        // clear the player and officer james dialogue slot for officer james and add the ones for the convo when getting keys.
-                        updateDialogue(i);
-
+                    case "ayden":
+                    case "melissa":
                         gp.ui.npcIndex = i;
                         getResponseForNpc();
                         gp.npc[i].speak();
                         gp.playSE(12);
                         gp.gameState = gp.dialogueState;
-                        gp.currentTask = TaskState.GO_TO_CABIN;
-                        hasKey++;
-                        if(inventory.size() != maxInventorySize) {
-                            inventory.add(new OBJ_Key(gp));
-                            inventory.add(new OBJ_Lantern(gp)); // update dialogue to "also giving you a lantern since its dark out."
+                        break;
+                    case "cashier":
+                        if(gp.currentTask == TaskState.TALK_TO_CASHIER) {
+                            gp.ui.npcIndex = i;
+                            getResponseForNpc();
+                            gp.npc[i].speak();
+                            gp.playSE(12);
+                            gp.gameState = gp.dialogueState;
+                            gp.currentTask = TaskState.EXIT_STORE;
                         }
-                    }
-                    else {
-                        gp.ui.npcIndex = i;
-                        getResponseForNpc();
-                        gp.npc[i].speak();
-                        gp.playSE(12);
-                        gp.gameState = gp.dialogueState;
-                    }
+                        break;
+                    case "james":
+                        if(gp.currentTask == TaskState.CHECK_IN_FRONT_OFFICE || gp.currentTask == TaskState.GO_TO_COMPUTER) {
+                            gp.ui.npcIndex = i;
+                            getResponseForNpc();
+                            gp.npc[i].speak();
+                            gp.playSE(12);
+                            gp.gameState = gp.dialogueState;
+                            if(gp.currentTask == TaskState.CHECK_IN_FRONT_OFFICE) {
+                                gp.currentTask = TaskState.GO_TO_COMPUTER;
+                            }
+                        }
+                        else if(gp.currentTask == TaskState.GET_CABIN_KEYS) {
+
+                            updateDialogue(i);
+                            gp.ui.npcIndex = i;
+                            getResponseForNpc();
+                            gp.npc[i].speak();
+                            gp.playSE(12);
+                            gp.gameState = gp.dialogueState;
+
+                            gp.currentTask = TaskState.GO_TO_CABIN;
+                            hasKey++;
+                            if(inventory.size() != maxInventorySize) {
+                                inventory.add(new OBJ_Key(gp));
+                                inventory.add(new OBJ_Lantern(gp)); // update dialogue to "also giving you a lantern since its dark out."
+                            }
+                        }
                 }
+
+//                  UNCOMMENT THIS BELOW CODE IF ABOVE DOESNT WORK
+//                // for normal NPC convos
+//                if(!(gp.npc[i] instanceof NPC_Cashier || gp.npc[i] instanceof NPC_OfficerJames)) {
+//
+//                    gp.ui.npcIndex = i;
+//                    getResponseForNpc();
+//                    gp.npc[i].speak();
+//                    gp.playSE(12);
+//                    gp.gameState = gp.dialogueState;
+//                }
+//                else if(gp.currentTask == TaskState.TALK_TO_CASHIER) {
+//
+//                    gp.ui.npcIndex = i;
+//                    getResponseForNpc();
+//                    gp.npc[i].speak();
+//                    gp.playSE(12);
+//                    gp.gameState = gp.dialogueState;
+//
+//                    // move on to next task after talking only if it's the actual cashier
+//                    if(gp.npc[i] instanceof NPC_Cashier) {
+//                        gp.currentTask = TaskState.EXIT_STORE;
+//                    }
+//                }
+//                else if(gp.currentTask == TaskState.CHECK_IN_FRONT_OFFICE) {
+//
+//                    gp.ui.npcIndex = i;
+//                    getResponseForNpc();
+//                    gp.npc[i].speak();
+//                    gp.playSE(12);
+//                    gp.gameState = gp.dialogueState;
+//
+//                    // move on to next task after talking only if it's the actual cashier
+//                    if(gp.npc[i] instanceof NPC_OfficerJames) {
+//                        gp.currentTask = TaskState.GO_TO_COMPUTER;
+//                    }
+//                }
+//                else if (gp.currentTask == TaskState.GET_CABIN_KEYS) {
+//
+//                    if(gp.npc[i] instanceof NPC_OfficerJames) {
+//                        // clear the player and officer james dialogue slot for officer james and add the ones for the convo when getting keys.
+//                        updateDialogue(i);
+//
+//                        gp.ui.npcIndex = i;
+//                        getResponseForNpc();
+//                        gp.npc[i].speak();
+//                        gp.playSE(12);
+//                        gp.gameState = gp.dialogueState;
+//
+//                        gp.currentTask = TaskState.GO_TO_CABIN;
+//                        hasKey++;
+//                        if(inventory.size() != maxInventorySize) {
+//                            inventory.add(new OBJ_Key(gp));
+//                            inventory.add(new OBJ_Lantern(gp)); // update dialogue to "also giving you a lantern since its dark out."
+//                        }
+//                    }
+//                }
             }
         }
     }

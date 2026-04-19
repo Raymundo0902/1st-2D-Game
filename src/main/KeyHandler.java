@@ -9,7 +9,7 @@ import java.security.Key;
 
 public class KeyHandler implements KeyListener { // must add the key: typed, pressed and released methods when implementing KeyListener
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, enterPressed, throwPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, enterPressed, throwPressed, ePressed;
     public StringBuilder inputText;
     // DEBUG
     boolean checkDebugText = false;
@@ -30,8 +30,10 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
             char c = e.getKeyChar();
 
             // only allow normal characters
-            if(Character.isLetterOrDigit(c) && inputText.length() < 17) {
-                inputText.append(c);
+            if(gp.currentTask == TaskState.GO_TO_COMPUTER) {
+                if (Character.isLetterOrDigit(c) && inputText.length() < 17) {
+                    inputText.append(c);
+                }
             }
         }
     }
@@ -80,6 +82,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         else if(gp.gameState == gp.computerState) {
             computerState(code);
+        }
+        else if(gp.gameState == gp.logBookState) {
+            logBookState(code);
         }
     }
 
@@ -221,6 +226,14 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
     }
 
+    public void logBookState(int code) {
+
+        if(code == KeyEvent.VK_ESCAPE) {
+            gp.gameState = gp.playState;
+        }
+    }
+
+
     public void playState(int code) {
 
         if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
@@ -243,6 +256,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         if(code == KeyEvent.VK_C) {
             gp.gameState = gp.characterState;
+        }
+        if(code == KeyEvent.VK_E) {
+            ePressed = true;
         }
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;
@@ -342,10 +358,6 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
             enterPressed = true;
         }
 
-        // Old dialogueState method code:
-//        if(code == KeyEvent.VK_ENTER) {
-//            gp.gameState = gp.playState;
-//        }
     }
 
 
@@ -513,6 +525,9 @@ public class KeyHandler implements KeyListener { // must add the key: typed, pre
         }
         if(code == KeyEvent.VK_F) {
             throwPressed = false;
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = false;
         }
 
 

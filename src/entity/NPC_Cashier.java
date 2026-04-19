@@ -13,6 +13,7 @@ public class NPC_Cashier extends Entity{
         super(gp);
         direction = "left";
         speed = 2;
+        name = "cashier";
         getNPCImage();
         setDialogue();
 

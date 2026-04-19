@@ -161,7 +161,6 @@ public class GamePanel extends JPanel implements Runnable {
         // World
         currentMap = GAS_STATION;
 
-
         // ENTITY DEFAULTS
         player.setDefaultPositionGasStation();
         player.restoreLifeAndAttributes();
@@ -346,6 +345,9 @@ public class GamePanel extends JPanel implements Runnable {
             }
             if(currentTask == TaskState.READ_LOG_BOOK) {
                 ui.taskIndex = 9;
+            }
+            if(currentTask == TaskState.GET_TOOLS) {
+                ui.taskIndex = 10;
             }
 
             if(mapOn == true) {player.freezePlayer = true;}

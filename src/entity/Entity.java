@@ -19,7 +19,7 @@ public class Entity {
     public Rectangle rakeArea = new Rectangle(0, 0, 0, 0); // rake grass
     public int solidAreaDefaultX, solidAreaDefaultY; // the blueprint and the subclasses will have their own values
     public String dialogues[] = new String[20]; // each entity gets their own copy
-    public BufferedImage image, image2, image3;
+    public BufferedImage image;
 
     // STATE - collision, location, defaults
     public boolean collisionOn = false;

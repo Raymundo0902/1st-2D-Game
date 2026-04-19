@@ -11,6 +11,7 @@ public class NPC_Melissa extends Entity{
         super(gp);
         direction = "up";
         speed = 2;
+        name = "melissa";
         getNPCImage();
         setDialogue();
 

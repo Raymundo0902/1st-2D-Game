@@ -13,6 +13,7 @@ public class NPC_Ayden extends Entity {
 
         direction = "down";
         speed = 2;
+        name = "ayden";
         getNPCImage();
         setDialogue();
 

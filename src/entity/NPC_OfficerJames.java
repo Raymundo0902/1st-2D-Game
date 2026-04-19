@@ -11,6 +11,7 @@ public class NPC_OfficerJames extends Entity{
         speed = 2;
         getNPCImage();
         setDialogue();
+        name = "james";
 
         solidArea = new Rectangle(); // values below are what parts of the character will be solid
         solidArea.x = -gp.tileSize;
