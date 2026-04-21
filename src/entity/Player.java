@@ -418,14 +418,17 @@ public class Player extends Entity{
                 gp.obj[objIndex] instanceof OBJ_Bed || gp.obj[objIndex] instanceof OBJ_FruitBox2 ||
                 gp.obj[objIndex] instanceof OBJ_Chest || gp.obj[objIndex] instanceof OBJ_Desk ||
                 gp.obj[objIndex] instanceof OBJ_CheckoutCounter) {
-                interactableCollision = true;
+                if(gp.obj[objIndex].interactable == true) {
+                    interactableCollision = true;
+                }
             }
         }
         else if(npcIndex != 999) {
-            System.out.println("detected");
                 if(gp.npc[npcIndex] instanceof NPC_OfficerJames || gp.npc[npcIndex] instanceof NPC_Melissa ||
                    gp.npc[npcIndex] instanceof NPC_Ayden) {
-                   interactableCollision = true;
+                    if(gp.npc[npcIndex].interactable == true) {
+                        interactableCollision = true;
+                    }
                 }
         }
         else {
@@ -526,6 +529,11 @@ public class Player extends Entity{
                         if(gp.currentTask == TaskState.GET_SNACKS) {
                             if (worldY > gp.obj[i].worldY + gp.tileSize) {
                                 if(gotChips == false) {
+                                    for(int e = 0; e < gp.obj.length; e++) {
+                                        if(gp.obj[e] instanceof OBJ_SnackShelf) {
+                                            gp.obj[e].interactable = false;
+                                        }
+                                    }
                                     gp.playSE(18);
                                     snacksCollected++;
                                     gotChips = true; // stops spam
@@ -539,6 +547,7 @@ public class Player extends Entity{
                         if(gp.currentTask == TaskState.GET_SNACKS) {
                             if(gotBanana == false) {
                                 gp.playSE(18);
+                                gp.obj[i].interactable = false;
                                 snacksCollected++;
                                 gotBanana = true;
                                 gp.ui.checkmarks[0][2] = gotBanana;
@@ -550,6 +559,7 @@ public class Player extends Entity{
                         if(gp.currentTask == TaskState.GET_SNACKS) {
                             if(gotDrink == false) {
                                 gp.playSE(18);
+                                gp.obj[i].interactable = false;
                                 snacksCollected++;
                                 gotDrink = true;
                                 gp.ui.checkmarks[0][0] = gotDrink;
@@ -611,6 +621,11 @@ public class Player extends Entity{
                         break;
                     case "cashier":
                         if(gp.currentTask == TaskState.TALK_TO_CASHIER) {
+                            for(int e = 0; e < gp.obj.length; e++) {
+                                if(gp.obj[e] instanceof OBJ_CheckoutCounter) {
+                                    gp.obj[e].interactable = false;
+                                }
+                            }
                             gp.ui.npcIndex = i;
                             getResponseForNpc();
                             gp.npc[i].speak();
@@ -710,7 +725,7 @@ public class Player extends Entity{
 
     // Use when you cannot use inventory.remove(currentItem)
     private void removeFromInventory(Class<?> itemClass) {
-        for(int x = 0; x < inventory.size(); x++) {
+        for(int x = 0; x <= inventory.size(); x++) {
             if(itemClass.isInstance(inventory.get(x))){
                 inventory.remove(x);
                 break;
@@ -728,6 +743,13 @@ public class Player extends Entity{
     public void checkSnackCompletion() {
         if(snacksCollected == totalSnacks) {
             gp.currentTask = TaskState.TALK_TO_CASHIER;
+            // enable because that's when grabbing all snacks, we can go checkout and interact with cashier.
+            for(int e = 0; e <= gp.obj.length; e++) {
+                if(gp.obj[e] instanceof OBJ_CheckoutCounter) {
+                    gp.obj[e].interactable = true;
+                    break;
+                }
+            }
         }
     }
 

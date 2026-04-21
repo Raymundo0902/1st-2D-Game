@@ -13,6 +13,7 @@ public class OBJ_CheckoutCounter extends Entity {
         name = "CheckoutCounter";
         down1 = setup("/objects/gasStationCounter", gp.tileSize*2, gp.tileSize*5);
         collision = true;
+        interactable = false;
         solidArea.y = gp.tileSize + 12;
         solidAreaDefaultY = solidArea.y;
         solidArea.width = gp.tileSize * 2;

@@ -31,6 +31,7 @@ public class Entity {
     public int grassState = 3; // for grass
     public boolean path = false; // for trackingPath (pathfinding)
     public boolean resetPosition = false; // for resetting npc position
+    public boolean interactable = true;
 
     // COUNTER - sprite animations
     public int spriteCounter = 0;
