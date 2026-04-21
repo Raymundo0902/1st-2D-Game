@@ -252,7 +252,7 @@ public class Player extends Entity{
             // THE VARIABLES THAT HAVE "Index" IN THEIR NAME ARE TO RETRIEVE THE ENTITIES/OBJECT INDEX SO WE CAN USE TO INTERACT, RECEIVE DAMAGE, DO A SPECIFIC EVENT, ETC
             // CHECK OBJECT COLLISION
             int objIndex = gp.cChecker.checkObject(this, true);
-            objectInteractable(objIndex);
+//            objectInteractable(objIndex);
             pickUpObject(objIndex);
             interactObject(objIndex);
 
@@ -266,6 +266,9 @@ public class Player extends Entity{
 
             // CHECK EVENT COLLISION
             gp.eventH.checkEvent();
+
+            // CHECK OBJ/NPC COLLISION FOR INTERACT BUTTON
+            objectInteractable(objIndex, npcIndex);
 
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE AND WITHOUT THE ENTERPRESSED HERE, PLAYER CAN MOVE WHEN PRESSING ENTER.
@@ -396,14 +399,34 @@ public class Player extends Entity{
 
     }
 
-    // return a boolean
-    public void objectInteractable(int i) {
+    // Update boolean - set to true if colliding with npc or objects below.
+    public void objectInteractable(int objIndex, int npcIndex) {
 
-        if(i != 999) {
-            if (gp.obj[i] instanceof OBJ_Fridge || gp.obj[i] instanceof OBJ_CabinDesk ||
-                    gp.obj[i] instanceof OBJ_SnackShelf) {
+//        if(objIndex != 999 || npcIndex != 999) {
+//            if (gp.obj[objIndex] instanceof OBJ_Fridge || gp.obj[objIndex] instanceof OBJ_CabinDesk ||
+//                gp.obj[objIndex] instanceof OBJ_SnackShelf || gp.obj[objIndex] instanceof OBJ_GlassDoor ||
+//                gp.obj[objIndex] instanceof OBJ_Bed || gp.obj[objIndex] instanceof OBJ_FruitBox2 ||
+//                gp.obj[objIndex] instanceof OBJ_Chest || gp.obj[objIndex] instanceof OBJ_Desk ||
+//                gp.npc[npcIndex] instanceof NPC_OfficerJames || gp.npc[npcIndex] instanceof NPC_Melissa ||
+//                gp.npc[npcIndex] instanceof NPC_Ayden || gp.npc[npcIndex] instanceof NPC_Cashier) {
+//                interactableCollision = true;
+//            }
+//        }
+        if(objIndex != 999) {
+            if (gp.obj[objIndex] instanceof OBJ_Fridge || gp.obj[objIndex] instanceof OBJ_CabinDesk ||
+                gp.obj[objIndex] instanceof OBJ_SnackShelf || gp.obj[objIndex] instanceof OBJ_GlassDoor ||
+                gp.obj[objIndex] instanceof OBJ_Bed || gp.obj[objIndex] instanceof OBJ_FruitBox2 ||
+                gp.obj[objIndex] instanceof OBJ_Chest || gp.obj[objIndex] instanceof OBJ_Desk ||
+                gp.obj[objIndex] instanceof OBJ_CheckoutCounter) {
                 interactableCollision = true;
             }
+        }
+        else if(npcIndex != 999) {
+            System.out.println("detected");
+                if(gp.npc[npcIndex] instanceof NPC_OfficerJames || gp.npc[npcIndex] instanceof NPC_Melissa ||
+                   gp.npc[npcIndex] instanceof NPC_Ayden) {
+                   interactableCollision = true;
+                }
         }
         else {
             interactableCollision = false;
