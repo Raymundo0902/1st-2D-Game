@@ -417,7 +417,7 @@ public class Player extends Entity{
                 gp.obj[objIndex] instanceof OBJ_SnackShelf || gp.obj[objIndex] instanceof OBJ_GlassDoor ||
                 gp.obj[objIndex] instanceof OBJ_Bed || gp.obj[objIndex] instanceof OBJ_FruitBox2 ||
                 gp.obj[objIndex] instanceof OBJ_Chest || gp.obj[objIndex] instanceof OBJ_Desk ||
-                gp.obj[objIndex] instanceof OBJ_CheckoutCounter) {
+                gp.obj[objIndex] instanceof OBJ_CheckoutCounter || gp.obj[objIndex] instanceof OBJ_frontDeskCounter) {
                 if(gp.obj[objIndex].interactable == true) {
                     interactableCollision = true;
                 }
