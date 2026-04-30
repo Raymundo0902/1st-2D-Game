@@ -48,7 +48,9 @@ public class MouseHandler implements MouseListener {
                 mouseClicked = true;
                 gp.playSE(14);
             } else if(gp.ui.assignButton.contains(adjustedX, adjustedY)) {
-                clickOnAssignButton = true;
+                if(gp.ui.osSubState == 1) {
+                    clickOnAssignButton = true;
+                }
             }
             // DEBUG
 //            System.out.println(clickOnAssignButton);

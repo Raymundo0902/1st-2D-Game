@@ -12,7 +12,7 @@ public class OBJ_frontDeskCounter extends Entity {
         down1 = setup("/objects/frontofficecounter", (int) (gp.tileSize * 2), (int) (gp.tileSize * 4));
         collision = true;
         solidArea.y = 32;
-        solidArea.x = 24;
+        solidArea.x = 28;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         solidArea.width = (int) (gp.tileSize * 1.2);

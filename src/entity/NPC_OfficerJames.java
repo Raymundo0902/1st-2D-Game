@@ -12,16 +12,15 @@ public class NPC_OfficerJames extends Entity{
         getNPCImage();
         setDialogue();
         name = "james";
+        type = TYPE_NPC;
 
         solidArea = new Rectangle(); // values below are what parts of the character will be solid
-        solidArea.x = -gp.tileSize;
+        solidArea.x = -50;
         solidArea.y = -10;
         solidAreaDefaultX = solidArea.x; // reason we create solidAreaDefaultX,Y is so we can recall the default values of solidArea.x and y because we will change solidArea.x and y later.
         solidAreaDefaultY = solidArea.y;
         solidArea.width = gp.tileSize;
         solidArea.height = (gp.tileSize * 2);
-
-        type = TYPE_NPC;
     }
 
     public void getNPCImage() {

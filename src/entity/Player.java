@@ -402,22 +402,12 @@ public class Player extends Entity{
     // Update boolean - set to true if colliding with npc or objects below.
     public void objectInteractable(int objIndex, int npcIndex) {
 
-//        if(objIndex != 999 || npcIndex != 999) {
-//            if (gp.obj[objIndex] instanceof OBJ_Fridge || gp.obj[objIndex] instanceof OBJ_CabinDesk ||
-//                gp.obj[objIndex] instanceof OBJ_SnackShelf || gp.obj[objIndex] instanceof OBJ_GlassDoor ||
-//                gp.obj[objIndex] instanceof OBJ_Bed || gp.obj[objIndex] instanceof OBJ_FruitBox2 ||
-//                gp.obj[objIndex] instanceof OBJ_Chest || gp.obj[objIndex] instanceof OBJ_Desk ||
-//                gp.npc[npcIndex] instanceof NPC_OfficerJames || gp.npc[npcIndex] instanceof NPC_Melissa ||
-//                gp.npc[npcIndex] instanceof NPC_Ayden || gp.npc[npcIndex] instanceof NPC_Cashier) {
-//                interactableCollision = true;
-//            }
-//        }
         if(objIndex != 999) {
             if (gp.obj[objIndex] instanceof OBJ_Fridge || gp.obj[objIndex] instanceof OBJ_CabinDesk ||
                 gp.obj[objIndex] instanceof OBJ_SnackShelf || gp.obj[objIndex] instanceof OBJ_GlassDoor ||
                 gp.obj[objIndex] instanceof OBJ_Bed || gp.obj[objIndex] instanceof OBJ_FruitBox2 ||
                 gp.obj[objIndex] instanceof OBJ_Chest || gp.obj[objIndex] instanceof OBJ_Desk ||
-                gp.obj[objIndex] instanceof OBJ_CheckoutCounter || gp.obj[objIndex] instanceof OBJ_frontDeskCounter) {
+                gp.obj[objIndex] instanceof OBJ_CheckoutCounter) {
                 if(gp.obj[objIndex].interactable == true) {
                     interactableCollision = true;
                 }
@@ -431,7 +421,9 @@ public class Player extends Entity{
                     }
                 }
         }
+        // no obj/npc detected
         else {
+            System.out.println("NOTHING");
             interactableCollision = false;
         }
 
@@ -575,9 +567,6 @@ public class Player extends Entity{
                         }
                         break;
                     case "computer":
-                        if(gp.currentTask == TaskState.GO_TO_COMPUTER) {
-                            gp.ui.checkmarks[5][0] = true; // completed going to computer
-                        }
                         gp.playSE(19);
                         gp.gameState = gp.computerState;
                         break;
@@ -661,64 +650,8 @@ public class Player extends Entity{
                                 inventory.add(new OBJ_Lantern(gp)); // update dialogue to "also giving you a lantern since its dark out."
                             }
                         }
+                        break;
                 }
-
-//                  UNCOMMENT THIS BELOW CODE IF ABOVE DOESNT WORK
-//                // for normal NPC convos
-//                if(!(gp.npc[i] instanceof NPC_Cashier || gp.npc[i] instanceof NPC_OfficerJames)) {
-//
-//                    gp.ui.npcIndex = i;
-//                    getResponseForNpc();
-//                    gp.npc[i].speak();
-//                    gp.playSE(12);
-//                    gp.gameState = gp.dialogueState;
-//                }
-//                else if(gp.currentTask == TaskState.TALK_TO_CASHIER) {
-//
-//                    gp.ui.npcIndex = i;
-//                    getResponseForNpc();
-//                    gp.npc[i].speak();
-//                    gp.playSE(12);
-//                    gp.gameState = gp.dialogueState;
-//
-//                    // move on to next task after talking only if it's the actual cashier
-//                    if(gp.npc[i] instanceof NPC_Cashier) {
-//                        gp.currentTask = TaskState.EXIT_STORE;
-//                    }
-//                }
-//                else if(gp.currentTask == TaskState.CHECK_IN_FRONT_OFFICE) {
-//
-//                    gp.ui.npcIndex = i;
-//                    getResponseForNpc();
-//                    gp.npc[i].speak();
-//                    gp.playSE(12);
-//                    gp.gameState = gp.dialogueState;
-//
-//                    // move on to next task after talking only if it's the actual cashier
-//                    if(gp.npc[i] instanceof NPC_OfficerJames) {
-//                        gp.currentTask = TaskState.GO_TO_COMPUTER;
-//                    }
-//                }
-//                else if (gp.currentTask == TaskState.GET_CABIN_KEYS) {
-//
-//                    if(gp.npc[i] instanceof NPC_OfficerJames) {
-//                        // clear the player and officer james dialogue slot for officer james and add the ones for the convo when getting keys.
-//                        updateDialogue(i);
-//
-//                        gp.ui.npcIndex = i;
-//                        getResponseForNpc();
-//                        gp.npc[i].speak();
-//                        gp.playSE(12);
-//                        gp.gameState = gp.dialogueState;
-//
-//                        gp.currentTask = TaskState.GO_TO_CABIN;
-//                        hasKey++;
-//                        if(inventory.size() != maxInventorySize) {
-//                            inventory.add(new OBJ_Key(gp));
-//                            inventory.add(new OBJ_Lantern(gp)); // update dialogue to "also giving you a lantern since its dark out."
-//                        }
-//                    }
-//                }
             }
         }
     }

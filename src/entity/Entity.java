@@ -28,7 +28,6 @@ public class Entity {
     public int spriteNum = 1;
     public int dialogueIndex = 0;
     public String direction = "down";
-    public int grassState = 3; // for grass
     public boolean path = false; // for trackingPath (pathfinding)
     public boolean resetPosition = false; // for resetting npc position
     public boolean interactable = true;

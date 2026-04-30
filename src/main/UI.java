@@ -297,6 +297,7 @@ public class UI {
 //        g2.fillRect(pineWButtonBounds.x, pineWButtonBounds.y, pineWButtonBounds.width, pineWButtonBounds.height);
 //        g2.fillRect(exitButton.x, exitButton.y, exitButton.width, exitButton.height);
 
+
         // Switch between different displays of the opened window.
         switch(osSubState) {
             case 0: drawLoginScreen(); break;
@@ -509,7 +510,7 @@ public class UI {
         g2.setColor(Color.red);
         g2.drawString("WARNING: MISSING 19YR OLD NEARBY. REPORT SUSPICIOUS ACTIVITY & STAY SAFE!", gp.tileSize * 2 + 30, gp.tileSize * 9);
 
-        // DEBUG
+//        // DEBUG
 //        g2.setColor(Color.red);
 //        g2.fillRect(assignButton.x, assignButton.y, assignButton.width, assignButton.height);
     }
@@ -725,21 +726,19 @@ public class UI {
 
     public void setTaskList() {
         // use this to add all the tasks that will be displayed in the ui task board
-        // set boolean array here and since it's indexes will be alligned with the actual task it'll be less painful
+        // set boolean array here and since it's indexes will be aligned with the actual task it'll be less painful
+        // later, add an identifier such as 'nl' in between a string to represent you want a line break and not set it as another task.
+
         int i = 0;
         currentTask[i] = "Get Soda\nGet Chips\nGet bananas";
         checkmarks[i] = new boolean[3]; // 3 subtasks
         i++;
 
         currentTask[i] = "Pay for items";
-        checkmarks[i] = new boolean[1]; // 1 task
-        i++;
-
-        currentTask[i] = "Exit store";
         checkmarks[i] = new boolean[1];
         i++;
 
-        currentTask[i] = "Talk to front desk";
+        currentTask[i] = "Exit the store";
         checkmarks[i] = new boolean[1];
         i++;
 
@@ -747,8 +746,8 @@ public class UI {
         checkmarks[i] = new boolean[1];
         i++;
 
-        currentTask[i] = "Go to computer\n Type: password\n Select Cabin: K4";
-        checkmarks[i] = new boolean[3];
+        currentTask[i] = "Select your cabin";
+        checkmarks[i] = new boolean[1];
         i++;
 
         currentTask[i] = "Get cabin keys";
@@ -965,7 +964,6 @@ public class UI {
 
                 String curWord = lines[nextLine].substring(0, wordEnd);
                 middleX = getXforCenteredText(curWord);
-//                g2.drawString(curWord, middleX, introDialogueY);
                 drawGlowText(g2, curWord, middleX, introDialogueY);
 
                 // ONLY SHOW LONGER WORD WHEN WE ARE LESS THAN THE WORD LENGTH
@@ -1083,10 +1081,8 @@ public class UI {
         int dFrameY = (gp.tileSize * 5) + 10;
         int dFrameWidth = frameWidth;
         int dFrameHeight = gp.tileSize *3;
-//        drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight); UNCOMMENT AND DELETE FROM FOR LOOP IF YOU WANT BOX TO ALWAYS APPEAR
 
         // DRAW DESCRIPTION TEXT
-//        g2.setColor(Color.white);
         int textX = dFrameX + 20;
         int textY = dFrameY + gp.tileSize;
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20));
@@ -1205,7 +1201,6 @@ public class UI {
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
         // Make text uniform.
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40));
-//        g2.setColor(Color.black);
         int textX = getXforCenteredText("Options");
         int textY = frameY + gp.tileSize;
 

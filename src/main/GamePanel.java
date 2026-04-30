@@ -328,26 +328,23 @@ public class GamePanel extends JPanel implements Runnable {
             if(currentTask == TaskState.CHECK_IN_FRONT_OFFICE) {
                 ui.taskIndex = 3;
             }
-            if(currentTask == TaskState.CHECK_IN_FRONT_OFFICE) {
+            if(currentTask == TaskState.GO_TO_COMPUTER) {
                 ui.taskIndex = 4;
             }
-            if(currentTask == TaskState.GO_TO_COMPUTER) {
+            if(currentTask == TaskState.GET_CABIN_KEYS) {
                 ui.taskIndex = 5;
             }
-            if(currentTask == TaskState.GET_CABIN_KEYS) {
+            if(currentTask == TaskState.GO_TO_CABIN) {
                 ui.taskIndex = 6;
             }
-            if(currentTask == TaskState.GO_TO_CABIN) {
+            if(currentTask == TaskState.GO_TO_SLEEP) {
                 ui.taskIndex = 7;
             }
-            if(currentTask == TaskState.GO_TO_SLEEP) {
+            if(currentTask == TaskState.READ_LOG_BOOK) {
                 ui.taskIndex = 8;
             }
-            if(currentTask == TaskState.READ_LOG_BOOK) {
-                ui.taskIndex = 9;
-            }
             if(currentTask == TaskState.GET_TOOLS) {
-                ui.taskIndex = 10;
+                ui.taskIndex = 9;
             }
 
             if(mapOn == true) {player.freezePlayer = true;}
@@ -371,7 +368,6 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-
             // PROJECTILES
             Iterator<Projectile> cursor = projectileList.iterator(); // CURSOR HOLDS A REFERENCE TO PROJECTILE LIST. NOT THE LIST ITSELF. NEEDS TO RECREATE EVERY FRAME SO IT STARTS THE WALK FROM BEGINNING OF THE LIST.
 
@@ -392,14 +388,13 @@ public class GamePanel extends JPanel implements Runnable {
 
             eHandler.update();
         }
-        if(gameState == computerState) {
-            if(ui.osSubState == 1) {
-                ui.checkmarks[5][1] = true;
-            }
-            if(mouseH.clickOnAssignButton == true) { // last possible task for computer task
-                ui.checkmarks[5][2] = true;
-                currentTask = TaskState.GET_CABIN_KEYS;
 
+        if(gameState == computerState) {
+
+            if(mouseH.clickOnAssignButton == true) { // last possible task for computer task
+
+                ui.checkmarks[4][0] = true;
+                currentTask = TaskState.GET_CABIN_KEYS;
             }
         }
 
