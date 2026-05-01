@@ -3,7 +3,7 @@ package main;
 import ai.AStarPathFinder;
 import entity.*;
 import environment.EnvironmentHandler;
-import object.OBJ_Rock;
+
 import object.ObjectManager;
 import tasks.TaskState;
 import tile.Map;
@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AStarPathFinder pFinder = new AStarPathFinder(this);
     Thread gameThread; // thread is something you can start/stop. once thread started it keeps the program running
     public TaskState currentTask = TaskState.GET_SNACKS;
-    Map map = new Map(this);;
+    Map map = new Map(this);
     public EnvironmentHandler eHandler = new EnvironmentHandler(this);
 
     // ENTITIES AND OBJECTS
@@ -133,7 +133,7 @@ public class GamePanel extends JPanel implements Runnable {
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
 
-        if(toggleFullScreen == true) {
+        if(toggleFullScreen) {
             setFullScreen();
         }
     }
@@ -281,14 +281,14 @@ public class GamePanel extends JPanel implements Runnable {
 
         if(gameState == initialDialogueState) {
 
-            if(canTypeSound == true) {
+            if(canTypeSound) {
                 playSE(16);
                 canTypeSound = false;
             }
 
-            if (keyH.enterPressed == true) {
+            if (keyH.enterPressed) {
 
-                if(ui.finishedTyping == true) {
+                if(ui.finishedTyping) {
 
                     // IF FULL DIALOGUE HASN'T FINISHED WE CAN TURN PAGE
                     if (ui.dialogueIndex < ui.introDialogues.length - 1) {
@@ -347,7 +347,7 @@ public class GamePanel extends JPanel implements Runnable {
                 ui.taskIndex = 9;
             }
 
-            if(mapOn == true) {player.freezePlayer = true;}
+            if(mapOn) {player.freezePlayer = true;}
             else {player.freezePlayer = false;}
 
 
@@ -391,10 +391,12 @@ public class GamePanel extends JPanel implements Runnable {
 
         if(gameState == computerState) {
 
-            if(mouseH.clickOnAssignButton == true) { // last possible task for computer task
-
-                ui.checkmarks[4][0] = true;
-                currentTask = TaskState.GET_CABIN_KEYS;
+            // extra handling
+            if(currentTask == TaskState.GO_TO_COMPUTER) {
+                if (mouseH.clickOnAssignButton) { // last possible task for computer task
+                    ui.checkmarks[4][0] = true;
+                    currentTask = TaskState.GET_CABIN_KEYS;
+                }
             }
         }
 
@@ -425,14 +427,14 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == transitionState) {
             // Only transition map when exiting a map. Otherwise, just a normal transition screen - handle this when screen is totally black
             if(ui.j >= 1f) {
-                if (player.exitMap == true) {
-                    if (oneTime == false) {
+                if (player.exitMap) {
+                    if (!oneTime) {
                         transitionMap();
                         oneTime = true;
                     }
                     player.exitMap = false;
                 }
-                if (player.slept == true) {
+                if (player.slept) {
                     startDayCycle = true;
                     ui.setToDay = true;
                     player.slept = false;
@@ -454,7 +456,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         // DEBUG
         long drawStart = 0;
-        if(keyH.checkDebugText == true) {
+        if(keyH.checkDebugText) {
             drawStart = System.nanoTime();
         }
 

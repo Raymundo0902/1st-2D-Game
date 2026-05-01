@@ -203,29 +203,30 @@ public class Player extends Entity{
 
     public void update() { // this method gets called 60x per second
 
-        if(raking == true) { // bypass the else if key inputs if player is currently raking
+        if(raking) { // bypass the else if key inputs if player is currently raking
             raking();
         }
 
         // without this, player will move without stopping && enterPressed here is for the purpose of checking npc collision when we just press enter key for dialogue without having to simultaneously move to npc and press enter.
-        else if (keyH.upPressed == true || keyH.downPressed == true ||
-                keyH.leftPressed == true || keyH.rightPressed == true || keyH.ePressed == true ){
+        else if (keyH.upPressed || keyH.downPressed ||
+                keyH.leftPressed || keyH.rightPressed ||
+                keyH.ePressed){
 
-            if(keyH.upPressed == true) {
+            if(keyH.upPressed) {
                 direction = "up";
             }
-            else if(keyH.downPressed == true) {
+            else if(keyH.downPressed) {
                 direction = "down";
             }
-            else if(keyH.leftPressed == true) {
+            else if(keyH.leftPressed) {
                 direction = "left";
             }
-            else if(keyH.rightPressed == true) {
+            else if(keyH.rightPressed) {
                 direction = "right";
             }
 
             // SPRINTING MECHANICS
-            if(keyH.shiftPressed == true) {
+            if(keyH.shiftPressed) {
                 sprintCounter++;
                 if(sprintCounter < 180) { // if sprintCounter is less than 3 seconds then sprint
                     speed = 6;
@@ -242,7 +243,6 @@ public class Player extends Entity{
                     sprintCounter--;
                 }
                 speed = 4;
-
             }
 
             // CHECK TILE COLLISION - collisionOn = false  will be set to true if in the collision methods above detect collision.
@@ -252,7 +252,6 @@ public class Player extends Entity{
             // THE VARIABLES THAT HAVE "Index" IN THEIR NAME ARE TO RETRIEVE THE ENTITIES/OBJECT INDEX SO WE CAN USE TO INTERACT, RECEIVE DAMAGE, DO A SPECIFIC EVENT, ETC
             // CHECK OBJECT COLLISION
             int objIndex = gp.cChecker.checkObject(this, true);
-//            objectInteractable(objIndex);
             pickUpObject(objIndex);
             interactObject(objIndex);
 
@@ -264,15 +263,15 @@ public class Player extends Entity{
             int monIndex = gp.cChecker.checkEntity(this, gp.monster);
             contactMonster(monIndex);
 
-            // CHECK EVENT COLLISION
-            gp.eventH.checkEvent();
-
             // CHECK OBJ/NPC COLLISION FOR INTERACT BUTTON
             objectInteractable(objIndex, npcIndex);
 
+            // CHECK EVENT COLLISION - (DELETE THIS COMMENT IN PARENTHESIS ONCE YOU ACTUALLY ADD LOGIC TO EVENTH)
+            gp.eventH.checkEvent();
+
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE AND WITHOUT THE ENTERPRESSED HERE, PLAYER CAN MOVE WHEN PRESSING ENTER.
-            if(collisionOn == false && keyH.ePressed == false && freezePlayer == false) {
+            if(!collisionOn && !keyH.ePressed && !freezePlayer) {
                 switch(direction) {
                     case "up": worldY -= speed; break;
                     case "down": worldY += speed; break;
@@ -283,7 +282,7 @@ public class Player extends Entity{
 
             // statement 1
             if(currentItem.type == TYPE_RAKE) {
-                if (keyH.ePressed == true && rakeCanceled == false) {
+                if (keyH.ePressed && !rakeCanceled) {
                     gp.playSE(9); // swinging rake SE
                     raking = true;
                 }
@@ -291,7 +290,7 @@ public class Player extends Entity{
 
             rakeCanceled = false;
 
-            if(gp.keyH.ePressed == false) { // stops player to animate when holding down enter key
+            if(!gp.keyH.ePressed) { // stops player to animate when holding down enter key
                 spriteCounter++;
                 if (spriteCounter > 12) { // this means player image changes every 12 frames
                     if (spriteNum == 1) spriteNum = 2;
@@ -304,6 +303,7 @@ public class Player extends Entity{
 
         }
 
+        // If player is standing still
         else {
             standCounter++; // this starts to increment by one once there's no wasd or arrow key detection.
 
@@ -311,11 +311,14 @@ public class Player extends Entity{
                 spriteNum = 1;      //  looks natural resetting back to normal position. gives it 19 frames to stay on the animation before resetting back to normal sprite state
                 standCounter = 0;
             }
+
+            // Check to make sure we remove interact UI text for idle state
+            int objIndex = gp.cChecker.checkObject(this, true);
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+            objectInteractable(objIndex, npcIndex);
         }
 
-
-
-        if (gp.keyH.throwPressed == true && itemCooldown == 0 &&
+        if (gp.keyH.throwPressed && itemCooldown == 0 &&
             hasRock > 0 && currentItem.type == TYPE_ROCK) { // START COOLDOWN
 
             throwingRock = true;
@@ -339,14 +342,14 @@ public class Player extends Entity{
 
 
         // this needs to be outside key statement so counter increase even when player isn't moving
-        if(invincible == true) {
+        if(invincible) {
             invincibleCounter++;
             if(invincibleCounter > 60) {
                 invincible = false;
                 invincibleCounter = 0;
             }
         }
-        // Gameover
+        // Game over
         if(curLife <= 0) {
             gp.gameState = gp.gameOverState;
         }
@@ -408,7 +411,7 @@ public class Player extends Entity{
                 gp.obj[objIndex] instanceof OBJ_Bed || gp.obj[objIndex] instanceof OBJ_FruitBox2 ||
                 gp.obj[objIndex] instanceof OBJ_Chest || gp.obj[objIndex] instanceof OBJ_Desk ||
                 gp.obj[objIndex] instanceof OBJ_CheckoutCounter) {
-                if(gp.obj[objIndex].interactable == true) {
+                if(gp.obj[objIndex].interactable) {
                     interactableCollision = true;
                 }
             }
@@ -416,17 +419,15 @@ public class Player extends Entity{
         else if(npcIndex != 999) {
                 if(gp.npc[npcIndex] instanceof NPC_OfficerJames || gp.npc[npcIndex] instanceof NPC_Melissa ||
                    gp.npc[npcIndex] instanceof NPC_Ayden) {
-                    if(gp.npc[npcIndex].interactable == true) {
+                    if(gp.npc[npcIndex].interactable) {
                         interactableCollision = true;
                     }
                 }
         }
         // no obj/npc detected
         else {
-            System.out.println("NOTHING");
             interactableCollision = false;
         }
-
     }
 
     public void pickUpObject(int i) {
@@ -643,8 +644,10 @@ public class Player extends Entity{
                             gp.playSE(12);
                             gp.gameState = gp.dialogueState;
 
+                            gp.npc[i].interactable = false;
                             gp.currentTask = TaskState.GO_TO_CABIN;
                             hasKey++;
+
                             if(inventory.size() != maxInventorySize) {
                                 inventory.add(new OBJ_Key(gp));
                                 inventory.add(new OBJ_Lantern(gp)); // update dialogue to "also giving you a lantern since its dark out."
@@ -741,9 +744,6 @@ public class Player extends Entity{
     }
 
     public void draw(Graphics2D g2) {
-
-//        g2.setColor(Color.red); // Sets a color to use for drawing objects
-//        g2.fillRect(x, y, gp.tileSize, gp.tileSize); // Draw a rectangle and fills it with the specified color.
 
         BufferedImage image = null;
         // sprite is drawn at top left since shifting player only happens during left or up raking animations. To fix, we offset the draw position.
