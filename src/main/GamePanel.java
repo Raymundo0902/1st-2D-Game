@@ -106,6 +106,7 @@ public class GamePanel extends JPanel implements Runnable {
     float j = 1f;
     public boolean oneTime = false;
     public boolean startDayCycle = false;
+    public boolean drawTimeStamp = false;
 
     // EXTRA
     public boolean closeTaskList;
@@ -303,6 +304,7 @@ public class GamePanel extends JPanel implements Runnable {
 
                     // DIALOGUE FINISHED
                     else {
+                        ui.wordEnd = 0;
                         ui.finishedTyping = false;
                         gameState = playState;
                         drawBlackScreen = true;
@@ -435,7 +437,9 @@ public class GamePanel extends JPanel implements Runnable {
                     }
                     player.exitMap = false;
                 }
+                // set all variables so time stamp of 3:15 AM can draw, and day cycle begins.
                 if (player.slept) {
+                    drawTimeStamp = true;
                     startDayCycle = true;
                     ui.setToDay = true;
                     player.slept = false;

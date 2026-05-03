@@ -94,7 +94,7 @@ public class Player extends Entity{
 
     public void setDefaultValues() {
         setDefaultPositionGasStation();
-        speed = 4;
+        speed = 10;
         type = TYPE_PLAYER;
 
         // PLAYER STATUS
@@ -229,10 +229,10 @@ public class Player extends Entity{
             if(keyH.shiftPressed) {
                 sprintCounter++;
                 if(sprintCounter < 180) { // if sprintCounter is less than 3 seconds then sprint
-                    speed = 6;
+                    speed = 15;
                 }
                 else if (sprintCounter > 180 && sprintCounter < 360){ // BE TIRED FOR 3 SECONDS
-                    speed = 4; // STAYS AT NORMAL SPEED DURING TIRED DURATION
+                    speed = 15; // STAYS AT NORMAL SPEED DURING TIRED DURATION
                 }
                 else if (sprintCounter > 360) { // ONCE PLAYER RESTED FOR 3 SECONDS, START RUNNING
                     sprintCounter = 0;
@@ -242,7 +242,7 @@ public class Player extends Entity{
                 if(sprintCounter > 0) { // MAKES SURE SPRINT COUNTER < 0 BECAUSE THAT WOULD BREAK THE SPRINT AND TIRED PERIODS
                     sprintCounter--;
                 }
-                speed = 4;
+                speed = 15;
             }
 
             // CHECK TILE COLLISION - collisionOn = false  will be set to true if in the collision methods above detect collision.

@@ -37,8 +37,11 @@ public class UI {
     int introDialogueY = 96;
     public boolean finishedTyping = false;
 
-    // Dialogue Mechanics
+    // Other Dialogue Mechanics
     public int npcIndex = 0;
+    int wordEndTwo = 0;
+    int nextLineTwo = 0;
+    int wordEndTwoDelayer = 0;
 
     // Task UI dialogue
     public String[] currentTask = new String[20];
@@ -159,12 +162,26 @@ public class UI {
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
             g2.setComposite(AlphaComposite.SrcOver);   // switch back to normal mode - prevents other things to get blended
             j += 0.01f;
+            // if j = 1f, the screen is entirely black thus, we can now let transitions happen to make smooth transitions, or drawings
             if(j >= 1f) {
                 j = 1f;
-                blackScreenPause++;
-                if(blackScreenPause >= 60) {
-                    fadingOut = true;
-                    blackScreenPause = 0;
+                if(!gp.drawTimeStamp) {
+                    blackScreenPause++;
+                    if (blackScreenPause >= 60) {
+                        fadingOut = true;
+                        blackScreenPause = 0;
+                    }
+                }
+                // extend time so player can see the "3:15 AM" drawing longer
+                else {
+                    drawTime();
+                    blackScreenPause++;
+                    if (blackScreenPause >= 480) {
+                        fadingOut = true;
+                        gp.drawTimeStamp = false;
+                        blackScreenPause = 0;
+                    }
+
                 }
             }
         }
@@ -181,6 +198,58 @@ public class UI {
                 gp.gameState = gp.playState;
                 gp.oneTime = false; // can safely put it here that triggers only once
             }
+        }
+    }
+
+
+    public void drawTime() {
+
+        // Styles
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80f));
+        String timeStamp = "3:15 AM";
+        // lines[0] will just contain: ["3:15 AM"]
+        String[] lines = timeStamp.split("\n");
+        int middleX;
+
+        int y = gp.tileSize * 5;
+
+        // Main Text - keeps text on screen and aligned
+        for (int i = 0; i < nextLineTwo; i++) {
+            middleX = getXforCenteredText(lines[i]);
+            drawGlowText(g2, lines[i], middleX, y);
+        }
+
+        // Moving text animation
+        // Only do typewriter effect when nextLine(next index) is less than the length. Prevents exception errors.
+        if(blackScreenPause < 360) {
+            if (nextLineTwo < lines.length) {
+
+                String curWord = lines[nextLineTwo].substring(0, wordEndTwo);
+                middleX = getXforCenteredText(curWord);
+                drawGlowText(g2, curWord, middleX, introDialogueY);
+                if (wordEndTwo < lines[nextLineTwo].length()) {
+                    wordEndTwoDelayer++;
+                    if (wordEndTwoDelayer == 20) {
+                        wordEndTwo++;
+                        wordEndTwoDelayer = 0;
+                    }
+                }
+            }
+        }
+
+        // Shorten the word length
+        else {
+                nextLineTwo = 0;
+                String curWord = lines[nextLineTwo].substring(0, wordEndTwo);
+                middleX = getXforCenteredText(curWord);
+                drawGlowText(g2, curWord, middleX, introDialogueY);
+                if (wordEndTwo >= 0) {
+                    wordEndTwoDelayer++;
+                    if (wordEndTwoDelayer == 20) {
+                        wordEndTwo--;
+                        wordEndTwoDelayer = 0;
+                    }
+                }
         }
     }
 
@@ -894,6 +963,7 @@ public class UI {
 
     }
 
+    // the float parameter is optional, only used if fading text is needed.
     public void drawGlowText(Graphics2D g2, String text, int x, int y) {
 
         Color glowColor = new Color(57, 255, 20); // neon green
