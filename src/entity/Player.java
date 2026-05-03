@@ -269,7 +269,6 @@ public class Player extends Entity{
             // CHECK EVENT COLLISION - (DELETE THIS COMMENT IN PARENTHESIS ONCE YOU ACTUALLY ADD LOGIC TO EVENTH)
             gp.eventH.checkEvent();
 
-
             // IF COLLISION IS FALSE, PLAYER CAN MOVE AND WITHOUT THE ENTERPRESSED HERE, PLAYER CAN MOVE WHEN PRESSING ENTER.
             if(!collisionOn && !keyH.ePressed && !freezePlayer) {
                 switch(direction) {
@@ -287,7 +286,6 @@ public class Player extends Entity{
                     raking = true;
                 }
             }
-
             rakeCanceled = false;
 
             if(!gp.keyH.ePressed) { // stops player to animate when holding down enter key
@@ -300,7 +298,6 @@ public class Player extends Entity{
             }
             // RESET IT TO FALSE OR ELSE PLAYER WILL FREEZE BECAUSE IF ENTER WAS PRESSED, THE IF STATEMENT "1" WON'T EVER PASS AGAIN CAUSING PLAYER TO FREEZE.
             gp.keyH.ePressed = false;
-
         }
 
         // If player is standing still
@@ -339,7 +336,6 @@ public class Player extends Entity{
         // PREVENTS FROM HOLDING DOWN THE THROW SPRITE ANIMATION WITH F KEY - NEED TO ONLY START DECREASING WHEN F PRESSED
         if(spriteThrowCounter > 0) spriteThrowCounter--;
         else throwingRock = false;
-
 
         // this needs to be outside key statement so counter increase even when player isn't moving
         if(invincible) {
@@ -520,25 +516,24 @@ public class Player extends Entity{
                     case "snackShelf":
                         // Prevents grabbing snack when facing back of shelf
                         if(gp.currentTask == TaskState.GET_SNACKS) {
-                            if (worldY > gp.obj[i].worldY + gp.tileSize) {
-                                if(gotChips == false) {
-                                    for(int e = 0; e < gp.obj.length; e++) {
-                                        if(gp.obj[e] instanceof OBJ_SnackShelf) {
-                                            gp.obj[e].interactable = false;
-                                        }
+
+                            if(!gotChips) {
+                                for(int e = 0; e < gp.obj.length; e++) {
+                                    if(gp.obj[e] instanceof OBJ_SnackShelf) {
+                                        gp.obj[e].interactable = false;
                                     }
-                                    gp.playSE(18);
-                                    snacksCollected++;
-                                    gotChips = true; // stops spam
-                                    gp.ui.checkmarks[0][1] = gotChips;
-                                    checkSnackCompletion();
                                 }
+                                gp.playSE(18);
+                                snacksCollected++;
+                                gotChips = true; // stops spam
+                                gp.ui.checkmarks[0][1] = gotChips;
+                                checkSnackCompletion();
                             }
                         }
                         break;
                     case "fruitBox2":
                         if(gp.currentTask == TaskState.GET_SNACKS) {
-                            if(gotBanana == false) {
+                            if(!gotBanana) {
                                 gp.playSE(18);
                                 gp.obj[i].interactable = false;
                                 snacksCollected++;
@@ -550,7 +545,7 @@ public class Player extends Entity{
                         break;
                     case "fridge1":
                         if(gp.currentTask == TaskState.GET_SNACKS) {
-                            if(gotDrink == false) {
+                            if(!gotDrink) {
                                 gp.playSE(18);
                                 gp.obj[i].interactable = false;
                                 snacksCollected++;
@@ -592,7 +587,7 @@ public class Player extends Entity{
 
     public void interactNPC(int i) {
 
-        if(gp.keyH.ePressed == true) {
+        if(gp.keyH.ePressed) {
 
             System.out.println(gp.currentTask);
             if (i != 999) { // from the method that has the default index val, it only will change from 999 if collision was detected - NPC to Player
@@ -692,8 +687,7 @@ public class Player extends Entity{
     public void contactMonster(int i) {
 
         if (i != 999) {
-
-            if(invincible == false) {
+            if(!invincible) {
                 curLife -= 1;
                 invincible = true;
             }
@@ -704,7 +698,7 @@ public class Player extends Entity{
     public void cutGrass(int i) {
 
         if (i != 999 && gp.obj[i] instanceof OBJ_TallGrass) {
-            if(gp.obj[i].invincible == false) {// put cutting grass functions here, like it'll take 3 attacks from rake to dissapear
+            if(!gp.obj[i].invincible) {// put cutting grass functions here, like it'll take 3 attacks from rake to dissapear
 
                 gp.playSE(10); // enter grass cutting sound here
                 gp.obj[i].curLife -= 1;
@@ -753,52 +747,52 @@ public class Player extends Entity{
 
         switch(direction) { // based on this direction we will pick an image from below
             case "up":
-                if(raking == false) {
+                if(!raking) {
                     if(spriteNum == 1) {image = up1;}
                     if(spriteNum == 2) {image = up2;}
                 }
-                if(raking == true) {
+                if(raking) {
                     tempScreenY = screenY - gp.tileSize;
                     if(spriteNum == 1) {image = rakeUp1;}
                 }
-                if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
+                if(throwingRock) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
                     if(spriteNum == 1) {image = throwUp1;}
                 }
                 break;
             case "down":
-                if(raking == false) {
+                if(!raking) {
                     if(spriteNum == 1) {image = down1;}
                     if(spriteNum == 2) {image = down2;}
                 }
-                if(raking == true) {
+                if(raking) {
                     if(spriteNum == 1) {image = rakeDown1;}
                 }
-                if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
+                if(throwingRock) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
                     if(spriteNum == 1) {image = throwDown1;}
                 }
                     break;
             case "left":
-                if(raking == false) {
+                if(!raking) {
                     if(spriteNum == 1) {image = left1;}
                     if(spriteNum == 2) {image = left2;}
                 }
-                if(raking == true) {
+                if(raking) {
                     tempScreenX = screenX - gp.tileSize;
                     if(spriteNum == 1) {image = rakeLeft1;}
                 }
-                if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
+                if(throwingRock) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
                     if(spriteNum == 1) {image = throwLeft1;}
                 }
                 break;
             case "right":
-                if(raking == false) {
+                if(!raking) {
                     if(spriteNum == 1) {image = right1;}
                     if(spriteNum == 2) {image = right2;}
                 }
-                if(raking == true) {
+                if(raking) {
                     if(spriteNum == 1) {image = rakeRight1;}
                 }
-                if(throwingRock == true) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
+                if(throwingRock) { // USE CONDITION THAT HAS A BOOLEAN VARIABLE THAT DEPENDS ON TIME
                     if(spriteNum == 1) {image = throwRight1;}
                 }
                 break;
@@ -808,7 +802,7 @@ public class Player extends Entity{
 //        g2.setColor(new Color(255,0,30));
 //        g2.fillRect(gp.tileSize, gp.tileSize/2, gp.tileSize*4, 20);
 
-        if(invincible == true) {
+        if(invincible) {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f)); // makes player look kinda invincible
         }
 

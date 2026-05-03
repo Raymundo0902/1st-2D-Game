@@ -241,6 +241,7 @@ public class GamePanel extends JPanel implements Runnable {
             if(subMap == SUB_PLAYER_CABIN) {
                 player.setPosAfterCabin();
             } else if(subMap == SUB_FRONT_OFFICE) {
+                playSE(22);
                 player.setPosAfterOffice();
             }
 
@@ -461,7 +462,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         // TITLE SCREEN
-        if(gameState == titleState || gameState == initialDialogueState ) {
+        if(gameState == titleState || gameState == initialDialogueState) {
             ui.draw(g2);
         }
 

@@ -38,6 +38,7 @@ public class Sound {
         soundURL[19] = getClass().getResource("/sound/osstartup.wav");
         soundURL[20] = getClass().getResource("/sound/err.wav");
         soundURL[21] = getClass().getResource("/sound/grabkeys.wav");
+        soundURL[22] = getClass().getResource("/sound/80s-scaryse.wav");
     }
 
     public void setFile(int i) {
